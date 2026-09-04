@@ -1,0 +1,31 @@
+# Java / Maven
+target/
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
+
+# Environment and secrets
+.env
+application-prod.yml
+application-production.yml
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+
+# Flutter / Dart
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Miscellaneous
+*.swp
+*.tmp
