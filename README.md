@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已完成阶段 3：后端基础设施、英语 A1 核心数据模型，以及 email/password 注册登录、JWT 认证、Refresh Token Rotation 和当前用户接口。MVP 首期面向英语 A1，并优先发布 Android 客户端；课程、答题、AI Tutor、订阅等业务 API 尚未实现。
+当前已完成阶段 4：后端基础设施、英语 A1 核心数据模型、用户认证，以及公开课程目录和学习路径查询 API。MVP 首期面向英语 A1，并优先发布 Android 客户端；答题、学习进度、AI Tutor、订阅等业务 API 尚未实现。
 
 ## 当前技术栈
 
@@ -131,6 +131,23 @@ Swagger UI：<http://localhost:8080/swagger-ui.html>
 | `GET` | `/users/me` | 否 | 获取当前登录用户资料 |
 
 受保护接口使用请求头 `Authorization: Bearer <access-token>`。Swagger UI 的 **Authorize** 按钮可填写 Access Token。Refresh Session 使用 `auth:refresh:{tokenId}` 存入 Redis，Token 被刷新或登出后对应旧会话立即失效。
+
+## 课程目录 API
+
+以下课程结构查询接口均允许未登录访问，并且只返回启用内容：
+
+| 方法 | 路径 | 用途 |
+| --- | --- | --- |
+| `GET` | `/languages` | 获取语言列表 |
+| `GET` | `/languages/{languageCode}/levels` | 获取语言等级 |
+| `GET` | `/levels/{levelId}/chapters` | 获取等级章节 |
+| `GET` | `/chapters/{chapterId}/grammar-points` | 获取语法点摘要 |
+| `GET` | `/grammar-points/{grammarPointId}` | 获取语法点详情和前置语法点 |
+| `GET` | `/grammar-points/{grammarPointId}/lessons` | 获取 Lesson 列表 |
+| `GET` | `/lessons/{lessonId}` | 获取 Lesson 详情，不包含题目 |
+| `GET` | `/learning-path/{languageCode}` | 获取供客户端课程地图使用的完整结构树 |
+
+所有路径统一使用 `/api/v1` 前缀。Learning Path 通过批量查询组装，不包含题目、正确答案或用户学习进度。
 
 ## 编译与测试
 

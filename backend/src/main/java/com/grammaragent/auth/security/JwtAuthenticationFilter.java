@@ -32,6 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             PATHS.matcher(HttpMethod.POST, "/api/v1/auth/register"),
             PATHS.matcher(HttpMethod.POST, "/api/v1/auth/login"),
             PATHS.matcher(HttpMethod.POST, "/api/v1/auth/refresh"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/languages"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/languages/**"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/levels/**"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/chapters/**"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/grammar-points/**"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/lessons/**"),
+            PATHS.matcher(HttpMethod.GET, "/api/v1/learning-path/**"),
             PATHS.matcher(HttpMethod.GET, "/v3/api-docs/**"),
             PATHS.matcher(HttpMethod.GET, "/swagger-ui.html"),
             PATHS.matcher(HttpMethod.GET, "/swagger-ui/**"));

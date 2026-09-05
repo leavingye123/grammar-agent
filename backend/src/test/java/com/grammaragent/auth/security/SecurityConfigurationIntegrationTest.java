@@ -28,11 +28,14 @@ import org.springframework.test.context.support.DirtiesContextBeforeModesTestExe
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -43,7 +46,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(
-        controllers = {AuthController.class, UserController.class},
+        controllers = {
+                AuthController.class,
+                UserController.class,
+                SecurityConfigurationIntegrationTest.PublicCatalogProbeController.class
+        },
         properties = {
                 "app.jwt.secret=test-secret-that-is-at-least-thirty-two-bytes-long",
                 "app.jwt.access-expire=900",
@@ -59,6 +66,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         AuthService.class,
         UserProfileService.class,
         GlobalExceptionHandler.class,
+        SecurityConfigurationIntegrationTest.PublicCatalogProbeController.class,
         SecurityConfigurationIntegrationTest.TestBeans.class
 })
 @TestExecutionListeners(
@@ -118,6 +126,26 @@ class SecurityConfigurationIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data.email").value("security@example.com"));
+    }
+
+    @Test
+    void publicCatalogGetShouldAllowAnonymousWhileCurrentUserStillRequiresAuthentication() throws Exception {
+        mockMvc.perform(get("/api/v1/languages"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0));
+
+        mockMvc.perform(get("/api/v1/users/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+    }
+
+    @RestController
+    static class PublicCatalogProbeController {
+
+        @GetMapping("/api/v1/languages")
+        public Map<String, Object> languages() {
+            return Map.of("code", 0, "data", List.of());
+        }
     }
 
     @TestConfiguration

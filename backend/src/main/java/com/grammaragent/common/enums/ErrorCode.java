@@ -23,6 +23,11 @@ public enum ErrorCode {
     USER_DISABLED(40301, "User account is disabled", HttpStatus.FORBIDDEN),
     USER_LOCKED(40302, "User account is locked", HttpStatus.FORBIDDEN),
     USER_NOT_FOUND(40401, "User does not exist", HttpStatus.NOT_FOUND),
+    LANGUAGE_NOT_FOUND(40410, "Language not found", HttpStatus.NOT_FOUND),
+    LEVEL_NOT_FOUND(40411, "Language level not found", HttpStatus.NOT_FOUND),
+    CHAPTER_NOT_FOUND(40412, "Chapter not found", HttpStatus.NOT_FOUND),
+    GRAMMAR_POINT_NOT_FOUND(40413, "Grammar point not found", HttpStatus.NOT_FOUND),
+    LESSON_NOT_FOUND(40414, "Lesson not found", HttpStatus.NOT_FOUND),
     INTERNAL_SERVER_ERROR(50000, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final int code;
