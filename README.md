@@ -2,14 +2,14 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前处于阶段 1：搭建可运行的 Spring Boot 后端基础工程。MVP 首期面向英语 A1，并优先发布 Android 客户端；用户、课程、题目、AI Tutor、订阅等业务尚未实现。
+当前已完成阶段 3：后端基础设施、英语 A1 核心数据模型，以及 email/password 注册登录、JWT 认证、Refresh Token Rotation 和当前用户接口。MVP 首期面向英语 A1，并优先发布 Android 客户端；课程、答题、AI Tutor、订阅等业务 API 尚未实现。
 
 ## 当前技术栈
 
 - 后端：Java 21、Spring Boot 3.5、Maven
 - 基础设施：PostgreSQL、Redis、Docker Compose
 - 数据访问：MyBatis-Plus
-- API：Spring Web、Validation、Spring Security、OpenAPI / Swagger UI
+- API 与认证：Spring Web、Validation、Spring Security、JWT、OpenAPI / Swagger UI
 - 工程辅助：Lombok、MapStruct
 - 移动端规划：Flutter（本阶段尚未开发）
 
@@ -57,7 +57,7 @@ cp .env.example .env
 | `REDIS_HOST` | Redis 主机 | `localhost` |
 | `REDIS_PORT` | Redis 端口 | `6379` |
 | `REDIS_PASSWORD` | Redis 密码 | 仅使用本地安全值 |
-| `JWT_SECRET` | JWT 签名密钥预留项 | 至少 32 字节随机值 |
+| `JWT_SECRET` | JWT HMAC 签名密钥 | 至少 32 字节随机值 |
 | `JWT_ACCESS_EXPIRE` | Access Token 有效秒数 | `900` |
 | `JWT_REFRESH_EXPIRE` | Refresh Token 有效秒数 | `2592000` |
 | `SERVER_PORT` | 后端监听端口 | `8080` |
@@ -81,12 +81,9 @@ docker compose down
 
 ## 启动 Spring Boot
 
-Spring Boot 不会自动把 Docker Compose 的 `.env` 注入当前 shell，因此启动前需导出变量：
+`local` Profile 会从仓库根目录或 `backend/` 目录读取被 Git 忽略的 `.env`：
 
 ```bash
-set -a
-source .env
-set +a
 cd backend
 ./mvnw spring-boot:run
 ```
@@ -100,6 +97,8 @@ Health API：
 ```bash
 curl http://localhost:8080/api/v1/health
 ```
+
+如果本机的 `8080` 已被 nginx 等程序占用，请在 `.env` 中设置 `SERVER_PORT=18080`，并将下方 URL 的端口相应改为 `18080`。不要同时保留多个不同版本的 GrammarAgent Java 进程，否则 `localhost` 可能命中旧实例。
 
 预期返回：
 
@@ -118,6 +117,20 @@ curl http://localhost:8080/api/v1/health
 OpenAPI JSON：<http://localhost:8080/v3/api-docs>
 
 Swagger UI：<http://localhost:8080/swagger-ui.html>
+
+## 用户认证 API
+
+当前提供以下 `/api/v1` 接口：
+
+| 方法 | 路径 | 是否公开 | 用途 |
+| --- | --- | --- | --- |
+| `POST` | `/auth/register` | 是 | email/password 注册并签发 Token |
+| `POST` | `/auth/login` | 是 | 登录并签发 Token |
+| `POST` | `/auth/refresh` | 是 | 轮换 Refresh Token |
+| `POST` | `/auth/logout` | 否 | 撤销指定 Refresh Session |
+| `GET` | `/users/me` | 否 | 获取当前登录用户资料 |
+
+受保护接口使用请求头 `Authorization: Bearer <access-token>`。Swagger UI 的 **Authorize** 按钮可填写 Access Token。Refresh Session 使用 `auth:refresh:{tokenId}` 存入 Redis，Token 被刷新或登出后对应旧会话立即失效。
 
 ## 编译与测试
 
