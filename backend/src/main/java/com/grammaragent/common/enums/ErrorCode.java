@@ -30,9 +30,11 @@ public enum ErrorCode {
     GRAMMAR_POINT_NOT_FOUND(40413, "Grammar point not found", HttpStatus.NOT_FOUND),
     LESSON_NOT_FOUND(40414, "Lesson not found", HttpStatus.NOT_FOUND),
     QUESTION_NOT_FOUND(40415, "Question not found", HttpStatus.NOT_FOUND),
+    REVIEW_ITEM_NOT_FOUND(40420, "Question is not in the user's review list", HttpStatus.NOT_FOUND),
     LESSON_ANSWERS_INCOMPLETE(40910, "Not all lesson questions have been answered", HttpStatus.CONFLICT),
     LESSON_HAS_NO_QUESTIONS(40911, "Lesson has no enabled questions", HttpStatus.CONFLICT),
     QUESTION_CONTEXT_INVALID(40912, "Question content relationship is invalid", HttpStatus.CONFLICT),
+    REVIEW_ITEM_ALREADY_MASTERED(40920, "Review item is already mastered", HttpStatus.CONFLICT),
     INTERNAL_SERVER_ERROR(50000, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final int code;

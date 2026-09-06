@@ -111,6 +111,11 @@ class AnswerSubmissionServiceTest {
         }
 
         @Override
+        public List<Question> findEnabledByIds(Collection<Long> questionIds) {
+            return questionIds.contains(question.getId()) ? List.of(question) : List.of();
+        }
+
+        @Override
         public List<Question> findEnabledByLessonId(Long lessonId) {
             return List.of(question);
         }
@@ -171,6 +176,36 @@ class AnswerSubmissionServiceTest {
         @Override
         public void recordWrong(Long userId, Long questionId, OffsetDateTime wrongAt, OffsetDateTime nextReviewAt) {
             wrongCounts.merge(questionId, 1, Integer::sum);
+        }
+
+        @Override
+        public List<com.grammaragent.question.entity.WrongQuestion> findDueByUserId(
+                Long userId, OffsetDateTime now, int limit) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public List<com.grammaragent.question.entity.WrongQuestion> findUnmasteredByUserId(
+                Long userId, int offset, int limit) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public com.grammaragent.question.repository.WrongQuestionSummary summarize(
+                Long userId, OffsetDateTime now) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Optional<com.grammaragent.question.entity.WrongQuestion> findForUpdate(
+                Long userId, Long questionId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public void updateReviewResult(
+                com.grammaragent.question.entity.WrongQuestion wrongQuestion, OffsetDateTime updatedAt) {
+            throw new UnsupportedOperationException();
         }
     }
 

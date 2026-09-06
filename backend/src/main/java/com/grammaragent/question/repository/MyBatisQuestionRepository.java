@@ -6,6 +6,7 @@ import com.grammaragent.question.mapper.QuestionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,16 @@ public class MyBatisQuestionRepository implements QuestionRepository {
         return Optional.ofNullable(questionMapper.selectOne(Wrappers.<Question>lambdaQuery()
                 .eq(Question::getId, questionId)
                 .eq(Question::getEnabled, true)));
+    }
+
+    @Override
+    public List<Question> findEnabledByIds(Collection<Long> questionIds) {
+        if (questionIds.isEmpty()) {
+            return List.of();
+        }
+        return questionMapper.selectList(Wrappers.<Question>lambdaQuery()
+                .in(Question::getId, questionIds)
+                .eq(Question::getEnabled, true));
     }
 
     @Override

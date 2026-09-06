@@ -62,11 +62,12 @@ public class AnswerSubmissionService {
         userAnswer.setAnsweredAt(now);
         userAnswerRepository.insert(userAnswer);
 
-        UserLearningProgress learningProgress = learningProgressRepository.incrementAndGet(
-                userId, question.getGrammarPointId(), evaluation.correct(), now);
         if (!evaluation.correct()) {
+            // Keep the same aggregate lock order as Review: wrong question first, learning progress second.
             wrongQuestionRepository.recordWrong(userId, question.getId(), now, now.plusDays(1));
         }
+        UserLearningProgress learningProgress = learningProgressRepository.incrementAndGet(
+                userId, question.getGrammarPointId(), evaluation.correct(), now);
 
         updateLessonProgress(userId, lesson, now);
 

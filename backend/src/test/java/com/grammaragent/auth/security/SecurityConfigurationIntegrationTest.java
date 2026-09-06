@@ -166,6 +166,32 @@ class SecurityConfigurationIntegrationTest {
                 .andExpect(jsonPath("$.code").value(40103));
     }
 
+    @Test
+    void allReviewEndpointsShouldRequireAccessToken() throws Exception {
+        mockMvc.perform(get("/api/v1/reviews/due"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/reviews/wrong-questions"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/reviews/summary"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(post("/api/v1/reviews/questions/1/answer")
+                        .contentType("application/json")
+                        .content("{\"answer\":\"A\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/reviews/due")
+                        .header("Authorization", "Bearer invalid-token"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40103));
+    }
+
     @RestController
     static class PublicCatalogProbeController {
 
@@ -192,6 +218,26 @@ class SecurityConfigurationIntegrationTest {
 
         @PostMapping("/api/v1/lessons/1/complete")
         public Map<String, Object> complete() {
+            return Map.of("code", 0);
+        }
+
+        @GetMapping("/api/v1/reviews/due")
+        public Map<String, Object> dueReviews() {
+            return Map.of("code", 0, "data", List.of());
+        }
+
+        @GetMapping("/api/v1/reviews/wrong-questions")
+        public Map<String, Object> wrongQuestions() {
+            return Map.of("code", 0, "data", List.of());
+        }
+
+        @GetMapping("/api/v1/reviews/summary")
+        public Map<String, Object> reviewSummary() {
+            return Map.of("code", 0, "data", Map.of());
+        }
+
+        @PostMapping("/api/v1/reviews/questions/1/answer")
+        public Map<String, Object> reviewAnswer() {
             return Map.of("code", 0);
         }
     }

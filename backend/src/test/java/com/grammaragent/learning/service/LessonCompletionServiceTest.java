@@ -92,6 +92,11 @@ class LessonCompletionServiceTest {
         }
 
         @Override
+        public List<Question> findEnabledByIds(Collection<Long> questionIds) {
+            return questions.stream().filter(question -> questionIds.contains(question.getId())).toList();
+        }
+
+        @Override
         public List<Question> findEnabledByLessonId(Long lessonId) {
             return questions;
         }
