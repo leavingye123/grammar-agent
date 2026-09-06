@@ -15,6 +15,7 @@ import 'package:grammar_agent/features/auth/domain/auth_models.dart';
 import 'package:grammar_agent/features/auth/presentation/auth_controller.dart';
 import 'package:grammar_agent/features/auth/presentation/auth_screens.dart';
 import 'package:grammar_agent/features/course/domain/course_models.dart';
+import 'package:grammar_agent/features/home/domain/home_models.dart';
 import 'package:grammar_agent/features/lesson/data/lesson_repository.dart';
 import 'package:grammar_agent/features/lesson/domain/lesson_models.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_session.dart';
@@ -258,6 +259,73 @@ void main() {
       dio.get('/secure/c'),
     ]);
     expect(adapter.refreshes, 1);
+  });
+  test('18b Dashboard JSON 解析', () {
+    final v = Dashboard.fromJson({
+      'user': {'username': 't', 'currentLanguage': 'en', 'currentLevel': 'A1'},
+      'continueLearning': {
+        'grammarPointId': 1,
+        'grammarPointTitle': 'be',
+        'lessonId': 10,
+        'lessonTitle': 'L1',
+      },
+      'today': {'completedLessons': 1, 'xpEarned': 16, 'goalXp': 30},
+      'review': {'dueCount': 3},
+      'progress': {'completedLessons': 2, 'totalLessons': 30, 'averageMastery': 68},
+      'statistics': {
+        'totalAnsweredQuestions': 10,
+        'correctAnswers': 6,
+        'accuracy': 60,
+        'totalXp': 16,
+      },
+      'streak': {'currentStreak': 0, 'maxStreak': 0},
+    });
+    expect(v.continueLearning?.lessonId, 10);
+    expect(v.today.xpEarned, 16);
+    expect(v.progress.averageMastery, 68);
+  });
+  test('18c Dashboard continueLearning 可空解析', () {
+    final v = Dashboard.fromJson({
+      'user': {'username': 't', 'currentLanguage': 'en', 'currentLevel': 'A1'},
+      'continueLearning': null,
+      'today': {'completedLessons': 0, 'xpEarned': 0, 'goalXp': 30},
+      'review': {'dueCount': 0},
+      'progress': {'completedLessons': 0, 'totalLessons': 0, 'averageMastery': 0},
+      'statistics': {
+        'totalAnsweredQuestions': 0,
+        'correctAnswers': 0,
+        'accuracy': 0,
+        'totalXp': 0,
+      },
+      'streak': {'currentStreak': 0, 'maxStreak': 0},
+    });
+    expect(v.continueLearning, isNull);
+  });
+  test('18d 状态化 GrammarPointSummary 解析', () {
+    final v = GrammarPointSummary.fromJson({
+      'id': 1,
+      'code': 'BE',
+      'title': 'be',
+      'difficulty': 1,
+      'sortOrder': 1,
+      'masteryScore': 72,
+      'completedLessons': 1,
+      'totalLessons': 1,
+      'status': 'COMPLETED',
+      'lessons': [
+        {
+          'id': 10,
+          'title': 'L1',
+          'lessonType': 'PRACTICE',
+          'xpReward': 10,
+          'sortOrder': 1,
+          'status': 'COMPLETED',
+        },
+      ],
+    });
+    expect(v.masteryScore, 72);
+    expect(v.status, 'COMPLETED');
+    expect(v.lessons.first.status, 'COMPLETED');
   });
   test('18 refresh 失败清空 auth', () async {
     var expired = false;

@@ -17,11 +17,11 @@ class HomeShell extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
         onDestinationSelected: (i) =>
-            context.go(['/learning-path', '/review', '/profile'][i]),
+            context.go(['/home', '/review', '/profile'][i]),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.route_outlined),
-            selectedIcon: Icon(Icons.route),
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
             label: '学习',
           ),
           NavigationDestination(

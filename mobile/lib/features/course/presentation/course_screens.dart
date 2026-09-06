@@ -12,57 +12,58 @@ class LearningPathScreen extends ConsumerWidget {
   const LearningPathScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(learningPathProvider);
-    return RefreshIndicator(
-      onRefresh: () => ref.refresh(learningPathProvider.future),
-      child: CustomScrollView(
-        slivers: [
-          const SliverAppBar(floating: true, title: Text('English 学习路径')),
-          value.when(
-            loading: () => const SliverFillRemaining(child: LoadingView()),
-            error: (e, _) => SliverFillRemaining(
-              child: ErrorView(
-                error: e,
-                onRetry: () => ref.invalidate(learningPathProvider),
-              ),
-            ),
-            data: (path) {
-              if (path.levels.isEmpty) {
-                return const SliverFillRemaining(
-                  child: EmptyView(message: '暂无课程'),
-                );
-              }
-              return SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
-                sliver: SliverList.list(
-                  children: [
-                    Text(
-                      '${path.language.name} · ${path.language.nativeName}',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    for (final level in path.levels) ...[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 8),
-                        child: Row(
-                          children: [
-                            CircleAvatar(child: Text(level.code)),
-                            const SizedBox(width: 12),
-                            Text(
-                              level.name,
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                      for (final chapter in level.chapters)
-                        _ChapterCard(chapter: chapter),
-                    ],
-                  ],
-                ),
-              );
-            },
+    final value = ref.watch(myLearningPathProvider);
+    return Scaffold(
+      appBar: AppBar(title: const Text('学习路径')),
+      body: RefreshIndicator(
+        onRefresh: () => ref.refresh(myLearningPathProvider.future),
+        child: value.when(
+          loading: () => ListView(
+            children: const [SizedBox(height: 240, child: LoadingView())],
           ),
-        ],
+          error: (e, _) => ListView(
+            children: [
+              SizedBox(
+                height: 400,
+                child: ErrorView(
+                  error: e,
+                  onRetry: () => ref.invalidate(myLearningPathProvider),
+                ),
+              ),
+            ],
+          ),
+          data: (path) {
+            if (path.levels.isEmpty) {
+              return const EmptyView(message: '暂无课程');
+            }
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+              children: [
+                Text(
+                  '${path.language.name} · ${path.language.nativeName}',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                for (final level in path.levels) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 8),
+                    child: Row(
+                      children: [
+                        CircleAvatar(child: Text(level.code)),
+                        const SizedBox(width: 12),
+                        Text(
+                          level.name,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                  for (final chapter in level.chapters)
+                    _ChapterCard(chapter: chapter),
+                ],
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -84,17 +85,18 @@ class _ChapterCard extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(point.title),
-              subtitle: Text('难度 ${point.difficulty}'),
-              trailing: const Icon(Icons.chevron_right),
+              subtitle: Text(_grammarPointSubtitle(point)),
+              trailing: _StatusChip(status: point.status),
               onTap: () => context.push('/grammar-point/${point.id}'),
             ),
             for (final lesson in point.lessons)
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: ListTile(
-                  leading: const Icon(Icons.play_circle_outline),
+                  leading: _lessonIcon(lesson.status),
                   title: Text(lesson.title),
                   subtitle: Text('+${lesson.xpReward} XP'),
+                  trailing: Text(_lessonStatusLabel(lesson.status)),
                   onTap: () => context.push('/lesson/${lesson.id}'),
                 ),
               ),
@@ -103,6 +105,47 @@ class _ChapterCard extends StatelessWidget {
       ),
     ),
   );
+
+  static String _grammarPointSubtitle(GrammarPointSummary point) {
+    final mastery = point.masteryScore == null ? '' : ' · Mastery ${point.masteryScore}%';
+    final progress = point.totalLessons == null
+        ? ''
+        : ' · ${point.completedLessons ?? 0}/${point.totalLessons} Lessons';
+    return '难度 ${point.difficulty}$mastery$progress';
+  }
+
+  static Widget _lessonIcon(String? status) => switch (status) {
+    'COMPLETED' => const Icon(Icons.check_circle, color: Colors.green),
+    'IN_PROGRESS' => const Icon(Icons.play_circle, color: Color(0xff3b7f6c)),
+    _ => const Icon(Icons.play_circle_outline),
+  };
+
+  static String _lessonStatusLabel(String? status) => switch (status) {
+    'COMPLETED' => '已完成',
+    'IN_PROGRESS' => '进行中',
+    _ => '未开始',
+  };
+}
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.status});
+  final String? status;
+  @override
+  Widget build(BuildContext context) {
+    final (label, color) = switch (status) {
+      'COMPLETED' => ('已完成', Colors.green),
+      'IN_PROGRESS' => ('进行中', const Color(0xff3b7f6c)),
+      _ => ('未开始', Colors.grey),
+    };
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(label, style: TextStyle(color: color, fontSize: 12)),
+    );
+  }
 }
 
 class GrammarPointScreen extends ConsumerWidget {

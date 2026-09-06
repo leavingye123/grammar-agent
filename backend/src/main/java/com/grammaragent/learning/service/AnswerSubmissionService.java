@@ -2,9 +2,11 @@ package com.grammaragent.learning.service;
 
 import com.grammaragent.common.enums.ErrorCode;
 import com.grammaragent.common.exception.BusinessException;
+import com.grammaragent.learning.entity.LessonAttempt;
 import com.grammaragent.learning.entity.UserLearningProgress;
 import com.grammaragent.learning.enums.LessonProgressStatus;
 import com.grammaragent.learning.repository.LearningProgressRepository;
+import com.grammaragent.learning.repository.LessonAttemptRepository;
 import com.grammaragent.learning.repository.LessonProgressRepository;
 import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.question.dto.SubmitAnswerRequest;
@@ -36,6 +38,7 @@ public class AnswerSubmissionService {
     private final LearningProgressRepository learningProgressRepository;
     private final WrongQuestionRepository wrongQuestionRepository;
     private final LessonProgressRepository lessonProgressRepository;
+    private final LessonAttemptRepository lessonAttemptRepository;
     private final QuestionAnswerEvaluator answerEvaluator;
     private final QuestionContextService contextService;
     private final MasteryCalculator masteryCalculator;
@@ -53,9 +56,12 @@ public class AnswerSubmissionService {
         AnswerEvaluationResult evaluation = answerEvaluator.evaluate(question, request.answer());
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
 
+        LessonAttempt attempt = lessonAttemptRepository.findOrCreateActive(userId, lesson.getId(), now);
+
         UserAnswer userAnswer = new UserAnswer();
         userAnswer.setUserId(userId);
         userAnswer.setQuestionId(question.getId());
+        userAnswer.setLessonAttemptId(attempt.getId());
         userAnswer.setAnswer(request.answer().deepCopy());
         userAnswer.setIsCorrect(evaluation.correct());
         userAnswer.setDurationMs(request.durationMs());
@@ -69,7 +75,7 @@ public class AnswerSubmissionService {
         UserLearningProgress learningProgress = learningProgressRepository.incrementAndGet(
                 userId, question.getGrammarPointId(), evaluation.correct(), now);
 
-        updateLessonProgress(userId, lesson, now);
+        updateLessonProgress(userId, lesson, attempt.getId(), now);
 
         return new SubmitAnswerResponse(
                 question.getId(),
@@ -80,11 +86,11 @@ public class AnswerSubmissionService {
                 learningProgress.getMasteryScore());
     }
 
-    private void updateLessonProgress(Long userId, Lesson lesson, OffsetDateTime now) {
+    private void updateLessonProgress(Long userId, Lesson lesson, Long attemptId, OffsetDateTime now) {
         List<Question> questions = questionRepository.findEnabledByLessonId(lesson.getId());
         questions.forEach(question -> contextService.validateQuestion(question, lesson));
-        List<UserAnswer> latestAnswers = userAnswerRepository.findLatestByQuestionIds(
-                userId, questions.stream().map(Question::getId).toList());
+        List<UserAnswer> latestAnswers = userAnswerRepository.findLatestByQuestionIdsInAttempt(
+                userId, questions.stream().map(Question::getId).toList(), attemptId);
         int correctCount = Math.toIntExact(latestAnswers.stream()
                 .filter(answer -> Boolean.TRUE.equals(answer.getIsCorrect()))
                 .count());

@@ -10,6 +10,9 @@ final courseRepositoryProvider = Provider<CourseRepository>(
 final learningPathProvider = FutureProvider<LearningPath>(
   (ref) => ref.watch(courseRepositoryProvider).learningPath(),
 );
+final myLearningPathProvider = FutureProvider<LearningPath>(
+  (ref) => ref.watch(courseRepositoryProvider).myLearningPath(),
+);
 final grammarPointProvider = FutureProvider.family<GrammarPointDetail, int>(
   (ref, id) => ref.watch(courseRepositoryProvider).grammarPoint(id),
 );

@@ -2,8 +2,10 @@ package com.grammaragent.learning.controller;
 
 import com.grammaragent.auth.security.AuthenticatedUserPrincipal;
 import com.grammaragent.common.response.ApiResponse;
+import com.grammaragent.learning.dto.LessonAttemptResponse;
 import com.grammaragent.learning.dto.LessonCompletionResponse;
 import com.grammaragent.learning.service.AnswerSubmissionService;
+import com.grammaragent.learning.service.LessonAttemptService;
 import com.grammaragent.learning.service.LessonCompletionService;
 import com.grammaragent.question.dto.SubmitAnswerRequest;
 import com.grammaragent.question.dto.SubmitAnswerResponse;
@@ -15,10 +17,13 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -29,6 +34,7 @@ public class LearningController {
 
     private final AnswerSubmissionService answerSubmissionService;
     private final LessonCompletionService lessonCompletionService;
+    private final LessonAttemptService lessonAttemptService;
 
     @PostMapping("/api/v1/questions/{questionId}/answer")
     @Operation(summary = "Submit and evaluate one answer")
@@ -45,5 +51,13 @@ public class LearningController {
             @AuthenticationPrincipal AuthenticatedUserPrincipal principal,
             @PathVariable @Positive Long lessonId) {
         return ApiResponse.success(lessonCompletionService.complete(principal.userId(), lessonId));
+    }
+
+    @GetMapping("/api/v1/lessons/{lessonId}/attempts")
+    @Operation(summary = "List the authenticated user's attempts for a lesson")
+    public ApiResponse<List<LessonAttemptResponse>> getAttempts(
+            @AuthenticationPrincipal AuthenticatedUserPrincipal principal,
+            @PathVariable @Positive Long lessonId) {
+        return ApiResponse.success(lessonAttemptService.getAttempts(principal.userId(), lessonId));
     }
 }

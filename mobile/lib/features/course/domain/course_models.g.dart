@@ -30,6 +30,7 @@ LessonSummary _$LessonSummaryFromJson(Map<String, dynamic> json) =>
       lessonType: json['lessonType'] as String,
       xpReward: (json['xpReward'] as num).toInt(),
       sortOrder: (json['sortOrder'] as num).toInt(),
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$LessonSummaryToJson(LessonSummary instance) =>
@@ -40,6 +41,7 @@ Map<String, dynamic> _$LessonSummaryToJson(LessonSummary instance) =>
       'lessonType': instance.lessonType,
       'xpReward': instance.xpReward,
       'sortOrder': instance.sortOrder,
+      'status': instance.status,
     };
 
 GrammarPointSummary _$GrammarPointSummaryFromJson(Map<String, dynamic> json) =>
@@ -52,6 +54,10 @@ GrammarPointSummary _$GrammarPointSummaryFromJson(Map<String, dynamic> json) =>
       lessons: (json['lessons'] as List<dynamic>)
           .map((e) => LessonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      masteryScore: (json['masteryScore'] as num?)?.toInt(),
+      completedLessons: (json['completedLessons'] as num?)?.toInt(),
+      totalLessons: (json['totalLessons'] as num?)?.toInt(),
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$GrammarPointSummaryToJson(
@@ -63,6 +69,10 @@ Map<String, dynamic> _$GrammarPointSummaryToJson(
   'difficulty': instance.difficulty,
   'sortOrder': instance.sortOrder,
   'lessons': instance.lessons.map((e) => e.toJson()).toList(),
+  'masteryScore': instance.masteryScore,
+  'completedLessons': instance.completedLessons,
+  'totalLessons': instance.totalLessons,
+  'status': instance.status,
 };
 
 ChapterModel _$ChapterModelFromJson(Map<String, dynamic> json) => ChapterModel(

@@ -167,6 +167,52 @@ class SecurityConfigurationIntegrationTest {
     }
 
     @Test
+    void newDashboardAndStatefulPathEndpointsShouldRequireTokenButPublicPathStaysOpen() throws Exception {
+        mockMvc.perform(get("/api/v1/dashboard"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/learning-path/en/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/lessons/1/attempts"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(get("/api/v1/learning-path/en"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0));
+    }
+
+    @Test
+    void validTokenShouldReachNewAuthenticatedEndpoints() throws Exception {
+        String registrationBody = mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType("application/json")
+                        .content("{\"email\":\"dashboard@example.com\","
+                                + "\"username\":\"Dashboard\",\"password\":\"Password123!\"}"))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String accessToken = objectMapper.readTree(registrationBody)
+                .path("data").path("tokens").path("accessToken").asText();
+        String bearer = "Bearer " + accessToken;
+
+        mockMvc.perform(get("/api/v1/dashboard").header("Authorization", bearer))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0));
+
+        mockMvc.perform(get("/api/v1/learning-path/en/me").header("Authorization", bearer))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0));
+
+        mockMvc.perform(get("/api/v1/lessons/1/attempts").header("Authorization", bearer))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0));
+    }
+
+    @Test
     void allReviewEndpointsShouldRequireAccessToken() throws Exception {
         mockMvc.perform(get("/api/v1/reviews/due"))
                 .andExpect(status().isUnauthorized())
@@ -197,6 +243,26 @@ class SecurityConfigurationIntegrationTest {
 
         @GetMapping("/api/v1/languages")
         public Map<String, Object> languages() {
+            return Map.of("code", 0, "data", List.of());
+        }
+
+        @GetMapping("/api/v1/learning-path/en")
+        public Map<String, Object> learningPath() {
+            return Map.of("code", 0, "data", Map.of());
+        }
+
+        @GetMapping("/api/v1/learning-path/en/me")
+        public Map<String, Object> myLearningPath() {
+            return Map.of("code", 0, "data", Map.of());
+        }
+
+        @GetMapping("/api/v1/dashboard")
+        public Map<String, Object> dashboard() {
+            return Map.of("code", 0, "data", Map.of());
+        }
+
+        @GetMapping("/api/v1/lessons/1/attempts")
+        public Map<String, Object> attempts() {
             return Map.of("code", 0, "data", List.of());
         }
 

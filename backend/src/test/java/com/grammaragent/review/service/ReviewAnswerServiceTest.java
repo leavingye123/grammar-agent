@@ -78,6 +78,7 @@ class ReviewAnswerServiceTest {
         assertThat(answerRepository.answers.getFirst().getUserId()).isEqualTo(USER_A);
         assertThat(answerRepository.answers.getFirst().getDurationMs()).isEqualTo(2300);
         assertThat(answerRepository.answers.getFirst().getIsCorrect()).isTrue();
+        assertThat(answerRepository.answers.getFirst().getLessonAttemptId()).isNull();
         assertThat(learningRepository.progress.getTotalQuestions()).isEqualTo(1);
         assertThat(learningRepository.progress.getCorrectQuestions()).isEqualTo(1);
     }
@@ -234,8 +235,14 @@ class ReviewAnswerServiceTest {
         }
 
         @Override
-        public List<UserAnswer> findLatestByQuestionIds(Long userId, Collection<Long> questionIds) {
+        public List<UserAnswer> findLatestByQuestionIdsInAttempt(
+                Long userId, Collection<Long> questionIds, Long attemptId) {
             return List.of();
+        }
+
+        @Override
+        public com.grammaragent.question.repository.UserAnswerCounts countByUser(Long userId) {
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -262,6 +269,11 @@ class ReviewAnswerServiceTest {
             progress.setMasteryScore(calculator.calculate(correctCount, total));
             progress.setLastStudyAt(studiedAt);
             return progress;
+        }
+
+        @Override
+        public List<UserLearningProgress> findByUserId(Long userId) {
+            return List.of(progress);
         }
     }
 

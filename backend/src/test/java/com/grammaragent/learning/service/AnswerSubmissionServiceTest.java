@@ -1,10 +1,13 @@
 package com.grammaragent.learning.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grammaragent.learning.entity.LessonAttempt;
 import com.grammaragent.learning.entity.UserLearningProgress;
 import com.grammaragent.learning.entity.UserLessonProgress;
+import com.grammaragent.learning.enums.LessonAttemptStatus;
 import com.grammaragent.learning.enums.LessonProgressStatus;
 import com.grammaragent.learning.repository.LearningProgressRepository;
+import com.grammaragent.learning.repository.LessonAttemptRepository;
 import com.grammaragent.learning.repository.LessonProgressRepository;
 import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.question.dto.SubmitAnswerRequest;
@@ -13,6 +16,7 @@ import com.grammaragent.question.entity.UserAnswer;
 import com.grammaragent.question.enums.QuestionType;
 import com.grammaragent.question.evaluator.QuestionAnswerEvaluator;
 import com.grammaragent.question.repository.QuestionRepository;
+import com.grammaragent.question.repository.UserAnswerCounts;
 import com.grammaragent.question.repository.UserAnswerRepository;
 import com.grammaragent.question.repository.WrongQuestionRepository;
 import com.grammaragent.question.service.QuestionContextService;
@@ -43,12 +47,14 @@ class AnswerSubmissionServiceTest {
         FakeLearningProgressRepository learningRepository = new FakeLearningProgressRepository();
         FakeWrongQuestionRepository wrongRepository = new FakeWrongQuestionRepository();
         FakeLessonProgressRepository lessonRepository = new FakeLessonProgressRepository();
+        FakeLessonAttemptRepository attemptRepository = new FakeLessonAttemptRepository();
         AnswerSubmissionService service = new AnswerSubmissionService(
                 questionRepository,
                 answerRepository,
                 learningRepository,
                 wrongRepository,
                 lessonRepository,
+                attemptRepository,
                 new QuestionAnswerEvaluator(),
                 new FixedQuestionContextService(lesson),
                 new MasteryCalculator());
@@ -70,6 +76,8 @@ class AnswerSubmissionServiceTest {
         assertEquals(1, lessonRepository.progress.getCorrectCount());
         assertEquals(1, lessonRepository.progress.getTotalCount());
         assertEquals(0, lessonRepository.progress.getXpEarned());
+        assertEquals(attemptRepository.active.getId(), answerRepository.answers.get(0).getLessonAttemptId());
+        assertEquals(attemptRepository.active.getId(), answerRepository.answers.get(1).getLessonAttemptId());
     }
 
     private SubmitAnswerRequest request(String optionId) throws Exception {
@@ -131,7 +139,8 @@ class AnswerSubmissionServiceTest {
         }
 
         @Override
-        public List<UserAnswer> findLatestByQuestionIds(Long userId, Collection<Long> questionIds) {
+        public List<UserAnswer> findLatestByQuestionIdsInAttempt(
+                Long userId, Collection<Long> questionIds, Long attemptId) {
             Map<Long, UserAnswer> latest = new LinkedHashMap<>();
             for (int index = answers.size() - 1; index >= 0; index--) {
                 UserAnswer answer = answers.get(index);
@@ -140,6 +149,14 @@ class AnswerSubmissionServiceTest {
                 }
             }
             return List.copyOf(latest.values());
+        }
+
+        @Override
+        public UserAnswerCounts countByUser(Long userId) {
+            UserAnswerCounts counts = new UserAnswerCounts();
+            counts.setTotal(answers.size());
+            counts.setCorrect(answers.stream().filter(answer -> Boolean.TRUE.equals(answer.getIsCorrect())).count());
+            return counts;
         }
     }
 
@@ -166,6 +183,11 @@ class AnswerSubmissionServiceTest {
             progress.setMasteryScore(calculator.calculate(correctCount, total));
             progress.setLastStudyAt(studiedAt);
             return progress;
+        }
+
+        @Override
+        public List<UserLearningProgress> findByUserId(Long userId) {
+            return List.of(progress);
         }
     }
 
@@ -235,6 +257,65 @@ class AnswerSubmissionServiceTest {
         @Override
         public Optional<UserLessonProgress> findByUserAndLesson(Long userId, Long lessonId) {
             return Optional.of(progress);
+        }
+
+        @Override
+        public List<UserLessonProgress> findByUserId(Long userId) {
+            return List.of(progress);
+        }
+    }
+
+    private static final class FakeLessonAttemptRepository implements LessonAttemptRepository {
+
+        private final LessonAttempt active;
+
+        private FakeLessonAttemptRepository() {
+            active = new LessonAttempt();
+            active.setId(77L);
+            active.setUserId(7L);
+            active.setLessonId(10L);
+            active.setStatus(LessonAttemptStatus.IN_PROGRESS);
+        }
+
+        @Override
+        public LessonAttempt findOrCreateActive(Long userId, Long lessonId, OffsetDateTime now) {
+            return active;
+        }
+
+        @Override
+        public Optional<LessonAttempt> findActiveForUpdate(Long userId, Long lessonId) {
+            return Optional.of(active);
+        }
+
+        @Override
+        public void complete(
+                Long attemptId,
+                int totalCount,
+                int correctCount,
+                int score,
+                int xpEarned,
+                OffsetDateTime completedAt) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public List<LessonAttempt> findByUserAndLesson(Long userId, Long lessonId) {
+            return List.of(active);
+        }
+
+        @Override
+        public long countCompletedAfter(Long userId, OffsetDateTime since) {
+            return 0;
+        }
+
+        @Override
+        public long sumXpCompletedAfter(Long userId, OffsetDateTime since) {
+            return 0;
+        }
+
+        @Override
+        public long sumTotalCompletedXp(Long userId) {
+            return 0;
         }
     }
 

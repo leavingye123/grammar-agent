@@ -11,6 +11,9 @@ import 'package:grammar_agent/features/auth/domain/auth_models.dart';
 import 'package:grammar_agent/features/course/domain/course_models.dart';
 import 'package:grammar_agent/features/course/presentation/course_providers.dart';
 import 'package:grammar_agent/features/course/presentation/course_screens.dart';
+import 'package:grammar_agent/features/home/domain/home_models.dart';
+import 'package:grammar_agent/features/home/presentation/home_providers.dart';
+import 'package:grammar_agent/features/home/presentation/home_screen.dart';
 import 'package:grammar_agent/features/lesson/data/lesson_repository.dart';
 import 'package:grammar_agent/features/lesson/domain/lesson_models.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_screens.dart';
@@ -49,7 +52,7 @@ void main() {
             AuthState(AuthStatus.authenticated, user: _user),
           ),
         ),
-        learningPathProvider.overrideWith((_) async => samplePath),
+        dashboardProvider.overrideWith((_) async => sampleDashboard),
       ],
     );
     addTearDown(container.dispose);
@@ -62,7 +65,7 @@ void main() {
     await tester.pumpAndSettle();
     container.read(routerProvider).go('/login');
     await tester.pumpAndSettle();
-    expect(find.text('English · English'), findsOneWidget);
+    expect(find.text('今日目标'), findsOneWidget);
     expect(find.text('学习'), findsOneWidget);
   });
   testWidgets('LoginScreen 校验与按钮交互', (tester) async {
@@ -86,13 +89,44 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          learningPathProvider.overrideWith((_) => Future.error('network')),
+          myLearningPathProvider.overrideWith((_) => Future.error('network')),
         ],
         child: const MaterialApp(home: LearningPathScreen()),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('重试'), findsOneWidget);
+  });
+
+  testWidgets('HomeScreen 展示今日目标与学习进度', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          dashboardProvider.overrideWith((_) async => sampleDashboard),
+        ],
+        child: const MaterialApp(home: HomeScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('今日目标'), findsOneWidget);
+    expect(find.text('16 / 30 XP'), findsOneWidget);
+    expect(find.text('继续学习'), findsOneWidget);
+    expect(find.text('be 动词基础'), findsOneWidget);
+    expect(find.text('3 道'), findsOneWidget);
+  });
+
+  testWidgets('LearningPathScreen 展示 Lesson 状态', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          myLearningPathProvider.overrideWith((_) async => samplePath),
+        ],
+        child: const MaterialApp(home: LearningPathScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('be 动词基础'), findsOneWidget);
+    expect(find.text('已完成'), findsWidgets);
   });
   testWidgets('QuestionScreen 成功交互及反馈', (tester) async {
     final fake = _WidgetLessonRepository();
@@ -174,6 +208,10 @@ final samplePath = LearningPath(
               title: 'be 动词基础',
               difficulty: 1,
               sortOrder: 1,
+              masteryScore: 72,
+              completedLessons: 1,
+              totalLessons: 1,
+              status: 'COMPLETED',
               lessons: [
                 const LessonSummary(
                   id: 1,
@@ -181,6 +219,7 @@ final samplePath = LearningPath(
                   lessonType: 'PRACTICE',
                   xpReward: 10,
                   sortOrder: 1,
+                  status: 'COMPLETED',
                 ),
               ],
             ),
@@ -189,6 +228,34 @@ final samplePath = LearningPath(
       ],
     ),
   ],
+);
+
+final sampleDashboard = Dashboard(
+  user: const DashboardUser(
+    username: 'tester',
+    currentLanguage: 'en',
+    currentLevel: 'A1',
+  ),
+  continueLearning: const ContinueLearning(
+    grammarPointId: 1,
+    grammarPointTitle: 'be 动词基础',
+    lessonId: 10,
+    lessonTitle: 'Lesson 1',
+  ),
+  today: const DashboardToday(completedLessons: 1, xpEarned: 16, goalXp: 30),
+  review: const DashboardReview(dueCount: 3),
+  progress: const DashboardProgress(
+    completedLessons: 2,
+    totalLessons: 30,
+    averageMastery: 68,
+  ),
+  statistics: const DashboardStatistics(
+    totalAnsweredQuestions: 10,
+    correctAnswers: 6,
+    accuracy: 60,
+    totalXp: 16,
+  ),
+  streak: const DashboardStreak(currentStreak: 0, maxStreak: 0),
 );
 final _user = UserProfile(
   id: 1,

@@ -37,7 +37,7 @@ public class SecurityConfig {
             "/api/v1/chapters/**",
             "/api/v1/grammar-points/**",
             "/api/v1/lessons/**",
-            "/api/v1/learning-path/**",
+            "/api/v1/learning-path/*",
             "/v3/api-docs/**",
             "/swagger-ui.html",
             "/swagger-ui/**"
@@ -62,6 +62,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/lessons/*/attempts").authenticated()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions

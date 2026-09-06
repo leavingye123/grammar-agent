@@ -3,7 +3,9 @@ package com.grammaragent.learning.service;
 import com.grammaragent.common.enums.ErrorCode;
 import com.grammaragent.common.exception.BusinessException;
 import com.grammaragent.learning.dto.LessonCompletionResponse;
+import com.grammaragent.learning.entity.LessonAttempt;
 import com.grammaragent.learning.enums.LessonProgressStatus;
+import com.grammaragent.learning.repository.LessonAttemptRepository;
 import com.grammaragent.learning.repository.LessonProgressRepository;
 import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.question.entity.Question;
@@ -26,6 +28,7 @@ public class LessonCompletionService {
     private final QuestionRepository questionRepository;
     private final UserAnswerRepository userAnswerRepository;
     private final LessonProgressRepository lessonProgressRepository;
+    private final LessonAttemptRepository lessonAttemptRepository;
     private final QuestionContextService contextService;
     private final MasteryCalculator masteryCalculator;
 
@@ -38,8 +41,11 @@ public class LessonCompletionService {
         }
         questions.forEach(question -> contextService.validateQuestion(question, lesson));
 
-        List<UserAnswer> latestAnswers = userAnswerRepository.findLatestByQuestionIds(
-                userId, questions.stream().map(Question::getId).toList());
+        LessonAttempt attempt = lessonAttemptRepository.findActiveForUpdate(userId, lessonId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.LESSON_ANSWERS_INCOMPLETE));
+
+        List<UserAnswer> latestAnswers = userAnswerRepository.findLatestByQuestionIdsInAttempt(
+                userId, questions.stream().map(Question::getId).toList(), attempt.getId());
         if (latestAnswers.size() != questions.size()) {
             throw new BusinessException(ErrorCode.LESSON_ANSWERS_INCOMPLETE);
         }
@@ -51,6 +57,8 @@ public class LessonCompletionService {
         int score = masteryCalculator.calculate(correctCount, totalCount);
         int xpEarned = calculateXp(lesson.getXpReward(), correctCount, totalCount);
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        lessonAttemptRepository.complete(
+                attempt.getId(), totalCount, correctCount, score, xpEarned, now);
         lessonProgressRepository.upsert(
                 userId,
                 lessonId,

@@ -19,10 +19,10 @@ import com.grammaragent.lesson.repository.LessonCatalogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +34,24 @@ public class LearningPathService {
     private final LessonCatalogRepository lessonRepository;
 
     public LearningPathResponse getLearningPath(String languageCode) {
+        LearningPathStructure structure = assembleStructure(languageCode);
+        List<LearningPathLevelResponse> levelResponses = structure.levels().stream()
+                .map(level -> toLevel(level, structure))
+                .toList();
+        return new LearningPathResponse(
+                new LanguageResponse(
+                        structure.language().getId(),
+                        structure.language().getCode(),
+                        structure.language().getName(),
+                        structure.language().getNativeName()),
+                levelResponses);
+    }
+
+    /**
+     * Loads the enabled course tree once so user-state overlays can reuse the same
+     * structure without repeating the catalog queries.
+     */
+    public LearningPathStructure assembleStructure(String languageCode) {
         Language language = courseRepository
                 .findEnabledLanguageByCode(languageCode.trim().toLowerCase(Locale.ROOT))
                 .orElseThrow(() -> new BusinessException(ErrorCode.LANGUAGE_NOT_FOUND));
@@ -64,22 +82,20 @@ public class LearningPathService {
         Map<Long, List<Chapter>> chaptersByLevel = chapters.stream()
                 .collect(Collectors.groupingBy(Chapter::getLanguageLevelId));
 
-        List<LearningPathLevelResponse> levelResponses = levels.stream()
-                .map(level -> toLevel(level, chaptersByLevel, grammarPointsByChapter, lessonsByGrammarPoint))
-                .toList();
-
-        return new LearningPathResponse(
-                new LanguageResponse(language.getId(), language.getCode(), language.getName(), language.getNativeName()),
-                levelResponses);
+        return new LearningPathStructure(
+                language,
+                levels,
+                chaptersByLevel,
+                grammarPointsByChapter,
+                lessonsByGrammarPoint);
     }
 
     private LearningPathLevelResponse toLevel(
             LanguageLevel level,
-            Map<Long, List<Chapter>> chaptersByLevel,
-            Map<Long, List<GrammarPoint>> grammarPointsByChapter,
-            Map<Long, List<Lesson>> lessonsByGrammarPoint) {
-        List<LearningPathChapterResponse> chapters = chaptersByLevel.getOrDefault(level.getId(), List.of()).stream()
-                .map(chapter -> toChapter(chapter, grammarPointsByChapter, lessonsByGrammarPoint))
+            LearningPathStructure structure) {
+        List<LearningPathChapterResponse> chapters = structure.chaptersByLevel()
+                .getOrDefault(level.getId(), List.of()).stream()
+                .map(chapter -> toChapter(chapter, structure))
                 .toList();
         return new LearningPathLevelResponse(
                 level.getId(), level.getCode(), level.getName(), level.getSortOrder(), chapters);
@@ -87,11 +103,10 @@ public class LearningPathService {
 
     private LearningPathChapterResponse toChapter(
             Chapter chapter,
-            Map<Long, List<GrammarPoint>> grammarPointsByChapter,
-            Map<Long, List<Lesson>> lessonsByGrammarPoint) {
-        List<LearningPathGrammarPointResponse> grammarPoints = grammarPointsByChapter
+            LearningPathStructure structure) {
+        List<LearningPathGrammarPointResponse> grammarPoints = structure.grammarPointsByChapter()
                 .getOrDefault(chapter.getId(), List.of()).stream()
-                .map(grammarPoint -> toGrammarPoint(grammarPoint, lessonsByGrammarPoint))
+                .map(grammarPoint -> toGrammarPoint(grammarPoint, structure))
                 .toList();
         return new LearningPathChapterResponse(
                 chapter.getId(), chapter.getTitle(), chapter.getSortOrder(), grammarPoints);
@@ -99,15 +114,16 @@ public class LearningPathService {
 
     private LearningPathGrammarPointResponse toGrammarPoint(
             GrammarPoint grammarPoint,
-            Map<Long, List<Lesson>> lessonsByGrammarPoint) {
-        List<LearningPathLessonResponse> lessons = lessonsByGrammarPoint
+            LearningPathStructure structure) {
+        List<LearningPathLessonResponse> lessons = structure.lessonsByGrammarPoint()
                 .getOrDefault(grammarPoint.getId(), List.of()).stream()
                 .map(lesson -> new LearningPathLessonResponse(
                         lesson.getId(),
                         lesson.getTitle(),
                         lesson.getLessonType(),
                         lesson.getXpReward(),
-                        lesson.getSortOrder()))
+                        lesson.getSortOrder(),
+                        null))
                 .toList();
         return new LearningPathGrammarPointResponse(
                 grammarPoint.getId(),
@@ -115,6 +131,23 @@ public class LearningPathService {
                 grammarPoint.getTitle(),
                 grammarPoint.getDifficulty(),
                 grammarPoint.getSortOrder(),
-                lessons);
+                lessons,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Immutable snapshot of the enabled course tree for a language. Lists are sorted
+     * by {@code sortOrder, id} and grouped by their parent key.
+     */
+    public record LearningPathStructure(
+            Language language,
+            List<LanguageLevel> levels,
+            Map<Long, List<Chapter>> chaptersByLevel,
+            Map<Long, List<GrammarPoint>> grammarPointsByChapter,
+            Map<Long, List<Lesson>> lessonsByGrammarPoint
+    ) {
     }
 }

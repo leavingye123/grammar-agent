@@ -3,6 +3,7 @@ package com.grammaragent.learning.repository;
 import com.grammaragent.learning.entity.UserLearningProgress;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 public interface LearningProgressRepository {
 
@@ -11,4 +12,6 @@ public interface LearningProgressRepository {
             Long grammarPointId,
             boolean correct,
             OffsetDateTime studiedAt);
+
+    List<UserLearningProgress> findByUserId(Long userId);
 }

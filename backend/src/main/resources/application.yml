@@ -35,3 +35,6 @@ app:
     secret: ${JWT_SECRET:}
     access-expire: ${JWT_ACCESS_EXPIRE:900}
     refresh-expire: ${JWT_REFRESH_EXPIRE:2592000}
+  learning:
+    default-language-code: ${DEFAULT_LANGUAGE_CODE:en}
+    daily-goal-xp: ${DAILY_GOAL_XP:30}

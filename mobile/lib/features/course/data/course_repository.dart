@@ -9,6 +9,10 @@ class CourseRepository {
     ApiEndpoints.learningPath('en'),
     (j) => LearningPath.fromJson(Map<String, dynamic>.from(j! as Map)),
   );
+  Future<LearningPath> myLearningPath() => client.get(
+    ApiEndpoints.myLearningPath('en'),
+    (j) => LearningPath.fromJson(Map<String, dynamic>.from(j! as Map)),
+  );
   Future<GrammarPointDetail> grammarPoint(int id) => client.get(
     ApiEndpoints.grammarPoint(id),
     (j) => GrammarPointDetail.fromJson(Map<String, dynamic>.from(j! as Map)),

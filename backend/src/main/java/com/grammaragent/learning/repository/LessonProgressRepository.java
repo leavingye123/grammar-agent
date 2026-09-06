@@ -4,6 +4,7 @@ import com.grammaragent.learning.entity.UserLessonProgress;
 import com.grammaragent.learning.enums.LessonProgressStatus;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface LessonProgressRepository {
@@ -19,4 +20,6 @@ public interface LessonProgressRepository {
             OffsetDateTime now);
 
     Optional<UserLessonProgress> findByUserAndLesson(Long userId, Long lessonId);
+
+    List<UserLessonProgress> findByUserId(Long userId);
 }

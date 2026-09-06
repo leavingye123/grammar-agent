@@ -20,10 +20,16 @@ public class MyBatisUserAnswerRepository implements UserAnswerRepository {
     }
 
     @Override
-    public List<UserAnswer> findLatestByQuestionIds(Long userId, Collection<Long> questionIds) {
+    public List<UserAnswer> findLatestByQuestionIdsInAttempt(
+            Long userId, Collection<Long> questionIds, Long attemptId) {
         if (questionIds.isEmpty()) {
             return List.of();
         }
-        return userAnswerMapper.selectLatestByQuestionIds(userId, questionIds);
+        return userAnswerMapper.selectLatestByQuestionIdsInAttempt(userId, questionIds, attemptId);
+    }
+
+    @Override
+    public UserAnswerCounts countByUser(Long userId) {
+        return userAnswerMapper.selectCounts(userId);
     }
 }

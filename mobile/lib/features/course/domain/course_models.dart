@@ -28,6 +28,7 @@ class LessonSummary {
     required this.lessonType,
     required this.xpReward,
     required this.sortOrder,
+    this.status,
   });
   final int id;
   final String title;
@@ -35,6 +36,7 @@ class LessonSummary {
   final String lessonType;
   final int xpReward;
   final int sortOrder;
+  final String? status;
   factory LessonSummary.fromJson(Map<String, dynamic> json) =>
       _$LessonSummaryFromJson(json);
   Map<String, dynamic> toJson() => _$LessonSummaryToJson(this);
@@ -49,6 +51,10 @@ class GrammarPointSummary {
     required this.difficulty,
     required this.sortOrder,
     required this.lessons,
+    this.masteryScore,
+    this.completedLessons,
+    this.totalLessons,
+    this.status,
   });
   final int id;
   final String code;
@@ -56,6 +62,10 @@ class GrammarPointSummary {
   final int difficulty;
   final int sortOrder;
   final List<LessonSummary> lessons;
+  final int? masteryScore;
+  final int? completedLessons;
+  final int? totalLessons;
+  final String? status;
   factory GrammarPointSummary.fromJson(Map<String, dynamic> json) =>
       _$GrammarPointSummaryFromJson(json);
   Map<String, dynamic> toJson() => _$GrammarPointSummaryToJson(this);

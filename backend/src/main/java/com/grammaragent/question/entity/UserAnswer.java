@@ -19,6 +19,7 @@ public class UserAnswer extends BaseEntity {
 
     private Long userId;
     private Long questionId;
+    private Long lessonAttemptId;
 
     @TableField(typeHandler = JsonNodeTypeHandler.class)
     private JsonNode answer;

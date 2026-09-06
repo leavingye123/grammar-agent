@@ -9,5 +9,8 @@ public interface UserAnswerRepository {
 
     void insert(UserAnswer userAnswer);
 
-    List<UserAnswer> findLatestByQuestionIds(Long userId, Collection<Long> questionIds);
+    List<UserAnswer> findLatestByQuestionIdsInAttempt(
+            Long userId, Collection<Long> questionIds, Long attemptId);
+
+    UserAnswerCounts countByUser(Long userId);
 }
