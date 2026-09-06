@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已完成阶段 6A：后端基础设施、英语 A1 核心数据模型、用户认证、公开课程目录、Lesson 答题学习闭环，以及错题 Review 复习闭环。MVP 首期面向英语 A1，并优先发布 Android 客户端；AI Tutor、订阅等业务 API 尚未实现。
+当前已完成阶段 6B：后端基础设施、英语 A1 核心数据模型、用户认证、公开课程目录、Lesson 答题学习闭环、错题 Review 复习闭环，以及可连接真实后端的 Flutter Android MVP。AI Tutor、订阅等业务尚未实现。
 
 ## 当前技术栈
 
@@ -11,14 +11,14 @@ GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品�
 - 数据访问：MyBatis-Plus
 - API 与认证：Spring Web、Validation、Spring Security、JWT、OpenAPI / Swagger UI
 - 工程辅助：Lombok、MapStruct
-- 移动端规划：Flutter（本阶段尚未开发）
+- 移动端：Flutter 3.47、Dart 3.13、Riverpod、Dio、go_router、flutter_secure_storage、Material 3
 
 ## 目录说明
 
 ```text
 grammar-agent/
 ├── backend/             # Spring Boot 后端
-├── mobile/              # Flutter 客户端预留目录
+├── mobile/              # Flutter Android 客户端
 ├── admin/               # 管理端预留目录
 ├── docs/                # 项目文档
 ├── sql/                 # 数据库脚本预留目录
@@ -178,3 +178,40 @@ Review 允许提前主动进行。Review 答对一次即标记 mastered，答错
 cd backend
 ./mvnw clean package
 ```
+
+## Flutter Android 开发
+
+移动端开发环境需要 Flutter Stable、Android SDK（API 35 或更高）、Android Emulator，以及兼容 Flutter Android 构建的 JDK。本项目开发机使用 Flutter 3.47.2、Dart 3.13.2 与 JDK 21。
+
+先启动基础设施和后端（当前开发端口为 `18080`）：
+
+```bash
+docker compose up -d
+
+cd backend
+SERVER_PORT=18080 ./mvnw spring-boot:run
+```
+
+启动 Android Emulator 后运行 App：
+
+```bash
+cd mobile
+flutter pub get
+flutter run \
+  --dart-define=API_BASE_URL=http://10.0.2.2:18080
+```
+
+Android Emulator 中的 `localhost` 指向模拟器自身，访问宿主 Mac 必须使用 `10.0.2.2`。`API_BASE_URL` 由统一的 `AppConfig` 读取；未传值时 Android 开发环境默认使用上述地址，生产环境必须显式传入 HTTPS 地址。
+
+移动端质量检查和 Debug APK 构建：
+
+```bash
+cd mobile
+dart run build_runner build
+flutter analyze
+flutter test
+flutter build apk --debug \
+  --dart-define=API_BASE_URL=http://10.0.2.2:18080
+```
+
+更完整的架构、页面和认证刷新说明见 [mobile/README.md](mobile/README.md)。
