@@ -11,6 +11,7 @@ public enum ErrorCode {
     SUCCESS(0, "success", HttpStatus.OK),
     VALIDATION_ERROR(40000, "Request validation failed", HttpStatus.BAD_REQUEST),
     BUSINESS_ERROR(40001, "Business operation failed", HttpStatus.BAD_REQUEST),
+    INVALID_ANSWER_FORMAT(40010, "Answer format is invalid for this question type", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS(40901, "Email is already registered", HttpStatus.CONFLICT),
     INVALID_CREDENTIALS(40101, "Invalid email or password", HttpStatus.UNAUTHORIZED),
     ACCESS_TOKEN_EXPIRED(40102, "Access token has expired", HttpStatus.UNAUTHORIZED),
@@ -28,6 +29,10 @@ public enum ErrorCode {
     CHAPTER_NOT_FOUND(40412, "Chapter not found", HttpStatus.NOT_FOUND),
     GRAMMAR_POINT_NOT_FOUND(40413, "Grammar point not found", HttpStatus.NOT_FOUND),
     LESSON_NOT_FOUND(40414, "Lesson not found", HttpStatus.NOT_FOUND),
+    QUESTION_NOT_FOUND(40415, "Question not found", HttpStatus.NOT_FOUND),
+    LESSON_ANSWERS_INCOMPLETE(40910, "Not all lesson questions have been answered", HttpStatus.CONFLICT),
+    LESSON_HAS_NO_QUESTIONS(40911, "Lesson has no enabled questions", HttpStatus.CONFLICT),
+    QUESTION_CONTEXT_INVALID(40912, "Question content relationship is invalid", HttpStatus.CONFLICT),
     INTERNAL_SERVER_ERROR(50000, "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final int code;

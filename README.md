@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已完成阶段 4：后端基础设施、英语 A1 核心数据模型、用户认证，以及公开课程目录和学习路径查询 API。MVP 首期面向英语 A1，并优先发布 Android 客户端；答题、学习进度、AI Tutor、订阅等业务 API 尚未实现。
+当前已完成阶段 5：后端基础设施、英语 A1 核心数据模型、用户认证、公开课程目录，以及题目获取、确定性判题、学习进度、错题和 Lesson 完成闭环。MVP 首期面向英语 A1，并优先发布 Android 客户端；AI Tutor、订阅等业务 API 尚未实现。
 
 ## 当前技术栈
 
@@ -148,6 +148,16 @@ Swagger UI：<http://localhost:8080/swagger-ui.html>
 | `GET` | `/learning-path/{languageCode}` | 获取供客户端课程地图使用的完整结构树 |
 
 所有路径统一使用 `/api/v1` 前缀。Learning Path 通过批量查询组装，不包含题目、正确答案或用户学习进度。
+
+## 答题学习闭环 API
+
+| 方法 | 路径 | 是否公开 | 用途 |
+| --- | --- | --- | --- |
+| `GET` | `/lessons/{lessonId}/questions` | 是 | 获取启用题目，不返回正确答案和解析 |
+| `POST` | `/questions/{questionId}/answer` | 否 | 提交单题答案、判题并更新累计学习数据 |
+| `POST` | `/lessons/{lessonId}/complete` | 否 | 按每题最新答案完成 Lesson 并结算 XP |
+
+单题提交始终追加 `user_answers`，不会覆盖历史。单题响应中的 `xpEarned` 固定为 0，实际 Lesson XP 只在完成时按 `xpReward × correctCount ÷ totalCount` 结算，避免重复奖励。完整规则参见 [答题流程设计](docs/answer-flow.md)。
 
 ## 编译与测试
 

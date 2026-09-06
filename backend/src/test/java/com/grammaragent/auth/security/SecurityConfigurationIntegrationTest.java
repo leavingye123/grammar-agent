@@ -29,6 +29,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
@@ -139,12 +140,59 @@ class SecurityConfigurationIntegrationTest {
                 .andExpect(jsonPath("$.code").value(40100));
     }
 
+    @Test
+    void questionsShouldBePublicButLearningWritesShouldRequireAccessToken() throws Exception {
+        mockMvc.perform(get("/api/v1/lessons/1/questions"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data[0].correctAnswer").doesNotExist())
+                .andExpect(jsonPath("$.data[0].explanation").doesNotExist());
+
+        mockMvc.perform(post("/api/v1/questions/1/answer")
+                        .contentType("application/json")
+                        .content("{\"answer\":\"A\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(post("/api/v1/lessons/1/complete"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+
+        mockMvc.perform(post("/api/v1/questions/1/answer")
+                        .header("Authorization", "Bearer invalid-token")
+                        .contentType("application/json")
+                        .content("{\"answer\":\"A\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40103));
+    }
+
     @RestController
     static class PublicCatalogProbeController {
 
         @GetMapping("/api/v1/languages")
         public Map<String, Object> languages() {
             return Map.of("code", 0, "data", List.of());
+        }
+
+        @GetMapping("/api/v1/lessons/1/questions")
+        public Map<String, Object> questions() {
+            return Map.of(
+                    "code", 0,
+                    "data", List.of(Map.of(
+                            "id", 1,
+                            "questionType", "SINGLE_CHOICE",
+                            "questionContent", "I ___ a student.",
+                            "options", List.of("A", "B", "C"))));
+        }
+
+        @PostMapping("/api/v1/questions/1/answer")
+        public Map<String, Object> answer() {
+            return Map.of("code", 0);
+        }
+
+        @PostMapping("/api/v1/lessons/1/complete")
+        public Map<String, Object> complete() {
+            return Map.of("code", 0);
         }
     }
 
