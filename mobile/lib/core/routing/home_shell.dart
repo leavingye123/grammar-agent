@@ -7,21 +7,28 @@ class HomeShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final path = GoRouterState.of(context).matchedLocation;
-    final index = path.startsWith('/review')
+    final index = path.startsWith('/learning-path')
         ? 1
-        : path.startsWith('/profile')
+        : path.startsWith('/review')
         ? 2
+        : path.startsWith('/profile')
+        ? 3
         : 0;
     return Scaffold(
       body: SafeArea(child: child),
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
         onDestinationSelected: (i) =>
-            context.go(['/home', '/review', '/profile'][i]),
+            context.go(['/home', '/learning-path', '/review', '/profile'][i]),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
+            label: '首页',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
             label: '学习',
           ),
           NavigationDestination(

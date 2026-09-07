@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/network_providers.dart';
+import '../../../core/network/learning_refresh.dart';
 import '../data/auth_repository.dart';
 import '../domain/auth_models.dart';
 
@@ -70,6 +71,7 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(loading: true, clearError: true);
     try {
       final user = await action();
+      refreshLearningData(ref);
       state = AuthState(AuthStatus.authenticated, user: user);
       return true;
     } catch (error) {
@@ -87,6 +89,7 @@ class AuthController extends Notifier<AuthState> {
       await ref.read(tokenStorageProvider).clearTokens();
     }
     state = const AuthState(AuthStatus.unauthenticated);
+    refreshLearningData(ref);
   }
 
   void expireSession() => state = const AuthState(

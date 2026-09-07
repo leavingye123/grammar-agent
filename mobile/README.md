@@ -56,3 +56,12 @@ flutter build apk --debug \
 ## 当前未实现
 
 阶段 6B 不包含 AI Tutor、语音、订阅、支付、成就、连续学习、排行榜、推送、社交登录、Dark Mode、复杂动画、iOS 发布与生产签名。
+
+## 阶段 7B 更新
+
+已在 7A Dashboard / LessonAttempt 的基础上建立绿色设计系统与 Grammar Cat，
+学习路径升级为领域主树 → 知识分支树 → 语法点 → Lesson。首页、答题反馈、结算、复习和个人中心同步重构。
+所有进度来自现有 API；未上线领域及 AI、Grammar Health、成就、Plus 明确标记为“即将推出”。
+
+设计与真实数据边界见 [阶段 7B 设计说明](../docs/stage-7b-design.md)，
+执行结果见 [阶段 7B 验收](../docs/stage-7b-acceptance.md)。

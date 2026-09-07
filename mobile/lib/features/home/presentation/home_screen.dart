@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/async_views.dart';
-import '../domain/home_models.dart';
+import '../../../core/widgets/grammar_cat.dart';
+import '../../../core/widgets/learning_widgets.dart';
 import 'home_providers.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -14,239 +16,171 @@ class HomeScreen extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () => ref.refresh(dashboardProvider.future),
       child: value.when(
-        loading: () => ListView(
-          children: const [SizedBox(height: 200, child: LoadingView())],
-        ),
-        error: (e, _) => ListView(
+        loading: () => const PageBody(children: [LoadingView()]),
+        error: (e, _) => PageBody(
           children: [
-            SizedBox(
-              height: 400,
-              child: ErrorView(
-                error: e,
-                onRetry: () => ref.invalidate(dashboardProvider),
-              ),
+            ErrorView(
+              error: e,
+              onRetry: () => ref.invalidate(dashboardProvider),
             ),
           ],
         ),
-        data: (dashboard) => ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+        data: (d) => PageBody(
           children: [
-            _Greeting(username: dashboard.user.username),
-            const SizedBox(height: 16),
-            _TodayGoalCard(today: dashboard.today),
-            const SizedBox(height: 12),
-            if (dashboard.continueLearning != null)
-              _ContinueLearningCard(item: dashboard.continueLearning!),
-            _ReviewCard(dueCount: dashboard.review.dueCount),
-            _ProgressCard(
-              progress: dashboard.progress,
-              statistics: dashboard.statistics,
-              streak: dashboard.streak,
+            Row(
+              children: [
+                const Icon(Icons.spa, color: AppColors.primary),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    'GrammarAgent',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            FilledButton.tonalIcon(
-              onPressed: () => context.push('/learning-path'),
-              icon: const Icon(Icons.route_outlined),
-              label: const Text('查看学习路径'),
+            const SizedBox(height: AppSpacing.xl),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '你好，${d.user.username}',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      const Text('今天也让语法树长一点吧。'),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                const GrammarCat(size: 72),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Greeting extends StatelessWidget {
-  const _Greeting({required this.username});
-  final String username;
-  @override
-  Widget build(BuildContext context) {
-    final hour = DateTime.now().hour;
-    final greeting = hour < 12
-        ? '早上好'
-        : hour < 18
-        ? '下午好'
-        : '晚上好';
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'GrammarAgent',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          '$greeting，$username',
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-      ],
-    );
-  }
-}
-
-class _TodayGoalCard extends StatelessWidget {
-  const _TodayGoalCard({required this.today});
-  final DashboardToday today;
-  @override
-  Widget build(BuildContext context) {
-    final progress = today.goalXp <= 0
-        ? 0.0
-        : (today.xpEarned / today.goalXp).clamp(0.0, 1.0);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('今日目标', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 10),
-            Text(
-              '${today.xpEarned} / ${today.goalXp} XP',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            const SizedBox(height: AppSpacing.lg),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Chip(
+                  avatar: const Icon(Icons.language, size: 18),
+                  label: Text(
+                    '${languageLabel(d.user.currentLanguage)} · ${d.user.currentLevel ?? '学习中'}',
+                  ),
+                ),
+                Chip(
+                  avatar: const Icon(
+                    Icons.local_fire_department_outlined,
+                    size: 18,
+                  ),
+                  label: Text('连续学习 ${d.streak.currentStreak} 天'),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 8,
-              ),
+            ProgressCard(
+              title: '今日目标',
+              value: '${d.today.xpEarned} / ${d.today.goalXp} XP',
+              fraction: d.today.goalXp == 0
+                  ? 0
+                  : d.today.xpEarned / d.today.goalXp,
+              caption: '今日完成 ${d.today.completedLessons} 节课程',
             ),
-            const SizedBox(height: 8),
-            Text('今日完成 ${today.completedLessons} 个 Lesson'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ContinueLearningCard extends StatelessWidget {
-  const _ContinueLearningCard({required this.item});
-  final ContinueLearning item;
-  @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: const Icon(Icons.play_circle_fill, size: 40),
-      title: Text(item.lessonTitle),
-      subtitle: Text(item.grammarPointTitle),
-      trailing: FilledButton.tonal(
-        style: FilledButton.styleFrom(
-          minimumSize: const Size(96, 40),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-        ),
-        onPressed: () => context.push('/lesson/${item.lessonId}'),
-        child: const Text('继续学习'),
-      ),
-      onTap: () => context.push('/lesson/${item.lessonId}'),
-    ),
-  );
-}
-
-class _ReviewCard extends StatelessWidget {
-  const _ReviewCard({required this.dueCount});
-  final int dueCount;
-  @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      leading: const Icon(Icons.replay, size: 32),
-      title: Text('待复习'),
-      subtitle: Text('$dueCount 道'),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () => context.push('/review'),
-    ),
-  );
-}
-
-class _ProgressCard extends StatelessWidget {
-  const _ProgressCard({
-    required this.progress,
-    required this.statistics,
-    required this.streak,
-  });
-  final DashboardProgress progress;
-  final DashboardStatistics statistics;
-  final DashboardStreak streak;
-  @override
-  Widget build(BuildContext context) => Card(
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('学习进度', style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _Metric(
-                  label: '总进度',
-                  value: '${progress.completedLessons} / ${progress.totalLessons}',
+            const SectionHeader('今日计划', subtitle: '一点新知识，一点复习，每天都有收获'),
+            if (d.continueLearning case final next?)
+              GrammarCard(
+                color: AppColors.mint,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      '01 / 新知识',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      next.grammarPointTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(next.lessonTitle),
+                    const SizedBox(height: AppSpacing.lg),
+                    FilledButton.icon(
+                      onPressed: () => context.push('/lesson/${next.lessonId}'),
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text('继续学习'),
+                    ),
+                  ],
+                ),
+              )
+            else
+              const GrammarCard(
+                color: AppColors.mint,
+                child: CatMessage(
+                  '当前课程都完成了！回到树上巩固知识，或看看今天的复习。',
+                  celebrating: true,
                 ),
               ),
-              Expanded(
-                child: _Metric(
-                  label: '平均 Mastery',
-                  value: '${progress.averageMastery}%',
+            LessonCard(
+              title: '今日复习',
+              showStatus: false,
+              subtitle: '${d.review.dueCount} 道到期错题',
+              onTap: () => context.go('/review'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => context.go('/learning-path'),
+              icon: const Icon(Icons.account_tree_outlined),
+              label: const Text('探索语法树'),
+            ),
+            const SectionHeader('我的学习概况'),
+            StatGrid(
+              items: [
+                StatCard(
+                  label: '当前平均 Mastery',
+                  value: '${d.progress.averageMastery}%',
                 ),
-              ),
-              Expanded(
-                child: _Metric(
-                  label: '连续学习',
-                  value: '${streak.currentStreak} 天',
-                ),
-              ),
-            ],
-          ),
-          const Divider(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: _Metric(
+                StatCard(
                   label: '累计 XP',
-                  value: '${statistics.totalXp}',
+                  value: '${d.statistics.totalXp}',
+                  icon: Icons.bolt,
                 ),
-              ),
-              Expanded(
-                child: _Metric(
-                  label: '正确率',
-                  value: '${statistics.accuracy}%',
+                StatCard(
+                  label: '答题正确率',
+                  value: '${d.statistics.accuracy}%',
+                  icon: Icons.track_changes,
                 ),
-              ),
-              Expanded(
-                child: _Metric(
-                  label: '答题数',
-                  value: '${statistics.totalAnsweredQuestions}',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-class _Metric extends StatelessWidget {
-  const _Metric({required this.label, required this.value});
-  final String label, value;
-  @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      Text(
-        value,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold,
+              ],
+            ),
+            Text(
+              '已完成 ${d.progress.completedLessons}/${d.progress.totalLessons} 节课程 · 累计答题 ${d.statistics.totalAnsweredQuestions} 次',
+            ),
+            const SectionHeader('下一片生长的可能', subtitle: '未来功能预览'),
+            const FutureFeature(
+              title: 'Grammar Health',
+              description: '未来结合掌握度、复习和记忆新鲜度，观察语法的长期状态。',
+              icon: Icons.eco_outlined,
+            ),
+            const FutureFeature(
+              title: 'AI Grammar Coach',
+              description: 'Grammar Cat 陪你解释错题、追问与举例。',
+            ),
+            const FutureFeature(
+              title: '混合挑战',
+              description: '对比易混规则，在不同语境中灵活运用。',
+              icon: Icons.shuffle,
+            ),
+            const FutureFeature(
+              title: '每日表达',
+              description: '用今天的语法，描述自己的生活。',
+              icon: Icons.edit_outlined,
+            ),
+          ],
         ),
       ),
-      Text(label, style: Theme.of(context).textTheme.bodySmall),
-    ],
-  );
+    );
+  }
 }

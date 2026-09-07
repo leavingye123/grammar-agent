@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/design_tokens.dart';
+import '../../../core/widgets/option_card.dart';
+import '../../../core/widgets/learning_widgets.dart';
+
 import '../domain/lesson_models.dart';
 
 class QuestionInput extends StatefulWidget {
@@ -31,41 +35,35 @@ class _QuestionInputState extends State<QuestionInput> {
       QuestionType.singleChoice => Column(
         children: [
           for (final o in options)
-            Card(
-              child: ListTile(
-                enabled: widget.enabled,
-                leading: Icon(
-                  single == o.id
-                      ? Icons.radio_button_checked
-                      : Icons.radio_button_unchecked,
-                ),
-                title: Text(o.text),
-                onTap: widget.enabled
-                    ? () {
-                        setState(() => single = o.id);
-                        widget.onChanged(o.id);
-                      }
-                    : null,
-              ),
+            OptionCard(
+              selected: single == o.id,
+              label: o.text,
+              onTap: widget.enabled
+                  ? () {
+                      setState(() => single = o.id);
+                      widget.onChanged(o.id);
+                    }
+                  : null,
             ),
         ],
       ),
       QuestionType.multipleChoice => Column(
         children: [
           for (final o in options)
-            CheckboxListTile(
-              value: multiple.contains(o.id),
-              onChanged: widget.enabled
-                  ? (v) {
+            OptionCard(
+              multiple: true,
+              selected: multiple.contains(o.id),
+              onTap: widget.enabled
+                  ? () {
                       setState(
-                        () => v == true
-                            ? multiple.add(o.id)
-                            : multiple.remove(o.id),
+                        () => multiple.contains(o.id)
+                            ? multiple.remove(o.id)
+                            : multiple.add(o.id),
                       );
                       widget.onChanged(multiple.toList());
                     }
                   : null,
-              title: Text(o.text),
+              label: o.text,
             ),
         ],
       ),
@@ -165,20 +163,22 @@ class FeedbackPanel extends StatelessWidget {
     required this.correctAnswer,
     this.explanation,
     this.extra,
+    this.question,
   });
   final bool correct;
   final Object? correctAnswer;
   final String? explanation;
   final String? extra;
+  final Question? question;
   @override
   Widget build(BuildContext context) {
-    final color = correct ? Colors.green : Theme.of(context).colorScheme.error;
+    final color = correct ? AppColors.primary : AppColors.orange;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: .1),
-        borderRadius: BorderRadius.circular(16),
+        color: correct ? AppColors.mint : AppColors.softOrange,
+        borderRadius: AppRadius.card,
         border: Border.all(color: color),
       ),
       child: Column(
@@ -189,10 +189,14 @@ class FeedbackPanel extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge
                 ?.copyWith(color: color, fontWeight: FontWeight.bold),
           ),
-          if (!correct) ...[
-            const SizedBox(height: 8),
-            Text('正确答案：${_format(correctAnswer)}'),
-          ],
+          CatMessage(
+            correct ? '漂亮！这个规则你已经越来越熟了。' : '这里容易混，我们看一下原因。',
+            celebrating: correct,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '正确答案：${formatCorrectAnswer(correctAnswer, question: question)}',
+          ),
           if (explanation?.isNotEmpty == true) ...[
             const SizedBox(height: 8),
             Text(explanation!),
@@ -205,7 +209,29 @@ class FeedbackPanel extends StatelessWidget {
       ),
     );
   }
+}
 
-  static String _format(Object? value) =>
-      value is String ? value : jsonEncode(value);
+String formatCorrectAnswer(Object? value, {Question? question}) {
+  String option(Object? id) {
+    final text = question?.optionItems
+        .where((o) => o.id == '$id')
+        .firstOrNull
+        ?.text;
+    return text == null ? '$id' : '$id · $text';
+  }
+
+  if (value is Map) {
+    if (value['optionId'] != null) return option(value['optionId']);
+    if (value['optionIds'] is List) {
+      return (value['optionIds'] as List).map(option).join('、');
+    }
+    if (value['tokens'] is List) {
+      return (value['tokens'] as List).join(' ').replaceAll(' .', '.');
+    }
+    for (final key in ['answers', 'acceptedAnswers']) {
+      if (value[key] is List) return (value[key] as List).join(' / ');
+    }
+    if (value['value'] is bool) return value['value'] == true ? '正确' : '错误';
+  }
+  return value is String ? value : jsonEncode(value);
 }

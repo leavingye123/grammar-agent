@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'grammar_cat.dart';
+
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key, this.label = '加载中…'});
   final String label;
@@ -53,7 +55,7 @@ class EmptyView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 48),
+          const GrammarCat(size: 72),
           const SizedBox(height: 12),
           Text(message, textAlign: TextAlign.center),
         ],

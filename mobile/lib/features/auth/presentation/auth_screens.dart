@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/widgets/grammar_cat.dart';
+
 import 'auth_controller.dart';
 
 String? validateEmail(String? value) {
@@ -60,17 +62,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(
-                      Icons.school_rounded,
-                      size: 64,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    const Center(child: GrammarCat(size: 92)),
                     const SizedBox(height: 18),
                     Text(
                       '欢迎回到 GrammarAgent',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
+                    const SizedBox(height: 8),
+                    const Text('和语法小猫一起，长出更大的自己。', textAlign: TextAlign.center),
                     const SizedBox(height: 30),
                     TextFormField(
                       key: const Key('login-email'),

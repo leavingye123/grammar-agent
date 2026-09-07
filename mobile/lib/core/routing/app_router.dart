@@ -37,13 +37,20 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _, child) => HomeShell(child: child),
         routes: [
           GoRoute(path: '/home', builder: (_, _) => const HomeScreen()),
+          GoRoute(
+            path: '/learning-path',
+            builder: (_, _) => const LearningPathScreen(),
+          ),
           GoRoute(path: '/review', builder: (_, _) => const ReviewScreen()),
           GoRoute(path: '/profile', builder: (_, _) => const ProfileScreen()),
         ],
       ),
       GoRoute(
-        path: '/learning-path',
-        builder: (_, _) => const LearningPathScreen(),
+        path: '/learning-path/branch/:domain',
+        builder: (_, s) => GrammarBranchScreen(
+          domainId: s.pathParameters['domain']!,
+          levelId: int.tryParse(s.uri.queryParameters['level'] ?? ''),
+        ),
       ),
       GoRoute(
         path: '/grammar-point/:id',
@@ -56,9 +63,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/lesson/:id/result',
+        redirect: (_, s) =>
+            s.extra is LessonCompletion || s.extra is LessonResultData
+            ? null
+            : '/lesson/${s.pathParameters['id']}',
         builder: (_, s) => LessonResultScreen(
           lessonId: int.parse(s.pathParameters['id']!),
-          completion: s.extra! as LessonCompletion,
+          completion: s.extra is LessonResultData
+              ? (s.extra! as LessonResultData).completion
+              : s.extra! as LessonCompletion,
+          durationMs: s.extra is LessonResultData
+              ? (s.extra! as LessonResultData).durationMs
+              : null,
         ),
       ),
       GoRoute(

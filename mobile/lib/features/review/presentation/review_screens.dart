@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/widgets/async_views.dart';
+import '../../../core/widgets/learning_widgets.dart';
+import '../../../core/theme/design_tokens.dart';
+import '../../home/presentation/home_providers.dart';
+import '../../course/presentation/course_providers.dart';
 import '../../lesson/presentation/question_widgets.dart';
 import '../domain/review_models.dart';
 import 'review_providers.dart';
@@ -25,76 +29,82 @@ class ReviewScreen extends ConsumerWidget {
         ref.invalidate(reviewDueProvider);
         await ref.read(reviewSummaryProvider.future);
       },
-      child: ListView(
-        padding: const EdgeInsets.all(16),
+      child: PageBody(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text(
-              '复习中心',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-          ),
+          Text('语法记忆', style: Theme.of(context).textTheme.headlineLarge),
+          const Text('Grammar Memory · 让理解留下来'),
+          const CatMessage('复习不是从头再来，而是让已经长出的叶子更有活力。'),
           summary.when(
-            loading: () => const SizedBox(height: 180, child: LoadingView()),
-            error: (e, _) => SizedBox(
-              height: 200,
-              child: ErrorView(
-                error: e,
-                onRetry: () => ref.invalidate(reviewSummaryProvider),
-              ),
+            loading: () => const LoadingView(),
+            error: (e, _) => ErrorView(
+              error: e,
+              onRetry: () => ref.invalidate(reviewSummaryProvider),
             ),
             data: (s) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: _SummaryCard(label: '待复习', value: s.dueCount),
+                StatGrid(
+                  items: [
+                    StatCard(
+                      label: '待复习',
+                      value: '${s.dueCount}',
+                      icon: Icons.replay,
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: _SummaryCard(
-                        label: '未掌握',
-                        value: s.unmasteredCount,
-                      ),
+                    StatCard(
+                      label: '未掌握',
+                      value: '${s.unmasteredCount}',
+                      icon: Icons.edit_note,
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: _SummaryCard(label: '已掌握', value: s.masteredCount),
+                    StatCard(
+                      label: '已掌握',
+                      value: '${s.masteredCount}',
+                      icon: Icons.task_alt,
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
                 if (s.dueCount == 0)
-                  Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.check_circle_outline),
-                      title: const Text('当前没有到期错题'),
-                      subtitle: Text('下次复习：${formatLocalTime(s.nextReviewAt)}'),
+                  GrammarCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('当前没有到期错题'),
+                        Text('下次复习：${formatLocalTime(s.nextReviewAt)}'),
+                      ],
                     ),
                   ),
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SectionHeader('今日复习', subtitle: '到期的错题，值得再看一次'),
           due.when(
             loading: () => const LinearProgressIndicator(),
-            error: (e, _) => Text(e.toString()),
+            error: (e, _) => ErrorView(
+              error: e,
+              onRetry: () => ref.invalidate(reviewDueProvider),
+            ),
             data: (items) => items.isEmpty
-                ? const SizedBox.shrink()
+                ? const GrammarCard(child: Text('今天暂时没有到期任务，也可以主动巩固未掌握错题。'))
                 : FilledButton.icon(
                     icon: const Icon(Icons.play_arrow),
                     label: Text('开始复习（${items.length}）'),
                     onPressed: () => _openPractice(context, ref, items),
                   ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppSpacing.md),
           OutlinedButton.icon(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const WrongQuestionsScreen()),
             ),
             icon: const Icon(Icons.list_alt),
             label: const Text('全部未掌握错题'),
+          ),
+          const GrammarCard(
+            child: Text('当前复习来源：答错的题目与到期复习计划。复习会更新掌握度，不获得 XP。'),
+          ),
+          const FutureFeature(
+            title: '更懂你的复习',
+            description: '未来覆盖易混语法、低掌握度和长期未练习的知识。',
+            icon: Icons.eco_outlined,
           ),
         ],
       ),
@@ -109,32 +119,11 @@ class ReviewScreen extends ConsumerWidget {
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => ReviewPracticeScreen(items: items)),
     );
+    if (!context.mounted) return;
     ref.invalidate(reviewSummaryProvider);
     ref.invalidate(reviewDueProvider);
     ref.invalidate(wrongQuestionsProvider);
   }
-}
-
-class _SummaryCard extends StatelessWidget {
-  const _SummaryCard({required this.label, required this.value});
-  final String label;
-  final int value;
-  @override
-  Widget build(BuildContext context) => Card(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-      child: Column(
-        children: [
-          Text(
-            '$value',
-            style: Theme.of(context).textTheme.headlineSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(label),
-        ],
-      ),
-    ),
-  );
 }
 
 class WrongQuestionsScreen extends ConsumerWidget {
@@ -214,6 +203,11 @@ class _ReviewPracticeScreenState extends ConsumerState<ReviewPracticeScreen> {
           .read(reviewRepositoryProvider)
           .submit(q.id, q.questionType, answer!, stopwatch.elapsedMilliseconds);
       if (mounted) {
+        ref.invalidate(dashboardProvider);
+        ref.invalidate(myLearningPathProvider);
+        ref.invalidate(reviewSummaryProvider);
+        ref.invalidate(reviewDueProvider);
+        ref.invalidate(wrongQuestionsProvider);
         setState(() {
           result = value;
           submitting = false;
@@ -277,6 +271,7 @@ class _ReviewPracticeScreenState extends ConsumerState<ReviewPracticeScreen> {
             if (result != null) ...[
               const SizedBox(height: 20),
               FeedbackPanel(
+                question: q,
                 correct: result!.correct,
                 correctAnswer: result!.correctAnswer,
                 explanation: result!.explanation,

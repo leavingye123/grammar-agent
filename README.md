@@ -215,3 +215,9 @@ flutter build apk --debug \
 ```
 
 更完整的架构、页面和认证刷新说明见 [mobile/README.md](mobile/README.md)。
+
+### 阶段 7B：绿色品牌与两级语法树
+
+沿用阶段 7A 的真实学习与结算数据，移动端新增统一设计系统、Grammar Cat、
+领域主树 / 知识分支树，并升级首页、语法讲解、答题反馈、结果、复习及个人中心。
+未来功能仅提供明确标识的预览。详见 [设计说明](docs/stage-7b-design.md) 与 [验收记录](docs/stage-7b-acceptance.md)。

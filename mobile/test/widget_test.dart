@@ -104,18 +104,20 @@ void main() {
         overrides: [
           dashboardProvider.overrideWith((_) async => sampleDashboard),
         ],
-        child: const MaterialApp(home: HomeScreen()),
+        child: const MaterialApp(home: Scaffold(body: HomeScreen())),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('今日目标'), findsOneWidget);
     expect(find.text('16 / 30 XP'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('继续学习'), 180);
     expect(find.text('继续学习'), findsOneWidget);
     expect(find.text('be 动词基础'), findsOneWidget);
-    expect(find.text('3 道'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('今日复习'), 100);
+    expect(find.textContaining('3 道到期错题'), findsOneWidget);
   });
 
-  testWidgets('LearningPathScreen 展示 Lesson 状态', (tester) async {
+  testWidgets('LearningPathScreen 展示领域和真实汇总状态', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -125,8 +127,12 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('be 动词基础'), findsOneWidget);
-    expect(find.text('已完成'), findsWidgets);
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('domain-foundations')),
+      250,
+    );
+    expect(find.text('基础语法'), findsOneWidget);
+    expect(find.textContaining('1/1 知识点'), findsOneWidget);
   });
   testWidgets('QuestionScreen 成功交互及反馈', (tester) async {
     final fake = _WidgetLessonRepository();
@@ -154,8 +160,14 @@ void main() {
       xpEarned: 8,
     );
     await tester.pumpWidget(
-      const MaterialApp(
-        home: LessonResultScreen(lessonId: 1, completion: completion),
+      ProviderScope(
+        overrides: [
+          myLearningPathProvider.overrideWith((_) async => samplePath),
+          dashboardProvider.overrideWith((_) async => sampleDashboard),
+        ],
+        child: const MaterialApp(
+          home: LessonResultScreen(lessonId: 1, completion: completion),
+        ),
       ),
     );
     expect(find.text('4 / 5'), findsOneWidget);
