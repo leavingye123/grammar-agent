@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:grammar_agent/app.dart';
 import 'package:grammar_agent/core/network/network_providers.dart';
+import 'package:grammar_agent/core/routing/app_router.dart';
 import 'package:grammar_agent/core/storage/token_storage.dart';
 import 'package:grammar_agent/features/auth/presentation/auth_controller.dart';
 import 'package:grammar_agent/features/course/presentation/course_providers.dart';
@@ -52,26 +53,16 @@ void main() {
     final firstChapter = path.levels.first.chapters.first;
     final point = firstChapter.grammarPoints.first;
     final lesson = point.lessons.first;
-    await _tap(tester, find.text('学习'));
-    await _wait(tester, find.byType(LearningPathScreen));
-    await tester.pumpAndSettle();
-    await binding.takeScreenshot('02-tree-crown');
-    await _scroll(tester, find.byKey(ValueKey('chapter-${firstChapter.id}')));
-    await binding.takeScreenshot('03-tree-roots');
-    await _tap(tester, find.byKey(ValueKey('chapter-${firstChapter.id}')));
-    await _wait(tester, find.byType(GrammarBranchScreen));
-    await _wait(tester, find.byKey(ValueKey('point-${point.id}')));
-    await binding.takeScreenshot('04-branch');
-    await _tap(tester, find.byKey(ValueKey('point-${point.id}')));
-    await _wait(tester, find.byType(GrammarPointScreen));
-    await _wait(tester, find.text('核心概念'));
-    await binding.takeScreenshot('05-grammar-point');
-    await _scroll(tester, find.text(lesson.title));
-    await _tap(tester, find.text(lesson.title));
+    await _scroll(tester, find.byKey(const ValueKey('home-start-learning')));
+    await _tap(tester, find.byKey(const ValueKey('home-start-learning')));
     await _wait(tester, find.byType(MicroLessonScreen));
-    await _scroll(tester, find.text('开始 Quick Check'));
-    await binding.takeScreenshot('06-micro-lesson');
-    await _tap(tester, find.text('开始 Quick Check'));
+    expect(find.byType(QuestionScreen), findsNothing);
+    await _wait(tester, find.byKey(const ValueKey('teaching-page-1-continue')));
+    await binding.takeScreenshot('02-teaching-understand');
+    await _tap(tester, find.byKey(const ValueKey('teaching-page-1-continue')));
+    await _wait(tester, find.text('常见错误'));
+    await binding.takeScreenshot('03-teaching-remember');
+    await _tap(tester, find.byKey(const ValueKey('teaching-page-2-continue')));
     await _wait(tester, find.text('Tom'));
     await _tap(tester, find.text('Tom'));
     await _scroll(tester, find.text('下一题'));
@@ -80,11 +71,11 @@ void main() {
     await _tap(tester, find.text('My sister sings.'));
     await _wait(tester, find.text('Quick Check 不计入 Mastery。'));
     await _scroll(tester, find.text('进入正式练习'));
-    await binding.takeScreenshot('07-quick-check');
+    await binding.takeScreenshot('04-quick-check');
     await _tap(tester, find.text('进入正式练习'));
     await _wait(tester, find.byType(LessonScreen));
     await _scroll(tester, find.text('开始学习'));
-    await binding.takeScreenshot('08-lesson');
+    await binding.takeScreenshot('05-lesson');
     await _tap(tester, find.text('开始学习'));
     await _wait(tester, find.byType(QuestionInput));
     final questions = c.read(lessonSessionProvider(lesson.id)).questions;
@@ -126,7 +117,7 @@ void main() {
         tester.widget<FeedbackPanel>(find.byType(FeedbackPanel)).explanation,
         isNotEmpty,
       );
-      if (i == 0) await binding.takeScreenshot('09-answer-feedback');
+      if (i == 0) await binding.takeScreenshot('06-answer-feedback');
       await _scroll(
         tester,
         find.text(i == questions.length - 1 ? '完成 Lesson' : '继续'),
@@ -150,17 +141,24 @@ void main() {
           .score,
       50,
     );
-    await binding.takeScreenshot('10-result');
+    await binding.takeScreenshot('07-result');
     await _scroll(tester, find.text('返回语法树'));
     await _tap(tester, find.text('返回语法树'));
     await _wait(tester, find.byType(LearningPathScreen));
     final updated = await c.read(myLearningPathProvider.future);
     expect(findPoint(updated, point.id)?.status, 'IN_PROGRESS');
     expect(findPoint(updated, point.id)?.completedLessons, 1);
-    await _tap(tester, find.text('复习'));
+    c.read(routerProvider).go('/home');
+    await _wait(tester, find.byType(HomeScreen));
+    await _wait(tester, find.byKey(const ValueKey('home-start-learning')));
+    await _scroll(tester, find.byKey(const ValueKey('home-start-learning')));
+    await _tap(tester, find.byKey(const ValueKey('home-start-learning')));
+    await _wait(tester, find.byType(LessonScreen));
+    expect(find.byType(MicroLessonScreen), findsNothing);
+    c.read(routerProvider).go('/review');
     await _wait(tester, find.byType(ReviewScreen));
     await tester.pumpAndSettle();
-    await binding.takeScreenshot('11-review');
+    await binding.takeScreenshot('08-review');
     await _scroll(tester, find.text('全部未掌握错题'));
     await _tap(tester, find.text('全部未掌握错题'));
     await _wait(tester, find.byType(WrongQuestionsScreen));
@@ -183,7 +181,7 @@ void main() {
     await _tap(tester, find.text('我的'));
     await _wait(tester, find.byType(ProfileScreen));
     await tester.pumpAndSettle();
-    await binding.takeScreenshot('12-profile');
+    await binding.takeScreenshot('09-profile');
     expect(tester.takeException(), isNull);
     await auth.logout();
   }, timeout: const Timeout(Duration(minutes: 8)));

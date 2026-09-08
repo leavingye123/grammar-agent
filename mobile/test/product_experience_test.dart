@@ -107,6 +107,52 @@ const _completion = LessonCompletion(
 );
 final _point =
     fixtures.samplePath.levels.first.chapters.first.grammarPoints.first;
+final _notStartedPath = LearningPath(
+  language: fixtures.samplePath.language,
+  levels: [
+    LevelModel(
+      id: fixtures.samplePath.levels.first.id,
+      code: fixtures.samplePath.levels.first.code,
+      name: fixtures.samplePath.levels.first.name,
+      sortOrder: fixtures.samplePath.levels.first.sortOrder,
+      chapters: [
+        ChapterModel(
+          id: fixtures.samplePath.levels.first.chapters.first.id,
+          title: fixtures.samplePath.levels.first.chapters.first.title,
+          sortOrder: fixtures.samplePath.levels.first.chapters.first.sortOrder,
+          grammarPoints: [
+            GrammarPointSummary(
+              id: _point.id,
+              code: _point.code,
+              title: _point.title,
+              difficulty: _point.difficulty,
+              sortOrder: _point.sortOrder,
+              prerequisiteCodes: _point.prerequisiteCodes,
+              lessons: [
+                for (final lesson in _point.lessons)
+                  LessonSummary(
+                    id: lesson.id,
+                    title: lesson.title,
+                    description: lesson.description,
+                    lessonType: lesson.lessonType,
+                    xpReward: lesson.xpReward,
+                    sortOrder: lesson.sortOrder,
+                    questionCount: lesson.questionCount,
+                    contentStatus: lesson.contentStatus,
+                    status: 'NOT_STARTED',
+                  ),
+              ],
+              masteryScore: 0,
+              completedLessons: 0,
+              totalLessons: _point.totalLessons,
+              status: 'NOT_STARTED',
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);
 
 class _Auth extends AuthController {
   @override
@@ -122,10 +168,12 @@ class _Auth extends AuthController {
   );
 }
 
-ProviderContainer _container() => ProviderContainer(
+ProviderContainer _container({LearningPath? path}) => ProviderContainer(
   overrides: [
     authProvider.overrideWith(_Auth.new),
-    myLearningPathProvider.overrideWith((_) async => fixtures.samplePath),
+    myLearningPathProvider.overrideWith(
+      (_) async => path ?? fixtures.samplePath,
+    ),
     dashboardProvider.overrideWith((_) async => fixtures.sampleDashboard),
     grammarPointProvider(1).overrideWith((_) async => _detail),
     grammarPointLessonsProvider(1).overrideWith((_) async => _point.lessons),
@@ -287,7 +335,7 @@ void main() {
   testWidgets('Tree → Branch → Grammar Point → Lesson navigation', (
     tester,
   ) async {
-    final c = _container();
+    final c = _container(path: _notStartedPath);
     addTearDown(c.dispose);
     await tester.pumpWidget(
       UncontrolledProviderScope(container: c, child: const GrammarAgentApp()),
@@ -315,11 +363,9 @@ void main() {
     await tester.tap(find.text('Lesson 1'));
     await tester.pumpAndSettle();
     expect(find.byType(MicroLessonScreen), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.text('开始 Quick Check'),
-      220,
-      scrollable: find.byType(Scrollable).first,
-    );
+    await tester.tap(find.byKey(const ValueKey('teaching-page-1-continue')));
+    await tester.pumpAndSettle();
+    expect(find.text('常见错误'), findsOneWidget);
     await tester.tap(find.text('开始 Quick Check'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('are'));

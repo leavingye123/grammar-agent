@@ -103,6 +103,7 @@ void main() {
       ProviderScope(
         overrides: [
           dashboardProvider.overrideWith((_) async => sampleDashboard),
+          myLearningPathProvider.overrideWith((_) async => samplePath),
         ],
         child: const MaterialApp(home: Scaffold(body: HomeScreen())),
       ),
@@ -253,7 +254,7 @@ final sampleDashboard = Dashboard(
   continueLearning: const ContinueLearning(
     grammarPointId: 1,
     grammarPointTitle: 'be 动词基础',
-    lessonId: 10,
+    lessonId: 1,
     lessonTitle: 'Lesson 1',
   ),
   today: const DashboardToday(completedLessons: 1, xpEarned: 16, goalXp: 30),

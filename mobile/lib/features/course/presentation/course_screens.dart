@@ -10,6 +10,7 @@ import '../../../core/widgets/learning_widgets.dart';
 import '../domain/course_models.dart';
 import '../domain/grammar_tree.dart';
 import 'course_providers.dart';
+import 'learning_entry.dart';
 
 class LearningPathScreen extends ConsumerStatefulWidget {
   const LearningPathScreen({super.key});
@@ -378,6 +379,35 @@ class GrammarPointScreen extends ConsumerWidget {
                   ? const EmptyView(message: '这片知识的新课程正在准备中')
                   : Column(
                       children: [
+                        if (point.microLesson != null &&
+                            items.any((lesson) => lesson.contentAvailable))
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: AppSpacing.md,
+                            ),
+                            child: OutlinedButton.icon(
+                              onPressed: () {
+                                final lesson = items.firstWhere(
+                                  (item) => item.contentAvailable,
+                                );
+                                final route = grammarLearningRoute(
+                                  grammarPointId: id,
+                                  lessonId: lesson.id,
+                                  grammarPointStatus: summary?.status,
+                                  lessonStatus: summary?.lessons
+                                      .where((item) => item.id == lesson.id)
+                                      .firstOrNull
+                                      ?.status,
+                                  hasMicroLesson: true,
+                                  lessonReady: true,
+                                  relearn: true,
+                                );
+                                if (route != null) context.push(route);
+                              },
+                              icon: const Icon(Icons.menu_book_outlined),
+                              label: const Text('重新学习知识点'),
+                            ),
+                          ),
                         for (final lesson in items)
                           LessonCard(
                             title: lesson.title,
@@ -390,13 +420,20 @@ class GrammarPointScreen extends ConsumerWidget {
                                 .where((l) => l.id == lesson.id)
                                 .firstOrNull
                                 ?.status,
-                            onTap: point.microLesson != null
-                                ? () => context.push(
-                                    '/grammar-point/$id/micro-lesson?lessonId=${lesson.id}',
-                                  )
-                                : lesson.contentAvailable
-                                ? () => context.push('/lesson/${lesson.id}')
-                                : null,
+                            onTap: switch (grammarLearningRoute(
+                              grammarPointId: id,
+                              lessonId: lesson.id,
+                              grammarPointStatus: summary?.status,
+                              lessonStatus: summary?.lessons
+                                  .where((item) => item.id == lesson.id)
+                                  .firstOrNull
+                                  ?.status,
+                              hasMicroLesson: point.microLesson != null,
+                              lessonReady: lesson.contentAvailable,
+                            )) {
+                              final route? => () => context.push(route),
+                              null => null,
+                            },
                           ),
                       ],
                     ),
@@ -432,6 +469,7 @@ class MicroLessonScreen extends ConsumerStatefulWidget {
 }
 
 class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
+  int teachingPage = 0;
   bool checking = false;
   int checkIndex = 0;
   String? selectedOptionId;
@@ -443,6 +481,11 @@ class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
     final lessons = ref.watch(
       grammarPointLessonsProvider(widget.grammarPointId),
     );
+    final micro = detail.asData?.value.microLesson;
+    final selectedLesson = lessons.asData?.value
+        .where((lesson) => lesson.id == widget.lessonId)
+        .firstOrNull;
+    final practiceReady = selectedLesson?.contentAvailable == true;
     return Scaffold(
       appBar: AppBar(title: const Text('1–2 分钟知识课')),
       body: detail.when(
@@ -457,19 +500,67 @@ class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
           if (micro == null) {
             return const EmptyView(message: '这节知识讲解正在准备中');
           }
-          final selectedLesson = lessons.asData?.value
-              .where((lesson) => lesson.id == widget.lessonId)
-              .firstOrNull;
-          final practiceReady = selectedLesson?.contentAvailable == true;
           return checking
               ? _quickCheckView(context, micro, practiceReady)
-              : _knowledgeView(context, point.title, micro);
+              : teachingPage == 0
+              ? _understandView(context, point.title, micro)
+              : _rememberView(context, point.title, micro);
         },
       ),
+      bottomNavigationBar: micro == null || checking
+          ? null
+          : SafeArea(
+              minimum: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.sm,
+                AppSpacing.lg,
+                AppSpacing.md,
+              ),
+              child: FilledButton.icon(
+                key: ValueKey('teaching-page-${teachingPage + 1}-continue'),
+                onPressed: _teachingAction(context, micro, practiceReady),
+                icon: Icon(
+                  teachingPage == 0 && _hasRememberPage(micro)
+                      ? Icons.arrow_forward
+                      : micro.quickCheck.isNotEmpty
+                      ? Icons.quiz_outlined
+                      : practiceReady
+                      ? Icons.play_arrow_rounded
+                      : Icons.hourglass_empty,
+                ),
+                label: Text(_teachingActionLabel(micro, practiceReady)),
+              ),
+            ),
     );
   }
 
-  Widget _knowledgeView(
+  bool _hasRememberPage(MicroLesson micro) =>
+      micro.commonMistakes.isNotEmpty || micro.memoryTip?.isNotEmpty == true;
+
+  VoidCallback? _teachingAction(
+    BuildContext context,
+    MicroLesson micro,
+    bool practiceReady,
+  ) {
+    if (teachingPage == 0 && _hasRememberPage(micro)) {
+      return () => setState(() => teachingPage = 1);
+    }
+    if (micro.quickCheck.isNotEmpty) {
+      return () => setState(() => checking = true);
+    }
+    if (practiceReady) {
+      return () => context.go('/lesson/${widget.lessonId}');
+    }
+    return null;
+  }
+
+  String _teachingActionLabel(MicroLesson micro, bool practiceReady) {
+    if (teachingPage == 0 && _hasRememberPage(micro)) return '继续';
+    if (micro.quickCheck.isNotEmpty) return '开始 Quick Check';
+    return practiceReady ? '开始练习' : '正式练习内容准备中';
+  }
+
+  Widget _understandView(
     BuildContext context,
     String grammarPointTitle,
     MicroLesson micro,
@@ -514,35 +605,58 @@ class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
           ],
         ),
       ),
-      _MicroSection(
-        icon: Icons.warning_amber_rounded,
-        title: '常见错误',
-        color: AppColors.softOrange,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (final mistake in micro.commonMistakes) ...[
-              Text('✕ ${mistake.incorrect}'),
-              Text(
-                '✓ ${mistake.correct}',
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
+    ],
+  );
+
+  Widget _rememberView(
+    BuildContext context,
+    String grammarPointTitle,
+    MicroLesson micro,
+  ) => PageBody(
+    children: [
+      Row(
+        children: [
+          const GrammarCat(size: 68),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  grammarPointTitle,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-              ),
-              Text(mistake.reason),
+                const Text('记住容易混淆的地方'),
+              ],
+            ),
+          ),
+        ],
+      ),
+      if (micro.commonMistakes.isNotEmpty)
+        _MicroSection(
+          icon: Icons.warning_amber_rounded,
+          title: '常见错误',
+          color: AppColors.softOrange,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final mistake in micro.commonMistakes) ...[
+                Text('✕ ${mistake.incorrect}'),
+                Text(
+                  '✓ ${mistake.correct}',
+                  style: const TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(mistake.reason),
+                const SizedBox(height: AppSpacing.sm),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
       if (micro.memoryTip?.isNotEmpty == true)
-        CatMessage('记忆小贴士：${micro.memoryTip}'),
-      FilledButton.icon(
-        key: const ValueKey('start-quick-check'),
-        onPressed: () => setState(() => checking = true),
-        icon: const Icon(Icons.quiz_outlined),
-        label: const Text('开始 Quick Check'),
-      ),
+        CatMessage('Grammar Cat 提示：${micro.memoryTip}'),
     ],
   );
 

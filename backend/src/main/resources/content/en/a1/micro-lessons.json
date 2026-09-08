@@ -161,19 +161,19 @@
       "structure": "Subject + Verb + object pronoun",
       "examples": [
         {"sentence": "I like him.", "note": "him 是 like 的对象。"},
-        {"sentence": "She knows me.", "note": "me 是 knows 的对象。"},
+        {"sentence": "We know her.", "note": "her 是 know 的对象。"},
         {"sentence": "We see them.", "note": "them 代替两个或更多的人或事物。"},
         {"sentence": "They help us.", "note": "us 表示动作帮助到“我们”。"},
         {"sentence": "I call you.", "note": "you 作宾语时形式不变。"}
       ],
       "commonMistakes": [
-        {"incorrect": "She likes I.", "correct": "She likes me.", "reason": "likes 后的对象要用宾格 me。"},
-        {"incorrect": "I know he.", "correct": "I know him.", "reason": "know 后的对象要用宾格 him。"}
+        {"incorrect": "I like she.", "correct": "I like her.", "reason": "like 后的对象要用宾格 her。"},
+        {"incorrect": "We know he.", "correct": "We know him.", "reason": "know 后的对象要用宾格 him。"}
       ],
       "memoryTip": "动作前的主角用主格，动作后的对象用宾格。",
       "quickCheck": [
-        {"checkCode": "A1-009-MQ01", "prompt": "Anna is my friend. I often call ___.", "options": [{"id":"A","text":"she"},{"id":"B","text":"her"},{"id":"C","text":"hers"}], "correctOptionId": "B", "explanation": "call 后需要宾格 her。"},
-        {"checkCode": "A1-009-MQ02", "prompt": "请选择宾格代词使用正确的句子。", "options": [{"id":"A","text":"Can you help us?"},{"id":"B","text":"Can you help we?"},{"id":"C","text":"Can you help our?"}], "correctOptionId": "A", "explanation": "help 后的对象要用宾格 us。"}
+        {"checkCode": "A1-009-MQ01", "prompt": "I call Anna. I call ___.", "options": [{"id":"A","text":"she"},{"id":"B","text":"her"},{"id":"C","text":"we"}], "correctOptionId": "B", "explanation": "call 后需要宾格 her。"},
+        {"checkCode": "A1-009-MQ02", "prompt": "请选择宾格代词使用正确的句子。", "options": [{"id":"A","text":"They help us."},{"id":"B","text":"They help we."},{"id":"C","text":"Them help us."}], "correctOptionId": "A", "explanation": "They 是动作执行者，us 是 help 后的动作对象。"}
       ]
     },
     {
@@ -185,8 +185,8 @@
       "examples": [
         {"sentence": "I have three books.", "note": "book 直接加 -s。"},
         {"sentence": "We see two cats.", "note": "cat 直接加 -s。"},
-        {"sentence": "There are two boxes.", "note": "box 以 x 结尾，加 -es。"},
-        {"sentence": "Four buses are here.", "note": "bus 以 s 结尾，加 -es。"}
+        {"sentence": "I have two boxes.", "note": "box 以 x 结尾，加 -es。"},
+        {"sentence": "We see four buses.", "note": "bus 以 s 结尾，加 -es。"}
       ],
       "commonMistakes": [
         {"incorrect": "two cat", "correct": "two cats", "reason": "数量大于一时，可数名词要用复数。"},
@@ -258,7 +258,7 @@
         {"incorrect": "There is three books.", "correct": "There are three books.", "reason": "three books 是复数。"},
         {"incorrect": "There are a dog outside.", "correct": "There is a dog outside.", "reason": "a dog 是单数。"}
       ],
-      "memoryTip": "看 is/are 后面的名词是一个还是多个。",
+      "memoryTip": "看 There is/are 后面说的是一个还是多个。",
       "quickCheck": [
         {"checkCode": "A1-020-MQ01", "prompt": "___ a park near my home.", "options": [{"id":"A","text":"There is"},{"id":"B","text":"There are"},{"id":"C","text":"They are"}], "correctOptionId": "A", "explanation": "a park 是单数，使用 There is。"},
         {"checkCode": "A1-020-MQ02", "prompt": "请选择能够正确表达“有两扇窗”的句子。", "options": [{"id":"A","text":"There are two windows."},{"id":"B","text":"There is two windows."},{"id":"C","text":"There two windows are."}], "correctOptionId": "A", "explanation": "two windows 是复数，使用 There are。"}

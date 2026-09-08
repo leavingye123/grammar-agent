@@ -6,6 +6,10 @@ import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/async_views.dart';
 import '../../../core/widgets/grammar_cat.dart';
 import '../../../core/widgets/learning_widgets.dart';
+import '../../course/domain/grammar_tree.dart';
+import '../../course/presentation/course_providers.dart';
+import '../../course/presentation/learning_entry.dart';
+import '../domain/home_models.dart';
 import 'home_providers.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -90,33 +94,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SectionHeader('今日计划', subtitle: '一点新知识，一点复习，每天都有收获'),
             if (d.continueLearning case final next?)
-              GrammarCard(
-                color: AppColors.mint,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      '01 / 新知识',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(
-                      next.grammarPointTitle,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Text(next.lessonTitle),
-                    const SizedBox(height: AppSpacing.lg),
-                    FilledButton.icon(
-                      onPressed: () => context.push('/lesson/${next.lessonId}'),
-                      icon: const Icon(Icons.arrow_forward),
-                      label: const Text('继续学习'),
-                    ),
-                  ],
-                ),
-              )
+              _ContinueLearningCard(next: next)
             else
               const GrammarCard(
                 color: AppColors.mint,
@@ -180,6 +158,105 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ContinueLearningCard extends ConsumerWidget {
+  const _ContinueLearningCard({required this.next});
+
+  final ContinueLearning next;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final path = ref.watch(myLearningPathProvider);
+    final point = findPoint(path.asData?.value, next.grammarPointId);
+    final lesson = point?.lessons
+        .where((item) => item.id == next.lessonId)
+        .firstOrNull;
+    final hasProgress = hasFormalLearningProgress(
+      grammarPointStatus: point?.status,
+      lessonStatus: lesson?.status,
+    );
+    final detail = !hasProgress && point != null
+        ? ref.watch(grammarPointProvider(next.grammarPointId))
+        : null;
+    final hasMicroLesson = detail?.asData?.value.microLesson != null;
+    final loadingTeaching =
+        !hasProgress && (path.isLoading || detail?.isLoading == true);
+    final route = loadingTeaching
+        ? null
+        : grammarLearningRoute(
+            grammarPointId: next.grammarPointId,
+            lessonId: next.lessonId,
+            grammarPointStatus: point?.status,
+            lessonStatus: lesson?.status,
+            hasMicroLesson: hasMicroLesson,
+            lessonReady: lesson?.contentAvailable == true,
+          );
+    final canStart = route != null;
+    final starting = !hasProgress;
+    final objective = detail?.asData?.value.microLesson?.learningObjective;
+
+    return GrammarCard(
+      color: AppColors.mint,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            starting ? '01 / 新知识' : '01 / 继续学习',
+            style: const TextStyle(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          if (point != null)
+            Text(
+              point.code,
+              style: const TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          Text(
+            next.grammarPointTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            starting
+                ? objective ?? '先理解语法规则，再用练习巩固。'
+                : '继续完成 ${next.lessonTitle}',
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            starting ? '约 2 分钟讲解 · 然后练习' : '从上次的正式练习继续',
+            style: const TextStyle(color: AppColors.secondaryText),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          FilledButton.icon(
+            key: const ValueKey('home-start-learning'),
+            onPressed: canStart ? () => context.push(route) : null,
+            icon: Icon(
+              canStart
+                  ? Icons.arrow_forward
+                  : loadingTeaching
+                  ? Icons.hourglass_top
+                  : Icons.hourglass_empty,
+            ),
+            label: Text(
+              canStart
+                  ? starting
+                        ? '开始学习'
+                        : '继续学习'
+                  : loadingTeaching
+                  ? '正在准备学习内容'
+                  : '内容准备中',
+            ),
+          ),
+        ],
       ),
     );
   }
