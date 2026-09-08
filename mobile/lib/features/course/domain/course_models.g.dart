@@ -51,6 +51,11 @@ GrammarPointSummary _$GrammarPointSummaryFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       difficulty: (json['difficulty'] as num).toInt(),
       sortOrder: (json['sortOrder'] as num).toInt(),
+      prerequisiteCodes:
+          (json['prerequisiteCodes'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
       lessons: (json['lessons'] as List<dynamic>)
           .map((e) => LessonSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -68,6 +73,7 @@ Map<String, dynamic> _$GrammarPointSummaryToJson(
   'title': instance.title,
   'difficulty': instance.difficulty,
   'sortOrder': instance.sortOrder,
+  'prerequisiteCodes': instance.prerequisiteCodes,
   'lessons': instance.lessons.map((e) => e.toJson()).toList(),
   'masteryScore': instance.masteryScore,
   'completedLessons': instance.completedLessons,

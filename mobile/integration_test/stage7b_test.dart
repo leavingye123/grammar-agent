@@ -49,21 +49,16 @@ void main() {
     await tester.pumpAndSettle();
     await binding.takeScreenshot('01-home');
     final path = await c.read(myLearningPathProvider.future);
-    final point = path.levels.expand(pointsInLevel).first;
+    final firstChapter = path.levels.first.chapters.first;
+    final point = firstChapter.grammarPoints.first;
     final lesson = point.lessons.first;
     await _tap(tester, find.text('学习'));
     await _wait(tester, find.byType(LearningPathScreen));
     await tester.pumpAndSettle();
     await binding.takeScreenshot('02-tree-crown');
-    await _scroll(
-      tester,
-      find.byKey(ValueKey('domain-${domainFor(path.language.code, point).id}')),
-    );
+    await _scroll(tester, find.byKey(ValueKey('chapter-${firstChapter.id}')));
     await binding.takeScreenshot('03-tree-roots');
-    await _tap(
-      tester,
-      find.byKey(ValueKey('domain-${domainFor(path.language.code, point).id}')),
-    );
+    await _tap(tester, find.byKey(ValueKey('chapter-${firstChapter.id}')));
     await _wait(tester, find.byType(GrammarBranchScreen));
     await _wait(tester, find.byKey(ValueKey('point-${point.id}')));
     await binding.takeScreenshot('04-branch');
@@ -86,7 +81,7 @@ void main() {
           // Deliberately wrong once, to verify orange feedback and review.
           await _tap(
             tester,
-            find.text(q.optionItems.firstWhere((o) => o.id == 'B').text),
+            find.text(q.optionItems.firstWhere((o) => o.id == 'A').text),
           );
         case QuestionType.multipleChoice:
           for (final option in q.optionItems) {
@@ -139,14 +134,15 @@ void main() {
           .widget<LessonResultScreen>(find.byType(LessonResultScreen))
           .completion
           .score,
-      80,
+      50,
     );
     await binding.takeScreenshot('08-result');
     await _scroll(tester, find.text('返回语法树'));
     await _tap(tester, find.text('返回语法树'));
     await _wait(tester, find.byType(LearningPathScreen));
     final updated = await c.read(myLearningPathProvider.future);
-    expect(findPoint(updated, point.id)?.status, 'COMPLETED');
+    expect(findPoint(updated, point.id)?.status, 'IN_PROGRESS');
+    expect(findPoint(updated, point.id)?.completedLessons, 1);
     await _tap(tester, find.text('复习'));
     await _wait(tester, find.byType(ReviewScreen));
     await tester.pumpAndSettle();
@@ -160,7 +156,7 @@ void main() {
     final first = questions.first;
     await _tap(
       tester,
-      find.text(first.optionItems.firstWhere((o) => o.id == 'A').text),
+      find.text(first.optionItems.firstWhere((o) => o.id == 'B').text),
     );
     await _scroll(tester, find.text('提交答案'));
     await _tap(tester, find.text('提交答案'));

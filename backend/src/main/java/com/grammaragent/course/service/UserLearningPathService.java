@@ -117,6 +117,7 @@ public class UserLearningPathService {
                 grammarPoint.getTitle(),
                 grammarPoint.getDifficulty(),
                 grammarPoint.getSortOrder(),
+                structure.prerequisiteCodesByGrammarPoint().getOrDefault(grammarPoint.getId(), List.of()),
                 lessonResponses,
                 masteryScore,
                 completedLessons,

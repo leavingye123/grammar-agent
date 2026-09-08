@@ -7,16 +7,63 @@ class PageBody extends StatelessWidget {
   const PageBody({super.key, required this.children});
   final List<Widget> children;
   @override
-  Widget build(BuildContext context) => Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 720),
-      child: ListView(
-        padding: AppSpacing.page,
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: children,
+  Widget build(BuildContext context) => GardenBackdrop(
+    child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: ListView(
+          padding: AppSpacing.page,
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: children,
+        ),
       ),
     ),
   );
+}
+
+/// Restrained cream/mint atmosphere shared by the existing product screens.
+/// Decorative leaves stay deliberately faint so the UI remains primary.
+class GardenBackdrop extends StatelessWidget {
+  const GardenBackdrop({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFFFFFEF7), Color(0xFFF2FBF4), Color(0xFFFAFCF4)],
+      ),
+    ),
+    child: CustomPaint(painter: _QuietGardenPainter(), child: child),
+  );
+}
+
+class _QuietGardenPainter extends CustomPainter {
+  const _QuietGardenPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = const Color(0x1477B96A);
+    final leaves = [
+      Offset(size.width * .06, 80),
+      Offset(size.width * .92, 155),
+      Offset(size.width * .08, size.height * .72),
+      Offset(size.width * .88, size.height * .84),
+    ];
+    for (var i = 0; i < leaves.length; i++) {
+      canvas.save();
+      canvas.translate(leaves[i].dx, leaves[i].dy);
+      canvas.rotate(i.isEven ? -.55 : .55);
+      canvas.drawOval(const Rect.fromLTWH(-24, -9, 48, 18), paint);
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(_QuietGardenPainter oldDelegate) => false;
 }
 
 class GrammarCard extends StatelessWidget {

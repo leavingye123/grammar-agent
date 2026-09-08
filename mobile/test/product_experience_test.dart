@@ -254,15 +254,13 @@ void main() {
     await tester.pumpAndSettle();
     c.read(routerProvider).go('/learning-path');
     await tester.pumpAndSettle();
-    final preview = tester.widget<GrammarNode>(
-      find.byKey(const ValueKey('domain-advanced')),
-    );
-    expect(preview.preview, isTrue);
+    expect(find.byKey(const ValueKey('chapter-999')), findsNothing);
+    expect(find.text('即将推出'), findsNothing);
     await tester.scrollUntilVisible(
-      find.byKey(const ValueKey('domain-foundations')),
+      find.byKey(const ValueKey('chapter-1')),
       250,
     );
-    await tester.tap(find.byKey(const ValueKey('domain-foundations')));
+    await tester.tap(find.byKey(const ValueKey('chapter-1')));
     await tester.pumpAndSettle();
     expect(find.byType(GrammarBranchScreen), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('point-1')));
@@ -441,44 +439,40 @@ void main() {
     });
   }
 
-  testWidgets('Long node titles grow naturally and previews cannot be tapped', (
+  testWidgets('Long node titles remain bounded in the organic tree', (
     tester,
   ) async {
     var tapped = false;
     await _pump(
       tester,
-      const SingleChildScrollView(
-        child: TreeRow(
-          left: GrammarNode(
-            title: '这是一个非常长的语法领域标题用于验证换行行为',
-            subtitle: 'Mastery 100% · 已完成',
-            icon: Icons.eco,
-            stage: GrowthStage.mastered,
-          ),
-          right: GrammarNode(
-            title: '未来知识',
-            subtitle: '',
-            icon: Icons.eco,
-            preview: true,
-          ),
+      SingleChildScrollView(
+        child: OrganicGrammarTree(
+          locateCurrent: false,
+          nodes: [
+            TreeVisualNode(
+              id: 'long',
+              title: '这是一个非常长的语法领域标题用于验证换行行为',
+              progress: '10/10',
+              icon: Icons.eco,
+              stage: GrowthStage.mastered,
+              onTap: () => tapped = true,
+            ),
+            TreeVisualNode(
+              id: 'next',
+              title: '下一知识点',
+              progress: '0/2',
+              icon: Icons.spa,
+              stage: GrowthStage.seed,
+              onTap: () {},
+            ),
+          ],
         ),
       ),
       scale: 2,
     );
     expect(tester.takeException(), isNull);
-    await _pump(
-      tester,
-      GrammarNode(
-        title: '未上线',
-        subtitle: '',
-        icon: Icons.eco,
-        preview: true,
-        onTap: () => tapped = true,
-      ),
-    );
-    await tester.tap(find.text('未上线'));
-    expect(tapped, isFalse);
-    expect(find.text('即将推出'), findsOneWidget);
+    await tester.tap(find.textContaining('这是一个非常长'));
+    expect(tapped, isTrue);
   });
 
   test(

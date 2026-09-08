@@ -28,13 +28,32 @@ ON CONFLICT (language_level_id, sort_order) DO UPDATE SET
     enabled = EXCLUDED.enabled,
     updated_at = CURRENT_TIMESTAMP;
 
+-- Stage 8A compatibility: rename the original be point in place so every
+-- foreign key held by user progress, answers and review records remains valid.
+UPDATE grammar_points legacy
+SET code = 'A1-003', updated_at = CURRENT_TIMESTAMP
+FROM chapters c
+JOIN language_levels ll ON ll.id = c.language_level_id
+JOIN languages l ON l.id = ll.language_id
+WHERE legacy.chapter_id = c.id
+  AND l.code = 'en'
+  AND ll.code = 'A1'
+  AND legacy.code = 'EN_A1_BE_001'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM grammar_points stable
+      JOIN chapters stable_chapter ON stable_chapter.id = stable.chapter_id
+      WHERE stable_chapter.language_level_id = ll.id
+        AND stable.code = 'A1-003'
+  );
+
 INSERT INTO grammar_points (
     chapter_id, code, title, description, grammar_rule, examples,
     common_errors, difficulty, sort_order, enabled
 )
 SELECT
     c.id,
-    'EN_A1_BE_001',
+    'A1-003',
     'be 动词基础',
     '掌握 am、is、are 在一般现在时中的基本用法。',
     'I 搭配 am；第三人称单数搭配 is；you、we、they 和复数主语搭配 are。',
@@ -84,7 +103,7 @@ JOIN languages l ON l.id = ll.language_id
 WHERE l.code = 'en'
   AND ll.code = 'A1'
   AND c.sort_order = 1
-  AND gp.code = 'EN_A1_BE_001'
+  AND gp.code = 'A1-003'
 ON CONFLICT (grammar_point_id, sort_order) DO UPDATE SET
     title = EXCLUDED.title,
     description = EXCLUDED.description,
@@ -167,7 +186,7 @@ CROSS JOIN (
 WHERE l.code = 'en'
   AND ll.code = 'A1'
   AND c.sort_order = 1
-  AND gp.code = 'EN_A1_BE_001'
+  AND gp.code = 'A1-003'
   AND lesson.sort_order = 1
 ON CONFLICT (lesson_id, sort_order) DO UPDATE SET
     grammar_point_id = EXCLUDED.grammar_point_id,

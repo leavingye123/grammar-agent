@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已完成阶段 6B：后端基础设施、英语 A1 核心数据模型、用户认证、公开课程目录、Lesson 答题学习闭环、错题 Review 复习闭环，以及可连接真实后端的 Flutter Android MVP。AI Tutor、订阅等业务尚未实现。
+当前已进入阶段 8A：后端基础设施、用户认证、Lesson 答题与 Review 闭环、Flutter Android MVP、绿色品牌语法树，以及 English A1 的 45 个正式知识点和 135 节课程骨架已经落地。AI Tutor、订阅等业务尚未实现。
 
 ## 当前技术栈
 
@@ -61,6 +61,7 @@ cp .env.example .env
 | `JWT_ACCESS_EXPIRE` | Access Token 有效秒数 | `900` |
 | `JWT_REFRESH_EXPIRE` | Refresh Token 有效秒数 | `2592000` |
 | `SERVER_PORT` | 后端监听端口 | `8080` |
+| `CONTENT_IMPORT_ENABLED` | local Profile 是否导入版本化 A1 内容 | `true` |
 
 ## 启动 PostgreSQL 与 Redis
 
@@ -221,3 +222,11 @@ flutter build apk --debug \
 沿用阶段 7A 的真实学习与结算数据，移动端新增统一设计系统、Grammar Cat、
 领域主树 / 知识分支树，并升级首页、语法讲解、答题反馈、结果、复习及个人中心。
 未来功能仅提供明确标识的预览。详见 [设计说明](docs/stage-7b-design.md) 与 [验收记录](docs/stage-7b-acceptance.md)。
+
+### 阶段 8A：English A1 正式课程树
+
+English A1 内容使用 `A1-001`～`A1-045` 稳定编号，划分为 7 个学习领域，
+共 135 节具名 Lesson。A1-001～A1-008 已包含 48 道可真实作答题目并覆盖现有六种题型。
+local Profile 会从版本化 JSON 幂等导入内容，Flutter 主树直接使用后端 Chapter 和
+Grammar Point 数据。完整课程表、前置 DAG 与版本策略见
+[English A1 课程说明](docs/english-a1-curriculum.md)。

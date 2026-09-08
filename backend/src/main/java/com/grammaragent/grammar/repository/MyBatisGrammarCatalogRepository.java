@@ -61,4 +61,16 @@ public class MyBatisGrammarCatalogRepository implements GrammarCatalogRepository
                 .eq(GrammarPoint::getEnabled, true)
                 .orderByAsc(GrammarPoint::getSortOrder, GrammarPoint::getId));
     }
+
+    @Override
+    public List<GrammarPointPrerequisite> findPrerequisitesByGrammarPointIds(Collection<Long> grammarPointIds) {
+        if (grammarPointIds.isEmpty()) {
+            return List.of();
+        }
+        return prerequisiteMapper.selectList(Wrappers.<GrammarPointPrerequisite>lambdaQuery()
+                .in(GrammarPointPrerequisite::getGrammarPointId, grammarPointIds)
+                .orderByAsc(
+                        GrammarPointPrerequisite::getGrammarPointId,
+                        GrammarPointPrerequisite::getPrerequisiteGrammarPointId));
+    }
 }

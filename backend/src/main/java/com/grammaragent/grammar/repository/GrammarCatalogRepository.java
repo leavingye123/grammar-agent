@@ -1,6 +1,7 @@
 package com.grammaragent.grammar.repository;
 
 import com.grammaragent.grammar.entity.GrammarPoint;
+import com.grammaragent.grammar.entity.GrammarPointPrerequisite;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,4 +16,6 @@ public interface GrammarCatalogRepository {
     List<GrammarPoint> findEnabledByChapterIds(Collection<Long> chapterIds);
 
     List<GrammarPoint> findEnabledPrerequisites(Long grammarPointId);
+
+    List<GrammarPointPrerequisite> findPrerequisitesByGrammarPointIds(Collection<Long> grammarPointIds);
 }

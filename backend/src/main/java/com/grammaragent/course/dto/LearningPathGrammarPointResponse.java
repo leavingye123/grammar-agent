@@ -11,6 +11,7 @@ public record LearningPathGrammarPointResponse(
         String title,
         Integer difficulty,
         Integer sortOrder,
+        List<String> prerequisiteCodes,
         List<LearningPathLessonResponse> lessons,
         Integer masteryScore,
         Integer completedLessons,

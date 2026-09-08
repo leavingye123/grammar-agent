@@ -13,6 +13,7 @@ import com.grammaragent.course.entity.Language;
 import com.grammaragent.course.entity.LanguageLevel;
 import com.grammaragent.course.repository.CourseCatalogRepository;
 import com.grammaragent.grammar.entity.GrammarPoint;
+import com.grammaragent.grammar.entity.GrammarPointPrerequisite;
 import com.grammaragent.grammar.repository.GrammarCatalogRepository;
 import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.lesson.repository.LessonCatalogRepository;
@@ -74,6 +75,8 @@ public class LearningPathService {
                 .filter(lesson -> Boolean.TRUE.equals(lesson.getEnabled()))
                 .sorted(Comparator.comparing(Lesson::getSortOrder).thenComparing(Lesson::getId))
                 .toList();
+        List<GrammarPointPrerequisite> prerequisites = grammarRepository.findPrerequisitesByGrammarPointIds(
+                grammarPoints.stream().map(GrammarPoint::getId).toList());
 
         Map<Long, List<Lesson>> lessonsByGrammarPoint = lessons.stream()
                 .collect(Collectors.groupingBy(Lesson::getGrammarPointId));
@@ -81,13 +84,23 @@ public class LearningPathService {
                 .collect(Collectors.groupingBy(GrammarPoint::getChapterId));
         Map<Long, List<Chapter>> chaptersByLevel = chapters.stream()
                 .collect(Collectors.groupingBy(Chapter::getLanguageLevelId));
+        Map<Long, String> codeByPointId = grammarPoints.stream()
+                .collect(Collectors.toMap(GrammarPoint::getId, GrammarPoint::getCode));
+        Map<Long, List<String>> prerequisiteCodesByGrammarPoint = prerequisites.stream()
+                .filter(edge -> codeByPointId.containsKey(edge.getPrerequisiteGrammarPointId()))
+                .collect(Collectors.groupingBy(
+                        GrammarPointPrerequisite::getGrammarPointId,
+                        Collectors.mapping(
+                                edge -> codeByPointId.get(edge.getPrerequisiteGrammarPointId()),
+                                Collectors.toList())));
 
         return new LearningPathStructure(
                 language,
                 levels,
                 chaptersByLevel,
                 grammarPointsByChapter,
-                lessonsByGrammarPoint);
+                lessonsByGrammarPoint,
+                prerequisiteCodesByGrammarPoint);
     }
 
     private LearningPathLevelResponse toLevel(
@@ -131,6 +144,7 @@ public class LearningPathService {
                 grammarPoint.getTitle(),
                 grammarPoint.getDifficulty(),
                 grammarPoint.getSortOrder(),
+                structure.prerequisiteCodesByGrammarPoint().getOrDefault(grammarPoint.getId(), List.of()),
                 lessons,
                 null,
                 null,
@@ -147,7 +161,8 @@ public class LearningPathService {
             List<LanguageLevel> levels,
             Map<Long, List<Chapter>> chaptersByLevel,
             Map<Long, List<GrammarPoint>> grammarPointsByChapter,
-            Map<Long, List<Lesson>> lessonsByGrammarPoint
+            Map<Long, List<Lesson>> lessonsByGrammarPoint,
+            Map<Long, List<String>> prerequisiteCodesByGrammarPoint
     ) {
     }
 }

@@ -50,6 +50,7 @@ class GrammarPointSummary {
     required this.title,
     required this.difficulty,
     required this.sortOrder,
+    this.prerequisiteCodes = const [],
     required this.lessons,
     this.masteryScore,
     this.completedLessons,
@@ -61,6 +62,8 @@ class GrammarPointSummary {
   final String title;
   final int difficulty;
   final int sortOrder;
+  @JsonKey(defaultValue: <String>[])
+  final List<String> prerequisiteCodes;
   final List<LessonSummary> lessons;
   final int? masteryScore;
   final int? completedLessons;

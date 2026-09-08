@@ -10,6 +10,7 @@ import com.grammaragent.course.entity.Language;
 import com.grammaragent.course.entity.LanguageLevel;
 import com.grammaragent.course.repository.CourseCatalogRepository;
 import com.grammaragent.grammar.entity.GrammarPoint;
+import com.grammaragent.grammar.entity.GrammarPointPrerequisite;
 import com.grammaragent.grammar.repository.GrammarCatalogRepository;
 import com.grammaragent.grammar.service.GrammarCatalogService;
 import com.grammaragent.lesson.entity.Lesson;
@@ -85,7 +86,7 @@ class CatalogServicesTest {
     }
 
     @Test
-    void shouldBuildEnabledLearningPathWithFiveFixedRepositoryCalls() throws Exception {
+    void shouldBuildEnabledLearningPathWithSixFixedRepositoryCalls() throws Exception {
         LearningPathResponse response = learningPathService.getLearningPath("EN");
 
         assertEquals("en", response.language().code());
@@ -101,12 +102,16 @@ class CatalogServicesTest {
                 List.of("Lesson 1", "Lesson 2"),
                 response.levels().getFirst().chapters().getFirst().grammarPoints().getFirst().lessons().stream()
                         .map(item -> item.title()).toList());
+        assertEquals(
+                List.of("GP_1"),
+                response.levels().getFirst().chapters().getFirst().grammarPoints().get(1).prerequisiteCodes());
 
         assertEquals(1, courseRepository.languageLookupCount);
         assertEquals(1, courseRepository.levelBatchCount);
         assertEquals(1, courseRepository.chapterBatchCount);
         assertEquals(1, grammarRepository.grammarPointBatchCount);
         assertEquals(1, lessonRepository.lessonBatchCount);
+        assertEquals(1, grammarRepository.prerequisiteBatchCount);
 
         String json = objectMapper.writeValueAsString(response);
         assertFalse(json.contains("Hidden"));
@@ -181,6 +186,7 @@ class CatalogServicesTest {
                 grammarPoint(1002L, 100L, "HIDDEN", "Hidden grammar", false, 3),
                 grammarPoint(1000L, 100L, "GP_1", "GP 1", true, 1));
         private int grammarPointBatchCount;
+        private int prerequisiteBatchCount;
 
         @Override
         public Optional<GrammarPoint> findEnabledById(Long grammarPointId) {
@@ -203,6 +209,15 @@ class CatalogServicesTest {
         @Override
         public List<GrammarPoint> findEnabledPrerequisites(Long grammarPointId) {
             return grammarPointId.equals(1001L) ? List.of(grammarPoints.get(2)) : List.of();
+        }
+
+        @Override
+        public List<GrammarPointPrerequisite> findPrerequisitesByGrammarPointIds(Collection<Long> grammarPointIds) {
+            prerequisiteBatchCount++;
+            GrammarPointPrerequisite edge = new GrammarPointPrerequisite();
+            edge.setGrammarPointId(1001L);
+            edge.setPrerequisiteGrammarPointId(1000L);
+            return List.of(edge);
         }
     }
 

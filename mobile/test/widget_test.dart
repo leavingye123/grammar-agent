@@ -128,11 +128,11 @@ void main() {
     );
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
-      find.byKey(const ValueKey('domain-foundations')),
+      find.byKey(const ValueKey('chapter-1')),
       250,
     );
-    expect(find.text('基础语法'), findsOneWidget);
-    expect(find.textContaining('1/1 知识点'), findsOneWidget);
+    expect(find.text('基础句子'), findsOneWidget);
+    expect(find.text('1/1'), findsWidgets);
   });
   testWidgets('QuestionScreen 成功交互及反馈', (tester) async {
     final fake = _WidgetLessonRepository();

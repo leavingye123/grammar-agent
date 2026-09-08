@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/widgets/grammar_cat.dart';
+import '../../../core/widgets/learning_widgets.dart';
 
 import 'auth_controller.dart';
 
@@ -51,73 +52,82 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final auth = ref.watch(authProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(28),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 460),
-              child: Form(
-                key: _form,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Center(child: GrammarCat(size: 92)),
-                    const SizedBox(height: 18),
-                    Text(
-                      '欢迎回到 GrammarAgent',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('和语法小猫一起，长出更大的自己。', textAlign: TextAlign.center),
-                    const SizedBox(height: 30),
-                    TextFormField(
-                      key: const Key('login-email'),
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      validator: validateEmail,
-                      decoration: const InputDecoration(labelText: 'Email'),
-                    ),
-                    const SizedBox(height: 14),
-                    TextFormField(
-                      key: const Key('login-password'),
-                      controller: _password,
-                      obscureText: true,
-                      autofillHints: const [AutofillHints.password],
-                      validator: validatePassword,
-                      decoration: const InputDecoration(labelText: 'Password'),
-                    ),
-                    if (auth.error != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Text(
-                          auth.error!,
-                          key: const Key('auth-error'),
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
+      body: GardenBackdrop(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(28),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 460),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(child: GrammarCat(size: 154)),
+                      const SizedBox(height: 18),
+                      Text(
+                        '欢迎回到 GrammarAgent',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        '和语法小猫一起，长出更大的自己。',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        key: const Key('login-email'),
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
+                        validator: validateEmail,
+                        decoration: const InputDecoration(labelText: 'Email'),
+                      ),
+                      const SizedBox(height: 14),
+                      TextFormField(
+                        key: const Key('login-password'),
+                        controller: _password,
+                        obscureText: true,
+                        autofillHints: const [AutofillHints.password],
+                        validator: validatePassword,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
                         ),
                       ),
-                    const SizedBox(height: 22),
-                    FilledButton(
-                      key: const Key('login-submit'),
-                      onPressed: auth.loading ? null : _submit,
-                      child: auth.loading
-                          ? const SizedBox.square(
-                              dimension: 22,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('登录'),
-                    ),
-                    TextButton(
-                      onPressed: auth.loading
-                          ? null
-                          : () => context.go('/register'),
-                      child: const Text('没有账号？立即注册'),
-                    ),
-                  ],
+                      if (auth.error != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            auth.error!,
+                            key: const Key('auth-error'),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 22),
+                      FilledButton(
+                        key: const Key('login-submit'),
+                        onPressed: auth.loading ? null : _submit,
+                        child: auth.loading
+                            ? const SizedBox.square(
+                                dimension: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('登录'),
+                      ),
+                      TextButton(
+                        onPressed: auth.loading
+                            ? null
+                            : () => context.go('/register'),
+                        child: const Text('没有账号？立即注册'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -160,51 +170,53 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('创建账号')),
       resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Form(
-            key: _form,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _email,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: validateEmail,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                ),
-                const SizedBox(height: 14),
-                TextFormField(
-                  controller: _username,
-                  validator: (v) =>
-                      (v?.trim().length ?? 0) < 2 ? '用户名至少 2 个字符' : null,
-                  decoration: const InputDecoration(labelText: 'Username'),
-                ),
-                const SizedBox(height: 14),
-                TextFormField(
-                  controller: _password,
-                  obscureText: true,
-                  validator: (v) => validatePassword(v, registering: true),
-                  decoration: const InputDecoration(labelText: 'Password'),
-                ),
-                if (auth.error != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Text(
-                      auth.error!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
+      body: GardenBackdrop(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: validateEmail,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                  ),
+                  const SizedBox(height: 14),
+                  TextFormField(
+                    controller: _username,
+                    validator: (v) =>
+                        (v?.trim().length ?? 0) < 2 ? '用户名至少 2 个字符' : null,
+                    decoration: const InputDecoration(labelText: 'Username'),
+                  ),
+                  const SizedBox(height: 14),
+                  TextFormField(
+                    controller: _password,
+                    obscureText: true,
+                    validator: (v) => validatePassword(v, registering: true),
+                    decoration: const InputDecoration(labelText: 'Password'),
+                  ),
+                  if (auth.error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        auth.error!,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                       ),
                     ),
+                  const SizedBox(height: 22),
+                  FilledButton(
+                    onPressed: auth.loading ? null : _submit,
+                    child: auth.loading
+                        ? const CircularProgressIndicator()
+                        : const Text('注册并登录'),
                   ),
-                const SizedBox(height: 22),
-                FilledButton(
-                  onPressed: auth.loading ? null : _submit,
-                  child: auth.loading
-                      ? const CircularProgressIndicator()
-                      : const Text('注册并登录'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

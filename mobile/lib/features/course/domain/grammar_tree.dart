@@ -21,6 +21,7 @@ enum GrammarDomain {
 // remains reachable under Other, rather than being classified by title guessing.
 const _domainsByCode = <String, GrammarDomain>{
   'en:EN_A1_BE_001': GrammarDomain.foundations,
+  'en:A1-003': GrammarDomain.foundations,
   'en:BE': GrammarDomain.foundations,
   'en:EN_A1_SIMPLE_PRESENT_001': GrammarDomain.tenses,
   'en:EN_A1_PRESENT_CONTINUOUS_001': GrammarDomain.tenses,

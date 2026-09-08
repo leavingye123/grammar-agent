@@ -38,3 +38,5 @@ app:
   learning:
     default-language-code: ${DEFAULT_LANGUAGE_CODE:en}
     daily-goal-xp: ${DAILY_GOAL_XP:30}
+  content:
+    import-enabled: ${CONTENT_IMPORT_ENABLED:true}

@@ -9,6 +9,8 @@ import 'package:grammar_agent/core/storage/token_storage.dart';
 import 'package:grammar_agent/features/auth/data/auth_repository.dart';
 import 'package:grammar_agent/features/auth/domain/auth_models.dart';
 import 'package:grammar_agent/features/course/data/course_repository.dart';
+import 'package:grammar_agent/features/course/domain/grammar_tree.dart';
+import 'package:grammar_agent/features/home/data/home_repository.dart';
 import 'package:grammar_agent/features/lesson/data/lesson_repository.dart';
 import 'package:grammar_agent/features/lesson/domain/lesson_models.dart';
 import 'package:grammar_agent/features/review/data/review_repository.dart';
@@ -45,6 +47,7 @@ Future<void> _run() async {
   final client = ApiClient(dio);
   final auth = RemoteAuthRepository(client, storage);
   final course = CourseRepository(client);
+  final home = HomeRepository(client);
   final lessonRepo = LessonRepository(client);
   final review = ReviewRepository(client);
 
@@ -79,15 +82,31 @@ Future<void> _run() async {
 
   stdout.writeln('SMOKE learning path');
   final path = await course.learningPath();
+  _expect(
+    path.levels.expand(pointsInLevel).length == 45 &&
+        path.levels.first.chapters.length == 7,
+    'public learning path does not contain the complete A1 tree',
+  );
+  final initialPersonalPath = await course.myLearningPath();
+  _expect(
+    initialPersonalPath.levels.expand(pointsInLevel).length == 45 &&
+        initialPersonalPath.levels
+            .expand(pointsInLevel)
+            .every((point) => point.status == 'NOT_STARTED'),
+    'personal learning path initial state mismatch',
+  );
   final firstLesson =
       path.levels.first.chapters.first.grammarPoints.first.lessons.first;
   final detail = await course.lesson(firstLesson.id);
   final questions = await lessonRepo.questions(detail.id);
-  _expect(questions.length == 5, 'expected five seeded questions');
+  _expect(
+    questions.length == 2,
+    'expected two authored questions in the first lesson',
+  );
   stdout.writeln('SMOKE answer questions');
   for (final q in questions) {
     final answer = switch (q.questionType) {
-      QuestionType.singleChoice => 'B', // Deliberately wrong once.
+      QuestionType.singleChoice => 'A', // Deliberately wrong once.
       QuestionType.multipleChoice => q.optionItems.map((e) => e.id).toList(),
       QuestionType.fillBlank => 'is',
       QuestionType.sentenceOrder => ['They', 'are', 'friends', '.'],
@@ -98,10 +117,28 @@ Future<void> _run() async {
   }
   final completion = await lessonRepo.complete(detail.id);
   _expect(
-    completion.totalCount == 5 &&
-        completion.correctCount == 4 &&
-        completion.score == 80,
+    completion.totalCount == 2 &&
+        completion.correctCount == 1 &&
+        completion.score == 50,
     'lesson completion mismatch',
+  );
+  final updatedPersonalPath = await course.myLearningPath();
+  final updatedPoint = findPoint(
+    updatedPersonalPath,
+    path.levels.first.chapters.first.grammarPoints.first.id,
+  );
+  _expect(
+    updatedPoint?.status == 'IN_PROGRESS' &&
+        updatedPoint?.completedLessons == 1,
+    'personal learning path progress overlay mismatch',
+  );
+  final dashboard = await home.dashboard();
+  _expect(
+    dashboard.progress.totalLessons == 135 &&
+        dashboard.progress.completedLessons == 1 &&
+        dashboard.continueLearning?.lessonId ==
+            path.levels.first.chapters.first.grammarPoints.first.lessons[1].id,
+    'dashboard totals or continue-learning selection mismatch',
   );
   stdout.writeln('SMOKE review');
   final wrong = await review.wrong();
@@ -112,7 +149,7 @@ Future<void> _run() async {
   final reviewResult = await review.submit(
     target.question.id,
     target.question.questionType,
-    'A',
+    'B',
     1000,
   );
   _expect(
