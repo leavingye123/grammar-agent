@@ -231,6 +231,8 @@ final samplePath = LearningPath(
                   lessonType: 'PRACTICE',
                   xpReward: 10,
                   sortOrder: 1,
+                  questionCount: 1,
+                  contentStatus: 'READY',
                   status: 'COMPLETED',
                 ),
               ],

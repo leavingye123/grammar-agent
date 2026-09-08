@@ -2,6 +2,7 @@ package com.grammaragent.grammar.service;
 
 import com.grammaragent.common.enums.ErrorCode;
 import com.grammaragent.common.exception.BusinessException;
+import com.grammaragent.content.CurriculumKnowledgeService;
 import com.grammaragent.course.repository.CourseCatalogRepository;
 import com.grammaragent.grammar.dto.GrammarPointDetailResponse;
 import com.grammaragent.grammar.dto.GrammarPointSummaryResponse;
@@ -20,6 +21,7 @@ public class GrammarCatalogService {
 
     private final CourseCatalogRepository courseRepository;
     private final GrammarCatalogRepository grammarRepository;
+    private final CurriculumKnowledgeService curriculumKnowledgeService;
 
     public List<GrammarPointSummaryResponse> getGrammarPoints(Long chapterId) {
         courseRepository.findEnabledChapterById(chapterId)
@@ -49,6 +51,7 @@ public class GrammarCatalogService {
                 grammarPoint.getGrammarRule(),
                 grammarPoint.getExamples(),
                 grammarPoint.getCommonErrors(),
+                curriculumKnowledgeService.findMicroLesson(grammarPoint.getCode()),
                 grammarPoint.getDifficulty(),
                 grammarPoint.getSortOrder(),
                 prerequisites);

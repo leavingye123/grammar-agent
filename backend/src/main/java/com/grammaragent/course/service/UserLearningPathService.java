@@ -91,7 +91,10 @@ public class UserLearningPathService {
         List<Lesson> lessons = structure.lessonsByGrammarPoint()
                 .getOrDefault(grammarPoint.getId(), List.of());
         List<LearningPathLessonResponse> lessonResponses = lessons.stream()
-                .map(lesson -> toLesson(lesson, progressByLesson))
+                .map(lesson -> toLesson(
+                        lesson,
+                        progressByLesson,
+                        structure.questionCountsByLesson()))
                 .toList();
 
         int completedLessons = (int) lessonResponses.stream()
@@ -127,17 +130,21 @@ public class UserLearningPathService {
 
     private LearningPathLessonResponse toLesson(
             Lesson lesson,
-            Map<Long, UserLessonProgress> progressByLesson) {
+            Map<Long, UserLessonProgress> progressByLesson,
+            Map<Long, Integer> questionCountsByLesson) {
         UserLessonProgress progress = progressByLesson.get(lesson.getId());
         String status = progress == null
                 ? NOT_STARTED
                 : progress.getStatus() == LessonProgressStatus.COMPLETED ? COMPLETED : IN_PROGRESS;
+        int questionCount = questionCountsByLesson.getOrDefault(lesson.getId(), 0);
         return new LearningPathLessonResponse(
                 lesson.getId(),
                 lesson.getTitle(),
                 lesson.getLessonType(),
                 lesson.getXpReward(),
                 lesson.getSortOrder(),
+                questionCount,
+                com.grammaragent.course.service.LearningPathService.contentStatus(questionCount),
                 status);
     }
 }

@@ -31,6 +31,7 @@ public class QuestionQueryService {
     private QuestionResponse toResponse(Question question) {
         return new QuestionResponse(
                 question.getId(),
+                question.getQuestionCode(),
                 question.getQuestionType(),
                 question.getQuestionContent(),
                 question.getOptions(),

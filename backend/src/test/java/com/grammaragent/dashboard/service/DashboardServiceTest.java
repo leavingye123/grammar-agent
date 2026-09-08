@@ -233,7 +233,7 @@ class DashboardServiceTest {
     private static final class FixedLearningPathService extends LearningPathService {
 
         private FixedLearningPathService() {
-            super(null, null, null);
+            super(null, null, null, null);
         }
 
         @Override
@@ -278,7 +278,8 @@ class DashboardServiceTest {
                     Map.of(11L, List.of(chapter)),
                     Map.of(101L, List.of(grammarPoint)),
                     Map.of(1001L, List.of(lesson)),
-                    Map.of(1001L, List.of()));
+                    Map.of(1001L, List.of()),
+                    Map.of(10L, 2));
         }
     }
 

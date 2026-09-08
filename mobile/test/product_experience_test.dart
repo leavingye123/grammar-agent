@@ -30,6 +30,44 @@ import 'package:grammar_agent/features/review/presentation/review_screens.dart';
 
 import 'widget_test.dart' as fixtures;
 
+const _micro = MicroLesson(
+  learningObjective: '根据主语选择正确的 be 动词。',
+  shortIntroduction: 'be 动词帮助我们说明身份、状态和位置。',
+  coreRule: 'I 搭配 am，单数搭配 is，you 和复数搭配 are。',
+  structure: 'Subject + am / is / are + Complement',
+  examples: [MicroLessonExample(sentence: 'I am ready.', note: 'I 搭配 am。')],
+  commonMistakes: [
+    MicroLessonMistake(
+      incorrect: 'She are happy.',
+      correct: 'She is happy.',
+      reason: 'She 是单数。',
+    ),
+  ],
+  memoryTip: 'I am，单数 is，复数 are。',
+  quickCheck: [
+    MicroQuickCheck(
+      checkCode: 'A1-003-MQ01',
+      prompt: 'We ___ ready.',
+      options: [
+        MicroQuickCheckOption(id: 'A', text: 'is'),
+        MicroQuickCheckOption(id: 'B', text: 'are'),
+      ],
+      correctOptionId: 'B',
+      explanation: 'We 搭配 are。',
+    ),
+    MicroQuickCheck(
+      checkCode: 'A1-003-MQ02',
+      prompt: 'My dog ___ here.',
+      options: [
+        MicroQuickCheckOption(id: 'A', text: 'is'),
+        MicroQuickCheckOption(id: 'B', text: 'are'),
+      ],
+      correctOptionId: 'A',
+      explanation: 'My dog 是单数。',
+    ),
+  ],
+);
+
 const _detail = GrammarPointDetail(
   id: 1,
   chapterId: 1,
@@ -45,6 +83,7 @@ const _detail = GrammarPointDetail(
   commonErrors: [
     {'incorrect': 'I is a student.', 'correct': 'I am a student.'},
   ],
+  microLesson: _micro,
   prerequisites: [],
 );
 const _lesson = LessonDetail(
@@ -55,6 +94,8 @@ const _lesson = LessonDetail(
   lessonType: 'LEARNING',
   xpReward: 10,
   sortOrder: 1,
+  questionCount: 1,
+  contentStatus: 'READY',
 );
 const _completion = LessonCompletion(
   lessonId: 1,
@@ -273,6 +314,25 @@ void main() {
     );
     await tester.tap(find.text('Lesson 1'));
     await tester.pumpAndSettle();
+    expect(find.byType(MicroLessonScreen), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('开始 Quick Check'),
+      220,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('开始 Quick Check'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('are'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('下一题'));
+    await tester.tap(find.text('下一题'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('is'));
+    await tester.pumpAndSettle();
+    expect(find.text('Quick Check 不计入 Mastery。'), findsOneWidget);
+    await tester.ensureVisible(find.text('进入正式练习'));
+    await tester.tap(find.text('进入正式练习'));
+    await tester.pumpAndSettle();
     expect(find.byType(LessonScreen), findsOneWidget);
     await tester.scrollUntilVisible(find.text('开始学习'), 200);
     await tester.tap(find.text('开始学习'));
@@ -413,6 +473,7 @@ void main() {
     'Tree': const LearningPathScreen(),
     'Branch': const GrammarBranchScreen(domainId: 'foundations'),
     'Grammar Point': const GrammarPointScreen(id: 1),
+    'Micro Lesson': const MicroLessonScreen(grammarPointId: 1, lessonId: 1),
     'Lesson': const LessonScreen(id: 1),
     'Question': const QuestionScreen(lessonId: 1),
     'Result': const LessonResultScreen(

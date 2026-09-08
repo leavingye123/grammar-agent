@@ -62,6 +62,7 @@ public class ReviewQueryService {
     private ReviewQuestionResponse toResponse(WrongQuestion item, Question question) {
         QuestionResponse safeQuestion = new QuestionResponse(
                 question.getId(),
+                question.getQuestionCode(),
                 question.getQuestionType(),
                 question.getQuestionContent(),
                 question.getOptions(),

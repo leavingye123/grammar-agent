@@ -36,7 +36,8 @@ public record CurriculumContent(
             int difficulty,
             int sortOrder,
             List<String> prerequisiteCodes,
-            List<LessonContent> lessons
+            List<LessonContent> lessons,
+            MicroLessonContent microLesson
     ) {
     }
 
@@ -51,13 +52,37 @@ public record CurriculumContent(
     }
 
     public record QuestionContent(
+            String questionCode,
             QuestionType questionType,
             String questionContent,
             JsonNode options,
             JsonNode correctAnswer,
             String explanation,
             int difficulty,
-            int sortOrder
+            int sortOrder,
+            QuestionProvenance provenance,
+            ContentReviewStatus reviewStatus
+    ) {
+    }
+
+    public record MicroLessonContent(
+            String learningObjective,
+            String shortIntroduction,
+            String coreRule,
+            String structure,
+            JsonNode examples,
+            JsonNode commonMistakes,
+            String memoryTip,
+            List<QuickCheckContent> quickCheck
+    ) {
+    }
+
+    public record QuickCheckContent(
+            String checkCode,
+            String prompt,
+            JsonNode options,
+            String correctOptionId,
+            String explanation
     ) {
     }
 }

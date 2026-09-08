@@ -13,6 +13,7 @@ public record GrammarPointDetailResponse(
         String grammarRule,
         JsonNode examples,
         JsonNode commonErrors,
+        JsonNode microLesson,
         Integer difficulty,
         Integer sortOrder,
         List<PrerequisiteResponse> prerequisites

@@ -1,0 +1,268 @@
+{
+  "version": "en-a1-micro-lessons-v2",
+  "microLessons": [
+    {
+      "grammarPointCode": "A1-001",
+      "learningObjective": "识别英语基础句子中的主语、动词和宾语或补语。",
+      "shortIntroduction": "英语句子像一条清楚的小路：先说谁或什么，再说动作或状态。",
+      "coreRule": "完整陈述句通常至少需要主语和动词。有些动词后还需要宾语；be 动词后常接描述主语的补语。",
+      "structure": "Subject + Verb (+ Object / Complement)",
+      "examples": [
+        {"sentence": "Birds fly.", "note": "Birds 是主语，fly 是动词。"},
+        {"sentence": "Lina reads books.", "note": "books 是 reads 的宾语。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Reads books.", "correct": "Lina reads books.", "reason": "普通陈述句不能缺少主语。"}
+      ],
+      "memoryTip": "先找“谁”，再找“做什么或是什么”。",
+      "quickCheck": [
+        {"checkCode": "A1-001-MQ01", "prompt": "在 “Tom plays football.” 中，哪个词是主语？", "options": [{"id":"A","text":"Tom"},{"id":"B","text":"plays"},{"id":"C","text":"football"}], "correctOptionId": "A", "explanation": "Tom 是执行 plays 这个动作的人。"},
+        {"checkCode": "A1-001-MQ02", "prompt": "哪个是完整句子？", "options": [{"id":"A","text":"My sister."},{"id":"B","text":"My sister sings."},{"id":"C","text":"In the park."}], "correctOptionId": "B", "explanation": "B 同时有主语 My sister 和动词 sings。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-002",
+      "learningObjective": "用正确的主格人称代词代替作主语的人或事物。",
+      "shortIntroduction": "当我们不想重复姓名或名词时，可以用 I、you、he、she、it、we、they。",
+      "coreRule": "主格代词放在动词前作主语。he 指男性，she 指女性，it 指单个事物或动物，we 和 they 表示复数。",
+      "structure": "Subject pronoun + Verb / be",
+      "examples": [
+        {"sentence": "Mia is my sister. She is twelve.", "note": "She 代替 Mia。"},
+        {"sentence": "Tom and Leo are here. They are ready.", "note": "They 代替两个或更多人。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Me am a student.", "correct": "I am a student.", "reason": "句首作主语要用 I，不用宾格 me。"}
+      ],
+      "memoryTip": "站在动词前面做主角的，要用主格。",
+      "quickCheck": [
+        {"checkCode": "A1-002-MQ01", "prompt": "Anna is my friend. ___ is kind.", "options": [{"id":"A","text":"She"},{"id":"B","text":"Her"},{"id":"C","text":"Him"}], "correctOptionId": "A", "explanation": "Anna 在第二句作主语，所以用 She。"},
+        {"checkCode": "A1-002-MQ02", "prompt": "用哪个代词代替 “my parents”？", "options": [{"id":"A","text":"It"},{"id":"B","text":"They"},{"id":"C","text":"He"}], "correctOptionId": "B", "explanation": "parents 是复数，使用 They。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-003",
+      "learningObjective": "根据主语正确选择 am、is 或 are。",
+      "shortIntroduction": "be 动词可以说明身份、状态和位置，但它会随着主语变化。",
+      "coreRule": "I 搭配 am；he、she、it 和单数名词搭配 is；you、we、they 和复数名词搭配 are。",
+      "structure": "Subject + am / is / are + Complement",
+      "examples": [
+        {"sentence": "I am tired.", "note": "I 只搭配 am。"},
+        {"sentence": "The books are on the desk.", "note": "books 是复数，搭配 are。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "She are at home.", "correct": "She is at home.", "reason": "She 是第三人称单数。"}
+      ],
+      "memoryTip": "I am，单数 is，you 和复数 are。",
+      "quickCheck": [
+        {"checkCode": "A1-003-MQ01", "prompt": "We ___ ready.", "options": [{"id":"A","text":"am"},{"id":"B","text":"is"},{"id":"C","text":"are"}], "correctOptionId": "C", "explanation": "We 是复数主语，搭配 are。"},
+        {"checkCode": "A1-003-MQ02", "prompt": "My dog ___ in the garden.", "options": [{"id":"A","text":"is"},{"id":"B","text":"are"},{"id":"C","text":"am"}], "correctOptionId": "A", "explanation": "My dog 是单数，搭配 is。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-004",
+      "learningObjective": "识别并使用 be 动词的常见肯定缩写。",
+      "shortIntroduction": "日常对话和非正式写作中，人们常把主语和 be 动词连在一起说。",
+      "coreRule": "am 缩写为 'm，is 缩写为 's，are 缩写为 're；撇号表示省略的字母。",
+      "structure": "I’m · you’re · he’s / she’s / it’s · we’re · they’re",
+      "examples": [
+        {"sentence": "I'm fine.", "note": "等于 I am fine。"},
+        {"sentence": "They're at school.", "note": "等于 They are at school。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Your'e welcome.", "correct": "You're welcome.", "reason": "you are 的字母顺序是 you + 're。"}
+      ],
+      "memoryTip": "撇号站在被省略字母的位置。",
+      "quickCheck": [
+        {"checkCode": "A1-004-MQ01", "prompt": "“She is happy.” 的正确缩写是哪一个？", "options": [{"id":"A","text":"She's happy."},{"id":"B","text":"She're happy."},{"id":"C","text":"Shes happy."}], "correctOptionId": "A", "explanation": "she is 缩写为 she's，必须保留撇号。"},
+        {"checkCode": "A1-004-MQ02", "prompt": "“We’re late.” 等于哪一句？", "options": [{"id":"A","text":"We were late."},{"id":"B","text":"We are late."},{"id":"C","text":"We is late."}], "correctOptionId": "B", "explanation": "we're 是 we are 的缩写。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-005",
+      "learningObjective": "用 not 构成 be 动词否定句。",
+      "shortIntroduction": "要表达“不是”或“不在”，只需把 not 放到 be 动词后面。",
+      "coreRule": "am/is/are 后加 not。is not 可缩写为 isn't，are not 可缩写为 aren't；标准表达不用 amn't。",
+      "structure": "Subject + am / is / are + not + Complement",
+      "examples": [
+        {"sentence": "I am not busy.", "note": "I am not 也可写成 I'm not。"},
+        {"sentence": "They aren't at home.", "note": "aren't 等于 are not。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Mia aren't a teacher.", "correct": "Mia isn't a teacher.", "reason": "Mia 是单数，要用 isn't。"}
+      ],
+      "memoryTip": "not 紧跟 be，主语搭配不能变。",
+      "quickCheck": [
+        {"checkCode": "A1-005-MQ01", "prompt": "选择 “He is at school.” 的否定句。", "options": [{"id":"A","text":"He not is at school."},{"id":"B","text":"He isn't at school."},{"id":"C","text":"He aren't at school."}], "correctOptionId": "B", "explanation": "not 放在 is 后，is not 可缩写为 isn't。"},
+        {"checkCode": "A1-005-MQ02", "prompt": "哪个是标准表达？", "options": [{"id":"A","text":"I'm not late."},{"id":"B","text":"I amn't late."},{"id":"C","text":"I not am late."}], "correctOptionId": "A", "explanation": "I am not 的常见缩写形式是 I'm not。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-006",
+      "learningObjective": "把 be 肯定句改成一般疑问句并作简短回答。",
+      "shortIntroduction": "询问身份、状态或位置时，把 be 动词移到主语前面。",
+      "coreRule": "一般疑问句以 Am/Is/Are 开头。肯定回答保留 be；否定回答使用 be + not。",
+      "structure": "Am / Is / Are + Subject + Complement?",
+      "examples": [
+        {"sentence": "Are you ready? Yes, I am.", "note": "回答中的主语和 be 要重新匹配。"},
+        {"sentence": "Is Leo at home? No, he isn't.", "note": "Leo 在回答中用 he。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Is you hungry?", "correct": "Are you hungry?", "reason": "you 必须搭配 are。"}
+      ],
+      "memoryTip": "be 往前走一步，句末加问号。",
+      "quickCheck": [
+        {"checkCode": "A1-006-MQ01", "prompt": "“They are students.” 对应的问句是哪一个？", "options": [{"id":"A","text":"Are they students?"},{"id":"B","text":"They are students?"},{"id":"C","text":"Is they students?"}], "correctOptionId": "A", "explanation": "把 are 移到主语 they 前面。"},
+        {"checkCode": "A1-006-MQ02", "prompt": "Are you tired? 的正确肯定简答是？", "options": [{"id":"A","text":"Yes, I am."},{"id":"B","text":"Yes, I are."},{"id":"C","text":"Yes, you are."}], "correctOptionId": "A", "explanation": "回答自己的状态时用 I am。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-007",
+      "learningObjective": "根据想得到的信息选择 what、who、where、when 或 how。",
+      "shortIntroduction": "疑问词告诉对方你想问的是事物、人物、地点、时间还是方式与状态。",
+      "coreRule": "what 问事物，who 问人物，where 问地点，when 问时间，how 问方式或状态。",
+      "structure": "Question word + question",
+      "examples": [
+        {"sentence": "Where is my bag?", "note": "期待一个地点答案。"},
+        {"sentence": "How are you?", "note": "询问对方状态。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "Where is your birthday? (想问日期)", "correct": "When is your birthday?", "reason": "想问日期时，需要询问时间而不是地点。"}
+      ],
+      "memoryTip": "先想答案类型，再选疑问词。",
+      "quickCheck": [
+        {"checkCode": "A1-007-MQ01", "prompt": "回答是 “At school.” 时，应使用哪个疑问词？", "options": [{"id":"A","text":"Who"},{"id":"B","text":"Where"},{"id":"C","text":"When"}], "correctOptionId": "B", "explanation": "At school 是地点，所以用 where。"},
+        {"checkCode": "A1-007-MQ02", "prompt": "哪个疑问词用来询问人物？", "options": [{"id":"A","text":"Who"},{"id":"B","text":"What"},{"id":"C","text":"How"}], "correctOptionId": "A", "explanation": "who 专门询问“谁”。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-008",
+      "learningObjective": "按正确语序构成含 be 动词的特殊疑问句。",
+      "shortIntroduction": "特殊疑问句先放疑问词，再使用已经学过的 be 一般疑问句语序。",
+      "coreRule": "疑问词放句首，随后是 am/is/are，再接主语；不能把 be 留在主语后。",
+      "structure": "Question word + am / is / are + Subject (+ Complement)?",
+      "examples": [
+        {"sentence": "Where are your keys?", "note": "keys 是复数，使用 are。"},
+        {"sentence": "How old is she?", "note": "is 放在主语 she 前。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "How old she is?", "correct": "How old is she?", "reason": "问句中 be 要放到主语前。"}
+      ],
+      "memoryTip": "疑问词领路，be 紧跟，主语随后。",
+      "quickCheck": [
+        {"checkCode": "A1-008-MQ01", "prompt": "请选择语序和搭配都正确的句子。", "options": [{"id":"A","text":"Where your parents are?"},{"id":"B","text":"Where are your parents?"},{"id":"C","text":"Where is your parents?"}], "correctOptionId": "B", "explanation": "特殊问句采用 Where + are + 复数主语。"},
+        {"checkCode": "A1-008-MQ02", "prompt": "“I'm fine.” 最适合回答哪个问题？", "options": [{"id":"A","text":"How are you?"},{"id":"B","text":"Where are you?"},{"id":"C","text":"Who are you?"}], "correctOptionId": "A", "explanation": "I'm fine 描述状态，对应 How are you。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-009",
+      "learningObjective": "在基础句中识别并在动词后正确使用宾格人称代词。",
+      "shortIntroduction": "一个人执行动作时用主格；当动作落到这个人身上时，通常改用宾格。",
+      "coreRule": "I、he、she、we、they 作主语；动作后的对象用 me、him、her、us、them。you 和 it 的形式不变。",
+      "structure": "Subject + Verb + object pronoun",
+      "examples": [
+        {"sentence": "I like him.", "note": "him 是 like 的对象。"},
+        {"sentence": "She knows me.", "note": "me 是 knows 的对象。"},
+        {"sentence": "We see them.", "note": "them 代替两个或更多的人或事物。"},
+        {"sentence": "They help us.", "note": "us 表示动作帮助到“我们”。"},
+        {"sentence": "I call you.", "note": "you 作宾语时形式不变。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "She likes I.", "correct": "She likes me.", "reason": "likes 后的对象要用宾格 me。"},
+        {"incorrect": "I know he.", "correct": "I know him.", "reason": "know 后的对象要用宾格 him。"}
+      ],
+      "memoryTip": "动作前的主角用主格，动作后的对象用宾格。",
+      "quickCheck": [
+        {"checkCode": "A1-009-MQ01", "prompt": "Anna is my friend. I often call ___.", "options": [{"id":"A","text":"she"},{"id":"B","text":"her"},{"id":"C","text":"hers"}], "correctOptionId": "B", "explanation": "call 后需要宾格 her。"},
+        {"checkCode": "A1-009-MQ02", "prompt": "请选择宾格代词使用正确的句子。", "options": [{"id":"A","text":"Can you help us?"},{"id":"B","text":"Can you help we?"},{"id":"C","text":"Can you help our?"}], "correctOptionId": "A", "explanation": "help 后的对象要用宾格 us。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-012",
+      "learningObjective": "为常见可数名词构成规则复数。",
+      "shortIntroduction": "谈到两个或更多可数事物时，英语名词通常需要复数词尾。",
+      "coreRule": "多数名词加 -s；以 s、x、ch、sh 结尾的常见名词通常加 -es。",
+      "structure": "one book → two books · one box → two boxes",
+      "examples": [
+        {"sentence": "I have three books.", "note": "book 直接加 -s。"},
+        {"sentence": "We see two cats.", "note": "cat 直接加 -s。"},
+        {"sentence": "There are two boxes.", "note": "box 以 x 结尾，加 -es。"},
+        {"sentence": "Four buses are here.", "note": "bus 以 s 结尾，加 -es。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "two cat", "correct": "two cats", "reason": "数量大于一时，可数名词要用复数。"},
+        {"incorrect": "two boxs", "correct": "two boxes", "reason": "box 以 x 结尾，要加 -es。"}
+      ],
+      "memoryTip": "先看数量，再看名词结尾。",
+      "quickCheck": [
+        {"checkCode": "A1-012-MQ01", "prompt": "“three ___” 应选择哪一个？", "options": [{"id":"A","text":"cat"},{"id":"B","text":"cats"},{"id":"C","text":"cates"}], "correctOptionId": "B", "explanation": "cat 的规则复数直接加 -s。"},
+        {"checkCode": "A1-012-MQ02", "prompt": "box 的规则复数是什么？", "options": [{"id":"A","text":"boxs"},{"id":"B","text":"boxes"},{"id":"C","text":"box"}], "correctOptionId": "B", "explanation": "以 x 结尾的名词通常加 -es。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-016",
+      "learningObjective": "在基础单数可数名词前，根据后面单词的起始发音正确选择 a 或 an。",
+      "shortIntroduction": "第一次提到一个单数可数事物时，通常在名词前使用 a 或 an。",
+      "coreRule": "辅音音素前用 a，元音音素前用 an；判断依据是发音，不只是字母。",
+      "structure": "a + consonant sound · an + vowel sound",
+      "examples": [
+        {"sentence": "a book", "note": "book 以辅音音素 /b/ 开头。"},
+        {"sentence": "a dog", "note": "dog 以辅音音素 /d/ 开头。"},
+        {"sentence": "a teacher", "note": "teacher 以辅音音素 /t/ 开头。"},
+        {"sentence": "an apple", "note": "apple 以元音音素开头。"},
+        {"sentence": "an egg", "note": "egg 以元音音素开头。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "a apple", "correct": "an apple", "reason": "apple 的第一个音是元音。"},
+        {"incorrect": "I have book.", "correct": "I have a book.", "reason": "单数可数名词 book 前需要限定词。"}
+      ],
+      "memoryTip": "听开头的声音：元音声音找 an，其他先找 a。",
+      "quickCheck": [
+        {"checkCode": "A1-016-MQ01", "prompt": "This is ___ apple.", "options": [{"id":"A","text":"a"},{"id":"B","text":"an"}], "correctOptionId": "B", "explanation": "apple 以元音音素开头，使用 an。"},
+        {"checkCode": "A1-016-MQ02", "prompt": "I have ___ dog.", "options": [{"id":"A","text":"a"},{"id":"B","text":"an"}], "correctOptionId": "A", "explanation": "dog 以辅音音素 /d/ 开头，使用 a。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-019",
+      "learningObjective": "在基础肯定句、否定句和疑问句中选择 some 或 any。",
+      "shortIntroduction": "some 和 any 都能表达不确定数量，但它们最常出现的句型不同。",
+      "coreRule": "基础用法中，肯定句常用 some；否定句和一般疑问句常用 any。",
+      "structure": "positive: some · negative/question: any",
+      "examples": [
+        {"sentence": "We have some milk.", "note": "肯定句使用 some。"},
+        {"sentence": "I don't have any bread.", "note": "否定句使用 any。"},
+        {"sentence": "Do you have any water?", "note": "一般疑问句使用 any。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "I don't have some brothers.", "correct": "I don't have any brothers.", "reason": "基础否定句使用 any。"},
+        {"incorrect": "Do you have some questions?", "correct": "Do you have any questions?", "reason": "普通一般疑问句使用 any。"}
+      ],
+      "memoryTip": "肯定 some，疑问和否定先想到 any。",
+      "quickCheck": [
+        {"checkCode": "A1-019-MQ01", "prompt": "There are ___ apples on the table.", "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"an"}], "correctOptionId": "A", "explanation": "这是肯定句，基础用法选择 some。"},
+        {"checkCode": "A1-019-MQ02", "prompt": "Are there ___ shops near here?", "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"a"}], "correctOptionId": "B", "explanation": "一般疑问句中使用 any。"}
+      ]
+    },
+    {
+      "grammarPointCode": "A1-020",
+      "learningObjective": "用 There is 和 There are 表达某处存在的人或事物。",
+      "shortIntroduction": "描述房间、街道或图片中“有什么”时，可以从 There is 或 There are 开始。",
+      "coreRule": "后接一个单数事物时用 There is；后接两个或更多复数事物时用 There are。",
+      "structure": "There is + singular · There are + plural",
+      "examples": [
+        {"sentence": "There is a book on the desk.", "note": "a book 是单数。"},
+        {"sentence": "There is a cat in the garden.", "note": "a cat 是单数。"},
+        {"sentence": "There are two books on the desk.", "note": "two books 是复数。"},
+        {"sentence": "There are two chairs in the room.", "note": "two chairs 是复数。"}
+      ],
+      "commonMistakes": [
+        {"incorrect": "There is three books.", "correct": "There are three books.", "reason": "three books 是复数。"},
+        {"incorrect": "There are a dog outside.", "correct": "There is a dog outside.", "reason": "a dog 是单数。"}
+      ],
+      "memoryTip": "看 is/are 后面的名词是一个还是多个。",
+      "quickCheck": [
+        {"checkCode": "A1-020-MQ01", "prompt": "___ a park near my home.", "options": [{"id":"A","text":"There is"},{"id":"B","text":"There are"},{"id":"C","text":"They are"}], "correctOptionId": "A", "explanation": "a park 是单数，使用 There is。"},
+        {"checkCode": "A1-020-MQ02", "prompt": "请选择能够正确表达“有两扇窗”的句子。", "options": [{"id":"A","text":"There are two windows."},{"id":"B","text":"There is two windows."},{"id":"C","text":"There two windows are."}], "correctOptionId": "A", "explanation": "two windows 是复数，使用 There are。"}
+      ]
+    }
+  ]
+}

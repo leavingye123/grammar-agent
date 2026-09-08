@@ -58,6 +58,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             GrammarPointScreen(id: int.parse(s.pathParameters['id']!)),
       ),
       GoRoute(
+        path: '/grammar-point/:id/micro-lesson',
+        builder: (_, s) => MicroLessonScreen(
+          grammarPointId: int.parse(s.pathParameters['id']!),
+          lessonId: int.parse(s.uri.queryParameters['lessonId']!),
+        ),
+      ),
+      GoRoute(
         path: '/lesson/:id',
         builder: (_, s) => LessonScreen(id: int.parse(s.pathParameters['id']!)),
       ),

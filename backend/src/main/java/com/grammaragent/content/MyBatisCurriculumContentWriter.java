@@ -197,17 +197,20 @@ public class MyBatisCurriculumContentWriter implements CurriculumContentWriter {
             GrammarPoint point,
             Lesson lesson,
             List<CurriculumContent.QuestionContent> sourceQuestions) {
-        Map<Integer, Question> existing = questionMapper.selectList(Wrappers.<Question>lambdaQuery()
+        List<Question> existingQuestions = questionMapper.selectList(Wrappers.<Question>lambdaQuery()
                         .eq(Question::getLessonId, lesson.getId()))
-                .stream().collect(Collectors.toMap(Question::getSortOrder, Function.identity(), (left, right) -> left));
+                .stream().toList();
+        Map<String, Question> existingByCode = existingQuestions.stream()
+                .collect(Collectors.toMap(Question::getQuestionCode, Function.identity(), (left, right) -> left));
         Set<Long> sourceIds = new HashSet<>();
         for (var source : sourceQuestions) {
-            Question question = existing.get(source.sortOrder());
+            Question question = existingByCode.get(source.questionCode());
             if (question == null) {
                 question = new Question();
-                question.setLessonId(lesson.getId());
-                question.setSortOrder(source.sortOrder());
             }
+            question.setQuestionCode(source.questionCode());
+            question.setLessonId(lesson.getId());
+            question.setSortOrder(source.sortOrder());
             question.setGrammarPointId(point.getId());
             question.setQuestionType(source.questionType());
             question.setQuestionContent(source.questionContent());
@@ -219,7 +222,7 @@ public class MyBatisCurriculumContentWriter implements CurriculumContentWriter {
             persist(questionMapper, question);
             sourceIds.add(question.getId());
         }
-        for (Question question : existing.values()) {
+        for (Question question : existingQuestions) {
             if (!sourceIds.contains(question.getId()) && Boolean.TRUE.equals(question.getEnabled())) {
                 question.setEnabled(false);
                 questionMapper.updateById(question);

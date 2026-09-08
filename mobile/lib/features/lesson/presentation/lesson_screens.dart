@@ -69,11 +69,19 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
               ),
             ),
             const CatMessage('这节很重要，我们慢慢来。遇到容易混的地方，我陪你一起看解析。'),
+            if (!item.contentAvailable)
+              const CatMessage('正式练习还在准备中，可以先返回知识卡片学习 Micro Lesson。'),
             const SizedBox(height: AppSpacing.xl),
             FilledButton.icon(
-              onPressed: () => setState(() => started = true),
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text('开始学习'),
+              onPressed: item.contentAvailable
+                  ? () => setState(() => started = true)
+                  : null,
+              icon: Icon(
+                item.contentAvailable
+                    ? Icons.arrow_forward
+                    : Icons.hourglass_empty,
+              ),
+              label: Text(item.contentAvailable ? '开始学习' : '内容准备中'),
             ),
           ],
         ),

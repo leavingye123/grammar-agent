@@ -30,6 +30,8 @@ LessonSummary _$LessonSummaryFromJson(Map<String, dynamic> json) =>
       lessonType: json['lessonType'] as String,
       xpReward: (json['xpReward'] as num).toInt(),
       sortOrder: (json['sortOrder'] as num).toInt(),
+      questionCount: (json['questionCount'] as num?)?.toInt() ?? 0,
+      contentStatus: json['contentStatus'] as String? ?? 'COMING_SOON',
       status: json['status'] as String?,
     );
 
@@ -41,6 +43,8 @@ Map<String, dynamic> _$LessonSummaryToJson(LessonSummary instance) =>
       'lessonType': instance.lessonType,
       'xpReward': instance.xpReward,
       'sortOrder': instance.sortOrder,
+      'questionCount': instance.questionCount,
+      'contentStatus': instance.contentStatus,
       'status': instance.status,
     };
 
@@ -153,6 +157,9 @@ GrammarPointDetail _$GrammarPointDetailFromJson(Map<String, dynamic> json) =>
       grammarRule: json['grammarRule'] as String?,
       examples: json['examples'],
       commonErrors: json['commonErrors'],
+      microLesson: json['microLesson'] == null
+          ? null
+          : MicroLesson.fromJson(json['microLesson'] as Map<String, dynamic>),
       difficulty: (json['difficulty'] as num).toInt(),
       sortOrder: (json['sortOrder'] as num).toInt(),
       prerequisites: (json['prerequisites'] as List<dynamic>)
@@ -170,6 +177,7 @@ Map<String, dynamic> _$GrammarPointDetailToJson(GrammarPointDetail instance) =>
       'grammarRule': instance.grammarRule,
       'examples': instance.examples,
       'commonErrors': instance.commonErrors,
+      'microLesson': instance.microLesson?.toJson(),
       'difficulty': instance.difficulty,
       'sortOrder': instance.sortOrder,
       'prerequisites': instance.prerequisites.map((e) => e.toJson()).toList(),
@@ -183,6 +191,8 @@ LessonDetail _$LessonDetailFromJson(Map<String, dynamic> json) => LessonDetail(
   lessonType: json['lessonType'] as String,
   xpReward: (json['xpReward'] as num).toInt(),
   sortOrder: (json['sortOrder'] as num).toInt(),
+  questionCount: (json['questionCount'] as num?)?.toInt() ?? 0,
+  contentStatus: json['contentStatus'] as String? ?? 'COMING_SOON',
 );
 
 Map<String, dynamic> _$LessonDetailToJson(LessonDetail instance) =>
@@ -194,4 +204,89 @@ Map<String, dynamic> _$LessonDetailToJson(LessonDetail instance) =>
       'lessonType': instance.lessonType,
       'xpReward': instance.xpReward,
       'sortOrder': instance.sortOrder,
+      'questionCount': instance.questionCount,
+      'contentStatus': instance.contentStatus,
     };
+
+MicroLesson _$MicroLessonFromJson(Map<String, dynamic> json) => MicroLesson(
+  learningObjective: json['learningObjective'] as String,
+  shortIntroduction: json['shortIntroduction'] as String,
+  coreRule: json['coreRule'] as String,
+  structure: json['structure'] as String,
+  examples: (json['examples'] as List<dynamic>)
+      .map((e) => MicroLessonExample.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  commonMistakes: (json['commonMistakes'] as List<dynamic>)
+      .map((e) => MicroLessonMistake.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  memoryTip: json['memoryTip'] as String?,
+  quickCheck: (json['quickCheck'] as List<dynamic>)
+      .map((e) => MicroQuickCheck.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$MicroLessonToJson(MicroLesson instance) =>
+    <String, dynamic>{
+      'learningObjective': instance.learningObjective,
+      'shortIntroduction': instance.shortIntroduction,
+      'coreRule': instance.coreRule,
+      'structure': instance.structure,
+      'examples': instance.examples.map((e) => e.toJson()).toList(),
+      'commonMistakes': instance.commonMistakes.map((e) => e.toJson()).toList(),
+      'memoryTip': instance.memoryTip,
+      'quickCheck': instance.quickCheck.map((e) => e.toJson()).toList(),
+    };
+
+MicroLessonExample _$MicroLessonExampleFromJson(Map<String, dynamic> json) =>
+    MicroLessonExample(
+      sentence: json['sentence'] as String,
+      note: json['note'] as String,
+    );
+
+Map<String, dynamic> _$MicroLessonExampleToJson(MicroLessonExample instance) =>
+    <String, dynamic>{'sentence': instance.sentence, 'note': instance.note};
+
+MicroLessonMistake _$MicroLessonMistakeFromJson(Map<String, dynamic> json) =>
+    MicroLessonMistake(
+      incorrect: json['incorrect'] as String,
+      correct: json['correct'] as String,
+      reason: json['reason'] as String,
+    );
+
+Map<String, dynamic> _$MicroLessonMistakeToJson(MicroLessonMistake instance) =>
+    <String, dynamic>{
+      'incorrect': instance.incorrect,
+      'correct': instance.correct,
+      'reason': instance.reason,
+    };
+
+MicroQuickCheck _$MicroQuickCheckFromJson(Map<String, dynamic> json) =>
+    MicroQuickCheck(
+      checkCode: json['checkCode'] as String,
+      prompt: json['prompt'] as String,
+      options: (json['options'] as List<dynamic>)
+          .map((e) => MicroQuickCheckOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      correctOptionId: json['correctOptionId'] as String,
+      explanation: json['explanation'] as String,
+    );
+
+Map<String, dynamic> _$MicroQuickCheckToJson(MicroQuickCheck instance) =>
+    <String, dynamic>{
+      'checkCode': instance.checkCode,
+      'prompt': instance.prompt,
+      'options': instance.options.map((e) => e.toJson()).toList(),
+      'correctOptionId': instance.correctOptionId,
+      'explanation': instance.explanation,
+    };
+
+MicroQuickCheckOption _$MicroQuickCheckOptionFromJson(
+  Map<String, dynamic> json,
+) => MicroQuickCheckOption(
+  id: json['id'] as String,
+  text: json['text'] as String,
+);
+
+Map<String, dynamic> _$MicroQuickCheckOptionToJson(
+  MicroQuickCheckOption instance,
+) => <String, dynamic>{'id': instance.id, 'text': instance.text};

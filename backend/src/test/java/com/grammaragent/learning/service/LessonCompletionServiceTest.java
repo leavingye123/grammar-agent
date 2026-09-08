@@ -77,12 +77,30 @@ class LessonCompletionServiceTest {
         assertEquals(ErrorCode.LESSON_ANSWERS_INCOMPLETE, exception.getErrorCode());
     }
 
+    @Test
+    void shouldRejectEmptyLessonBeforeReadingAttemptOrUpdatingProgress() {
+        Fixtures fixtures = fixtures(List.of(), List.of());
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> fixtures.service.complete(7L, 10L));
+
+        assertEquals(ErrorCode.LESSON_HAS_NO_QUESTIONS, exception.getErrorCode());
+        assertEquals(0, fixtures.attempts.activeLookupCount);
+        assertEquals(0, fixtures.lessonProgress.upsertCount);
+    }
+
     private Fixtures fixtures(List<UserAnswer> latestAnswers) {
+        return fixtures(
+                latestAnswers,
+                List.of(question(1L), question(2L), question(3L), question(4L), question(5L)));
+    }
+
+    private Fixtures fixtures(List<UserAnswer> latestAnswers, List<Question> questions) {
         Lesson lesson = new Lesson();
         lesson.setId(10L);
         lesson.setGrammarPointId(100L);
         lesson.setXpReward(10);
-        List<Question> questions = List.of(question(1L), question(2L), question(3L), question(4L), question(5L));
         QuestionRepository questionRepository = new FixedQuestionRepository(questions);
         UserAnswerRepository userAnswerRepository = new FixedUserAnswerRepository(latestAnswers);
         CapturingLessonProgressRepository lessonProgress = new CapturingLessonProgressRepository();
@@ -152,6 +170,7 @@ class LessonCompletionServiceTest {
     private static final class CapturingLessonProgressRepository implements LessonProgressRepository {
 
         private final UserLessonProgress progress = new UserLessonProgress();
+        private int upsertCount;
 
         @Override
         public void upsert(
@@ -163,6 +182,7 @@ class LessonCompletionServiceTest {
                 int totalCount,
                 int xpEarned,
                 OffsetDateTime now) {
+            upsertCount++;
             progress.setUserId(userId);
             progress.setLessonId(lessonId);
             progress.setStatus(status);
@@ -187,6 +207,7 @@ class LessonCompletionServiceTest {
 
         private LessonAttempt active = attempt();
         private LessonAttempt completed;
+        private int activeLookupCount;
 
         private static LessonAttempt attempt() {
             LessonAttempt attempt = new LessonAttempt();
@@ -204,6 +225,7 @@ class LessonCompletionServiceTest {
 
         @Override
         public Optional<LessonAttempt> findActiveForUpdate(Long userId, Long lessonId) {
+            activeLookupCount++;
             return Optional.ofNullable(active);
         }
 

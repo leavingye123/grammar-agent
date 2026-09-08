@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.grammaragent.common.enums.ErrorCode;
 import com.grammaragent.common.exception.BusinessException;
+import com.grammaragent.content.CurriculumContentLoader;
+import com.grammaragent.content.CurriculumKnowledgeService;
 import com.grammaragent.course.dto.LearningPathResponse;
 import com.grammaragent.course.entity.Chapter;
 import com.grammaragent.course.entity.Language;
@@ -17,6 +19,8 @@ import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.lesson.enums.LessonType;
 import com.grammaragent.lesson.repository.LessonCatalogRepository;
 import com.grammaragent.lesson.service.LessonCatalogService;
+import com.grammaragent.question.entity.Question;
+import com.grammaragent.question.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +31,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import com.grammaragent.lesson.enums.LessonContentStatus;
 
 class CatalogServicesTest {
 
@@ -34,6 +39,7 @@ class CatalogServicesTest {
     private FakeCourseRepository courseRepository;
     private FakeGrammarRepository grammarRepository;
     private FakeLessonRepository lessonRepository;
+    private FakeQuestionRepository questionRepository;
     private CourseCatalogService courseService;
     private GrammarCatalogService grammarService;
     private LessonCatalogService lessonService;
@@ -44,11 +50,15 @@ class CatalogServicesTest {
         courseRepository = new FakeCourseRepository();
         grammarRepository = new FakeGrammarRepository();
         lessonRepository = new FakeLessonRepository();
+        questionRepository = new FakeQuestionRepository();
         courseService = new CourseCatalogService(courseRepository);
-        grammarService = new GrammarCatalogService(courseRepository, grammarRepository);
-        lessonService = new LessonCatalogService(grammarRepository, lessonRepository);
+        grammarService = new GrammarCatalogService(
+                courseRepository,
+                grammarRepository,
+                new CurriculumKnowledgeService(new CurriculumContentLoader(objectMapper), objectMapper));
+        lessonService = new LessonCatalogService(grammarRepository, lessonRepository, questionRepository);
         learningPathService = new LearningPathService(
-                courseRepository, grammarRepository, lessonRepository);
+                courseRepository, grammarRepository, lessonRepository, questionRepository);
     }
 
     @Test
@@ -69,9 +79,10 @@ class CatalogServicesTest {
         assertEquals(List.of("GP_1"), detail.prerequisites().stream().map(item -> item.code()).toList());
         assertEquals(1, detail.examples().size());
 
-        assertEquals(
-                List.of("Lesson 1", "Lesson 2"),
-                lessonService.getLessons(1000L).stream().map(item -> item.title()).toList());
+        var lessonSummaries = lessonService.getLessons(1000L);
+        assertEquals(List.of("Lesson 1", "Lesson 2"), lessonSummaries.stream().map(item -> item.title()).toList());
+        assertEquals(LessonContentStatus.COMING_SOON, lessonSummaries.getFirst().contentStatus());
+        assertEquals(0, lessonSummaries.getFirst().questionCount());
         assertEquals(1000L, lessonService.getLesson(2000L).grammarPointId());
     }
 
@@ -112,6 +123,7 @@ class CatalogServicesTest {
         assertEquals(1, grammarRepository.grammarPointBatchCount);
         assertEquals(1, lessonRepository.lessonBatchCount);
         assertEquals(1, grammarRepository.prerequisiteBatchCount);
+        assertEquals(1, questionRepository.questionBatchCount);
 
         String json = objectMapper.writeValueAsString(response);
         assertFalse(json.contains("Hidden"));
@@ -245,6 +257,31 @@ class CatalogServicesTest {
         public List<Lesson> findEnabledByGrammarPointIds(Collection<Long> grammarPointIds) {
             lessonBatchCount++;
             return lessons.stream().filter(item -> grammarPointIds.contains(item.getGrammarPointId())).toList();
+        }
+    }
+
+    private final class FakeQuestionRepository implements QuestionRepository {
+        private int questionBatchCount;
+
+        @Override
+        public Optional<Question> findEnabledById(Long questionId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public List<Question> findEnabledByIds(Collection<Long> questionIds) {
+            return List.of();
+        }
+
+        @Override
+        public List<Question> findEnabledByLessonId(Long lessonId) {
+            return List.of();
+        }
+
+        @Override
+        public List<Question> findEnabledByLessonIds(Collection<Long> lessonIds) {
+            questionBatchCount++;
+            return List.of();
         }
     }
 

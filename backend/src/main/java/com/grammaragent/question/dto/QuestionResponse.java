@@ -5,6 +5,7 @@ import com.grammaragent.question.enums.QuestionType;
 
 public record QuestionResponse(
         Long id,
+        String questionCode,
         QuestionType questionType,
         String questionContent,
         JsonNode options,

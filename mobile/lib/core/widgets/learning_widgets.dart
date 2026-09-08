@@ -270,20 +270,26 @@ class LessonCard extends StatelessWidget {
   final String title, subtitle;
   final String? status;
   final bool showStatus;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) => Card(
     child: ListTile(
       contentPadding: const EdgeInsets.all(AppSpacing.lg),
       leading: Icon(
-        status == 'COMPLETED' ? Icons.check_circle : Icons.play_circle_outline,
-        color: AppColors.primary,
+        onTap == null
+            ? Icons.hourglass_empty_rounded
+            : status == 'COMPLETED'
+            ? Icons.check_circle
+            : Icons.play_circle_outline,
+        color: onTap == null ? AppColors.secondaryText : AppColors.primary,
       ),
       title: Text(title),
       subtitle: Text(
         showStatus ? '$subtitle\n${lessonStatusLabel(status)}' : subtitle,
       ),
-      trailing: const Icon(Icons.chevron_right),
+      trailing: Icon(
+        onTap == null ? Icons.lock_clock_outlined : Icons.chevron_right,
+      ),
       onTap: onTap,
     ),
   );

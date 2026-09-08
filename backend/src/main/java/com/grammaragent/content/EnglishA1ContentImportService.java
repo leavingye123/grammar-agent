@@ -12,12 +12,14 @@ public class EnglishA1ContentImportService {
 
     private final CurriculumContentLoader loader;
     private final CurriculumContentValidator validator;
+    private final MicroLessonContentValidator microLessonValidator;
     private final CurriculumContentWriter writer;
 
     @Transactional
     public CurriculumContentWriter.ImportResult importEnglishA1() {
         var content = loader.loadEnglishA1();
         var stats = validator.validate(content);
+        microLessonValidator.validate(content);
         var result = writer.upsert(content);
         log.info(
                 "Imported curriculum {}: {} chapters, {} grammar points, {} lessons, {} questions, {} prerequisites",

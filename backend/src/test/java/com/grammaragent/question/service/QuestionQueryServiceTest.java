@@ -28,6 +28,8 @@ class QuestionQueryServiceTest {
         var response = new QuestionQueryService(repository, contextService).getLessonQuestions(10L);
 
         assertEquals(List.of(1L, 2L), response.stream().map(item -> item.id()).toList());
+        assertEquals(List.of("A1-001-Q001", "A1-001-Q002"),
+                response.stream().map(item -> item.questionCode()).toList());
         String json = new ObjectMapper().writeValueAsString(response);
         assertFalse(json.contains("correctAnswer"));
         assertFalse(json.contains("explanation"));
@@ -37,6 +39,7 @@ class QuestionQueryServiceTest {
     private Question question(Long id, int sortOrder) throws Exception {
         Question question = new Question();
         question.setId(id);
+        question.setQuestionCode("A1-001-Q00" + id);
         question.setLessonId(10L);
         question.setGrammarPointId(100L);
         question.setQuestionType(QuestionType.SINGLE_CHOICE);

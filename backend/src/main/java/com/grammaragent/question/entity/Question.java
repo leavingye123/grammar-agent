@@ -16,6 +16,7 @@ import lombok.Setter;
 @TableName(value = "questions", autoResultMap = true)
 public class Question extends BaseEntity {
 
+    private String questionCode;
     private Long lessonId;
     private Long grammarPointId;
     private QuestionType questionType;

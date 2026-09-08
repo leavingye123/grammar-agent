@@ -33,6 +33,7 @@ String questionTypeToWire(QuestionType value) => switch (value) {
 class Question {
   const Question({
     required this.id,
+    this.questionCode,
     required this.questionType,
     required this.questionContent,
     this.options,
@@ -40,6 +41,7 @@ class Question {
     required this.sortOrder,
   });
   final int id;
+  final String? questionCode;
   @JsonKey(fromJson: questionTypeFromWire, toJson: questionTypeToWire)
   final QuestionType questionType;
   final String questionContent;

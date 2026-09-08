@@ -1,5 +1,5 @@
 {
-  "version": "en-a1-v1",
+  "version": "en-a1-v2",
   "languageCode": "en",
   "languageName": "English",
   "nativeName": "English",
@@ -14,213 +14,4207 @@
       "sortOrder": 1,
       "grammarPoints": [
         {
-          "code": "A1-001", "title": "基础句子骨架：Subject + Verb (+ Object/Complement)",
+          "code": "A1-001",
+          "title": "基础句子骨架：Subject + Verb (+ Object/Complement)",
           "description": "识别英语简单句中的主语、动词、宾语和补语。",
           "grammarRule": "英语基础陈述句通常以主语开头，随后是动词；及物动词后接宾语，be 动词后常接说明主语的补语。",
-          "examples": [{"sentence":"I read books.","translation":"我读书。"},{"sentence":"Mia is happy.","translation":"米娅很开心。"}],
-          "commonErrors": [{"incorrect":"Read I books.","correct":"I read books.","explanation":"英语基础陈述句先说主语。"}],
-          "difficulty": 1, "sortOrder": 1, "prerequisiteCodes": [],
+          "examples": [
+            {
+              "sentence": "I read books.",
+              "translation": "我读书。"
+            },
+            {
+              "sentence": "Mia is happy.",
+              "translation": "米娅很开心。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "Read I books.",
+              "correct": "I read books.",
+              "explanation": "英语基础陈述句先说主语。"
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 1,
+          "prerequisiteCodes": [],
           "lessons": [
-            {"title":"找到句子的主角和动作","description":"认识 Subject 与 Verb，读懂最短的完整句。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the complete sentence.","options":[{"id":"A","text":"Reads books."},{"id":"B","text":"Lina reads books."},{"id":"C","text":"Lina books."}],"correctAnswer":{"optionId":"B"},"explanation":"Lina 是主语，reads 是动词，books 是宾语。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: In “Birds fly”, “Birds” is the subject.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"Birds 是执行 fly 这个动作的主语。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"补全主语、动词与宾语","description":"用 S + V + O 补全日常表达。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Fill in the blank: I ___ tennis every Sunday.","options":null,"correctAnswer":{"answers":["play"]},"explanation":"主语 I 后使用动词原形 play。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the word order: Likes she music.","options":null,"correctAnswer":{"acceptedAnswers":["She likes music."]},"explanation":"陈述句按 Subject + Verb + Object 排列。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"把词组成完整句子","description":"在真实语境中稳定使用基础句子骨架。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["coffee","drinks","Noah","."],"correctAnswer":{"tokens":["Noah","drinks","coffee","."]},"explanation":"Noah 是主语，drinks 是动词，coffee 是宾语。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all complete sentences.","options":[{"id":"A","text":"We study English."},{"id":"B","text":"They are ready."},{"id":"C","text":"In the morning."}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"A 有主谓宾，B 有主语、be 和补语；C 只是介词短语。","difficulty":2,"sortOrder":2}
-            ]}
+            {
+              "title": "找到句子的主角和动作",
+              "description": "认识 Subject 与 Verb，读懂最短的完整句。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the complete sentence.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "Reads books."
+                    },
+                    {
+                      "id": "B",
+                      "text": "Lina reads books."
+                    },
+                    {
+                      "id": "C",
+                      "text": "Lina books."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "B"
+                  },
+                  "explanation": "Lina 是主语，reads 是动词，books 是宾语。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-001-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: In “Birds fly”, “Birds” is the subject.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "Birds 是执行 fly 这个动作的主语。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-001-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "补全主语、动词与宾语",
+              "description": "用 S + V + O 补全日常表达。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: I ___ tennis every Sunday.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "play"
+                    ]
+                  },
+                  "explanation": "主语 I 后使用动词原形 play。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-001-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the word order: Likes she music.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "She likes music."
+                    ]
+                  },
+                  "explanation": "陈述句按 Subject + Verb + Object 排列。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-001-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "把词组成完整句子",
+              "description": "在真实语境中稳定使用基础句子骨架。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "coffee",
+                    "drinks",
+                    "Noah",
+                    "."
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "Noah",
+                      "drinks",
+                      "coffee",
+                      "."
+                    ]
+                  },
+                  "explanation": "Noah 是主语，drinks 是动词，coffee 是宾语。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-001-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all complete sentences.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "We study English."
+                    },
+                    {
+                      "id": "B",
+                      "text": "They are ready."
+                    },
+                    {
+                      "id": "C",
+                      "text": "In the morning."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "A 有主谓宾，B 有主语、be 和补语；C 只是介词短语。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-001-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
         {
-          "code":"A1-003","title":"be 动词肯定句：am / is / are","description":"根据主语选择 am、is 或 are。","grammarRule":"I 搭配 am；he、she、it 和单数名词搭配 is；you、we、they 和复数名词搭配 are。","examples":[{"sentence":"I am a student.","translation":"我是一名学生。"},{"sentence":"They are friends.","translation":"他们是朋友。"}],"commonErrors":[{"incorrect":"I is ready.","correct":"I am ready."}],"difficulty":1,"sortOrder":3,"prerequisiteCodes":["A1-002"],
-          "lessons":[
-            {"title":"am、is、are 的搭配","description":"为不同主语选择正确的 be 动词。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the correct word: I ___ a student.","options":[{"id":"A","text":"am"},{"id":"B","text":"is"},{"id":"C","text":"are"}],"correctAnswer":{"optionId":"A"},"explanation":"主语 I 必须搭配 am。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “They are friends.” is grammatically correct.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"They 是复数主语，搭配 are。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"用 be 描述人物和事物","description":"用 be 动词连接主语与身份或状态。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Fill in the blank: She ___ happy.","options":null,"correctAnswer":{"answers":["is"]},"explanation":"She 是第三人称单数，使用 is。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the sentence: We is ready.","options":null,"correctAnswer":{"acceptedAnswers":["We are ready."]},"explanation":"We 必须搭配 are。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"be 肯定句综合应用","description":"在身份、状态和地点表达中综合使用 be。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["are","at home","We","."],"correctAnswer":{"tokens":["We","are","at home","."]},"explanation":"be 句按主语 + be + 补语排列。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct sentences.","options":[{"id":"A","text":"I am tired."},{"id":"B","text":"Leo is ten."},{"id":"C","text":"The cats is hungry."}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"复数主语 The cats 应搭配 are。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-003",
+          "title": "be 动词肯定句：am / is / are",
+          "description": "根据主语选择 am、is 或 are。",
+          "grammarRule": "I 搭配 am；he、she、it 和单数名词搭配 is；you、we、they 和复数名词搭配 are。",
+          "examples": [
+            {
+              "sentence": "I am a student.",
+              "translation": "我是一名学生。"
+            },
+            {
+              "sentence": "They are friends.",
+              "translation": "他们是朋友。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "I is ready.",
+              "correct": "I am ready."
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 3,
+          "prerequisiteCodes": [
+            "A1-002"
+          ],
+          "lessons": [
+            {
+              "title": "am、is、are 的搭配",
+              "description": "为不同主语选择正确的 be 动词。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct word: I ___ a student.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "am"
+                    },
+                    {
+                      "id": "B",
+                      "text": "is"
+                    },
+                    {
+                      "id": "C",
+                      "text": "are"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "A"
+                  },
+                  "explanation": "主语 I 必须搭配 am。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-003-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “They are friends.” is grammatically correct.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "They 是复数主语，搭配 are。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-003-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "用 be 描述人物和事物",
+              "description": "用 be 动词连接主语与身份或状态。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: She ___ happy.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "is"
+                    ]
+                  },
+                  "explanation": "She 是第三人称单数，使用 is。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-003-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: We is ready.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "We are ready."
+                    ]
+                  },
+                  "explanation": "We 必须搭配 are。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-003-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "be 肯定句综合应用",
+              "description": "在身份、状态和地点表达中综合使用 be。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "are",
+                    "at home",
+                    "We",
+                    "."
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "We",
+                      "are",
+                      "at home",
+                      "."
+                    ]
+                  },
+                  "explanation": "be 句按主语 + be + 补语排列。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-003-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct sentences.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "I am tired."
+                    },
+                    {
+                      "id": "B",
+                      "text": "Leo is ten."
+                    },
+                    {
+                      "id": "C",
+                      "text": "The cats is hungry."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "A 中 I 搭配 am，B 中单数 Leo 搭配 is；C 的 The cats 是复数，应改为 are。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-003-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
         {
-          "code":"A1-004","title":"be 动词缩写：I'm / you're / he's / we're 等","description":"在自然口语和非正式书写中使用 be 动词缩写。","grammarRule":"肯定句可把主语代词与 be 合写，如 I am → I'm、she is → she's、we are → we're。","examples":[{"sentence":"I'm ready.","translation":"我准备好了。"},{"sentence":"We're at home.","translation":"我们在家。"}],"commonErrors":[{"incorrect":"I'am ready.","correct":"I'm ready."}],"difficulty":1,"sortOrder":4,"prerequisiteCodes":["A1-003"],
-          "lessons":[
-            {"title":"认识 be 的肯定缩写","description":"配对完整形式与常见缩写。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the contraction of “she is”.","options":[{"id":"A","text":"she's"},{"id":"B","text":"shes'"},{"id":"C","text":"she're"}],"correctAnswer":{"optionId":"A"},"explanation":"she is 缩写为 she's。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “We're late.” means “We are late.”","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"We're 是 We are 的缩写。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"在短句中使用缩写","description":"把完整 be 句改写得更自然。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Write the contraction: I am fine. → ___ fine.","options":null,"correctAnswer":{"answers":["I'm"]},"explanation":"I am 合写为 I'm。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the contraction: Your'e welcome.","options":null,"correctAnswer":{"acceptedAnswers":["You're welcome."]},"explanation":"You are 的缩写是 You're。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"完整形式与缩写切换","description":"根据语境识别和选择自然的 be 缩写。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the parts in the correct order.","options":["'re","They","here","."],"correctAnswer":{"tokens":["They","'re","here","."]},"explanation":"They + 're 组成 They're。","difficulty":2,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct contractions.","options":[{"id":"A","text":"he is → he's"},{"id":"B","text":"you are → you're"},{"id":"C","text":"I am → I'am"}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"I am 的正确缩写是 I'm。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-004",
+          "title": "be 动词缩写：I'm / you're / he's / we're 等",
+          "description": "在自然口语和非正式书写中使用 be 动词缩写。",
+          "grammarRule": "肯定句可把主语代词与 be 合写，如 I am → I'm、she is → she's、we are → we're。",
+          "examples": [
+            {
+              "sentence": "I'm ready.",
+              "translation": "我准备好了。"
+            },
+            {
+              "sentence": "We're at home.",
+              "translation": "我们在家。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "I'am ready.",
+              "correct": "I'm ready."
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 4,
+          "prerequisiteCodes": [
+            "A1-003"
+          ],
+          "lessons": [
+            {
+              "title": "认识 be 的肯定缩写",
+              "description": "配对完整形式与常见缩写。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the contraction of “she is”.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "she's"
+                    },
+                    {
+                      "id": "B",
+                      "text": "shes'"
+                    },
+                    {
+                      "id": "C",
+                      "text": "she're"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "A"
+                  },
+                  "explanation": "she is 缩写为 she's。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-004-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “We're late.” means “We are late.”",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "We're 是 We are 的缩写。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-004-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "在短句中使用缩写",
+              "description": "把完整 be 句改写得更自然。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Write the contraction: I am fine. → ___ fine.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "I'm"
+                    ]
+                  },
+                  "explanation": "I am 合写为 I'm。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-004-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the contraction: Your'e welcome.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "You're welcome."
+                    ]
+                  },
+                  "explanation": "You are 的缩写是 You're。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-004-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "完整形式与缩写切换",
+              "description": "根据语境识别和选择自然的 be 缩写。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the parts in the correct order.",
+                  "options": [
+                    "'re",
+                    "They",
+                    "here",
+                    "."
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "They",
+                      "'re",
+                      "here",
+                      "."
+                    ]
+                  },
+                  "explanation": "They + 're 组成 They're。",
+                  "difficulty": 2,
+                  "sortOrder": 1,
+                  "questionCode": "A1-004-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct contractions.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "he is → he's"
+                    },
+                    {
+                      "id": "B",
+                      "text": "you are → you're"
+                    },
+                    {
+                      "id": "C",
+                      "text": "I am → I'am"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "A 的 he's 和 B 的 you're 都保留了正确撇号；I am 应缩写为 I'm，不是 I'am。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-004-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
         {
-          "code":"A1-005","title":"be 动词否定句：am not / isn't / aren't","description":"用 not 表达身份、状态或地点的否定。","grammarRule":"not 放在 be 动词后；is not 可缩写为 isn't，are not 可缩写为 aren't，am not 通常不写成 amn't。","examples":[{"sentence":"I am not busy.","translation":"我不忙。"},{"sentence":"They aren't here.","translation":"他们不在这里。"}],"commonErrors":[{"incorrect":"She not is tired.","correct":"She is not tired."}],"difficulty":1,"sortOrder":5,"prerequisiteCodes":["A1-003"],
-          "lessons":[
-            {"title":"把 not 放在正确位置","description":"掌握 be + not 的否定结构。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the correct negative sentence.","options":[{"id":"A","text":"He not is at home."},{"id":"B","text":"He isn't at home."},{"id":"C","text":"He don't at home."}],"correctAnswer":{"optionId":"B"},"explanation":"be 动词否定把 not 放在 is 后，可缩写为 isn't。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “I amn't late” is the standard A1 contraction.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":false},"explanation":"标准表达是 I am not late 或 I'm not late。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"isn't 与 aren't","description":"根据主语选择正确的否定形式。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Fill in the blank: They ___ ready. (are not)","options":null,"correctAnswer":{"answers":["aren't","are not"]},"explanation":"They 搭配 are，否定为 aren't 或 are not。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the sentence: Mia aren't a teacher.","options":null,"correctAnswer":{"acceptedAnswers":["Mia isn't a teacher.","Mia is not a teacher."]},"explanation":"Mia 是单数，使用 isn't 或 is not。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"be 否定句情境练习","description":"用否定句纠正错误信息。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["not","We","are","lost","."],"correctAnswer":{"tokens":["We","are","not","lost","."]},"explanation":"not 紧跟在 are 后。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct negative sentences.","options":[{"id":"A","text":"I'm not cold."},{"id":"B","text":"It isn't open."},{"id":"C","text":"You isn't wrong."}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"You 应搭配 aren't。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-005",
+          "title": "be 动词否定句：am not / isn't / aren't",
+          "description": "用 not 表达身份、状态或地点的否定。",
+          "grammarRule": "not 放在 be 动词后；is not 可缩写为 isn't，are not 可缩写为 aren't，am not 通常不写成 amn't。",
+          "examples": [
+            {
+              "sentence": "I am not busy.",
+              "translation": "我不忙。"
+            },
+            {
+              "sentence": "They aren't here.",
+              "translation": "他们不在这里。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "She not is tired.",
+              "correct": "She is not tired."
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 5,
+          "prerequisiteCodes": [
+            "A1-003"
+          ],
+          "lessons": [
+            {
+              "title": "把 not 放在正确位置",
+              "description": "掌握 be + not 的否定结构。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct negative sentence.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "He not is at home."
+                    },
+                    {
+                      "id": "B",
+                      "text": "He isn't at home."
+                    },
+                    {
+                      "id": "C",
+                      "text": "He don't at home."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "B"
+                  },
+                  "explanation": "be 动词否定把 not 放在 is 后，可缩写为 isn't。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-005-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “I amn't late” is the standard A1 contraction.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": false
+                  },
+                  "explanation": "标准表达是 I am not late 或 I'm not late。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-005-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "isn't 与 aren't",
+              "description": "根据主语选择正确的否定形式。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: They ___ ready. (are not)",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "aren't",
+                      "are not"
+                    ]
+                  },
+                  "explanation": "They 搭配 are，否定为 aren't 或 are not。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-005-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: Mia aren't a teacher.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "Mia isn't a teacher.",
+                      "Mia is not a teacher."
+                    ]
+                  },
+                  "explanation": "Mia 是单数，使用 isn't 或 is not。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-005-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "be 否定句情境练习",
+              "description": "用否定句纠正错误信息。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "not",
+                    "We",
+                    "are",
+                    "lost",
+                    "."
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "We",
+                      "are",
+                      "not",
+                      "lost",
+                      "."
+                    ]
+                  },
+                  "explanation": "not 紧跟在 are 后。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-005-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct negative sentences.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "I'm not cold."
+                    },
+                    {
+                      "id": "B",
+                      "text": "It isn't open."
+                    },
+                    {
+                      "id": "C",
+                      "text": "You isn't wrong."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "A 的 I'm not 和 B 的 isn't 都是正确否定形式；you 搭配 are，C 应改为 You aren't wrong。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-005-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
-        {"code":"A1-020","title":"There is / There are 肯定句","description":"描述某处存在一个或多个事物。","grammarRule":"单数或不可数名词前用 There is，复数名词前用 There are。","examples":["There is a book on the desk.","There are two windows."],"commonErrors":["避免用 There is + 复数名词。"],"difficulty":1,"sortOrder":20,"prerequisiteCodes":["A1-003","A1-012"],"lessons":[{"title":"There is 表达单数存在","description":"描述一个事物在哪里。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"There are 表达复数存在","description":"描述多个事物在哪里。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"房间与地点描述","description":"综合使用 There is 和 There are。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-022","title":"have / has got 肯定句","description":"表达某人拥有某物或某种特征。","grammarRule":"I/you/we/they 用 have got；he/she/it 用 has got。","examples":["I've got a bike.","She has got blue eyes."],"commonErrors":["He have got → He has got"],"difficulty":1,"sortOrder":22,"prerequisiteCodes":["A1-002"],"lessons":[{"title":"have got 的基本形式","description":"认识 have got 与 has got。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"根据主语选择 have 或 has","description":"在不同人称下表达拥有。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"人物与物品描述","description":"用 have got 完成生活化表达。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-045","title":"基础语序整合：Subject + Verb + Object + Place + Time","description":"把人物、动作、事物、地点和时间组织成自然句子。","grammarRule":"基础顺序通常是主语 + 动词 + 宾语 + 地点 + 时间。","examples":["I study English at home every evening."],"commonErrors":["避免把时间和地点插在动词与宾语之间。"],"difficulty":2,"sortOrder":45,"prerequisiteCodes":["A1-024","A1-030","A1-040","A1-041"],"lessons":[{"title":"五个句子位置","description":"认识完整基础语序的五个部分。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"地点与时间的排列","description":"把地点和时间放到自然位置。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"基础语序毕业挑战","description":"整合 A1 语序完成综合表达。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
+          {
+            "code": "A1-020",
+            "title": "There is / There are 肯定句",
+            "description": "描述某处存在一个或多个事物。",
+            "grammarRule": "一个单数事物前用 There is，两个或更多复数事物前用 There are。",
+          "examples": [
+            "There is a book on the desk.",
+            "There are two windows."
+          ],
+          "commonErrors": [
+            "避免用 There is + 复数名词。"
+          ],
+          "difficulty": 1,
+          "sortOrder": 20,
+          "prerequisiteCodes": [
+            "A1-003",
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "There is 表达单数存在",
+              "description": "描述一个事物在哪里。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionCode": "A1-020-Q001",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct sentence about one book on a desk.",
+                  "options": [{"id":"A","text":"There is a book on the desk."},{"id":"B","text":"There are a book on the desk."},{"id":"C","text":"There is two books on the desk."}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "a book 是单数，所以存在表达使用 There is。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q002",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: There ___ a cat in the garden.",
+                  "options": null,
+                  "correctAnswer": {"answers":["is"]},
+                  "explanation": "a cat 是单数，因此使用 There is。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q003",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: We use “There is” before a singular noun.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "There is 后接一个单数事物，这是本课的基础规则。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q004",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct sentence about one apple.",
+                  "options": [{"id":"A","text":"There is an apple in the bag."},{"id":"B","text":"There are an apple in the bag."},{"id":"C","text":"There an apple is in the bag."}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "an apple 是单数，所以用 There is，并保持正常语序。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q005",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct sentences about one thing.",
+                  "options": [{"id":"A","text":"There is a desk in the room."},{"id":"B","text":"There is an apple on the table."},{"id":"C","text":"There are a chair by the door."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 和 B 都描述一个事物，所以用 There is；C 的 a chair 也应搭配 There is。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q006",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: There are a dog outside.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["There is a dog outside."]},
+                  "explanation": "a dog 是单数，肯定存在句要使用 There is。",
+                  "difficulty": 1,
+                  "sortOrder": 6,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "There are 表达复数存在",
+              "description": "描述多个事物在哪里。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionCode": "A1-020-Q007",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "___ two chairs by the window.",
+                  "options": [{"id":"A","text":"There is"},{"id":"B","text":"There are"},{"id":"C","text":"It is"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "two chairs 是复数，所以使用 There are。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q008",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: There ___ three books on the shelf.",
+                  "options": null,
+                  "correctAnswer": {"answers":["are"]},
+                  "explanation": "three books 是复数，因此使用 There are。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q009",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: There is two bags here.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["There are two bags here."]},
+                  "explanation": "two bags 是复数，所以要把 There is 改为 There are。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q010",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["two","There","trees","are","."],
+                  "correctAnswer": {"tokens":["There","are","two","trees","."]},
+                  "explanation": "复数存在句按 There + are + 复数名词排列。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q011",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: We use “There are” before a plural noun.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "There are 后接两个或更多事物，这是复数存在表达。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "房间与地点描述",
+              "description": "综合使用 There is 和 There are。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionCode": "A1-020-Q012",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "The room has one bed. Choose the matching sentence.",
+                  "options": [{"id":"A","text":"There is a bed in the room."},{"id":"B","text":"There are a bed in the room."},{"id":"C","text":"There are two beds in the room."}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "one bed 是单数，只有 A 使用 There is 并保持数量一致。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q013",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: There ___ five students in the class.",
+                  "options": null,
+                  "correctAnswer": {"answers":["are"]},
+                  "explanation": "five students 是复数，因此使用 There are。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q014",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["park","are","two","the","in","trees","There","."],
+                  "correctAnswer": {"tokens":["There","are","two","trees","in","the","park","."]},
+                  "explanation": "先用 There are 引出复数 two trees，再补充地点。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q015",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct sentences about several things.",
+                  "options": [{"id":"A","text":"There are two cats outside."},{"id":"B","text":"There are four windows in the room."},{"id":"C","text":"There is three pens on the desk."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 和 B 的名词都是复数，正确使用 There are；C 应改为 There are。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-020-Q016",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["near","a","There","home","park","is","my","."],
+                  "correctAnswer": {"tokens":["There","is","a","park","near","my","home","."]},
+                  "explanation": "单数存在句先用 There is，再接 a park 和地点信息。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-022",
+          "title": "have / has got 肯定句",
+          "description": "表达某人拥有某物或某种特征。",
+          "grammarRule": "I/you/we/they 用 have got；he/she/it 用 has got。",
+          "examples": [
+            "I've got a bike.",
+            "She has got blue eyes."
+          ],
+          "commonErrors": [
+            "He have got → He has got"
+          ],
+          "difficulty": 1,
+          "sortOrder": 22,
+          "prerequisiteCodes": [
+            "A1-002"
+          ],
+          "lessons": [
+            {
+              "title": "have got 的基本形式",
+              "description": "认识 have got 与 has got。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "根据主语选择 have 或 has",
+              "description": "在不同人称下表达拥有。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "人物与物品描述",
+              "description": "用 have got 完成生活化表达。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-045",
+          "title": "基础语序整合：Subject + Verb + Object + Place + Time",
+          "description": "把人物、动作、事物、地点和时间组织成自然句子。",
+          "grammarRule": "基础顺序通常是主语 + 动词 + 宾语 + 地点 + 时间。",
+          "examples": [
+            "I study English at home every evening."
+          ],
+          "commonErrors": [
+            "避免把时间和地点插在动词与宾语之间。"
+          ],
+          "difficulty": 2,
+          "sortOrder": 45,
+          "prerequisiteCodes": [
+            "A1-024",
+            "A1-030",
+            "A1-040",
+            "A1-041"
+          ],
+          "lessons": [
+            {
+              "title": "五个句子位置",
+              "description": "认识完整基础语序的五个部分。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "地点与时间的排列",
+              "description": "把地点和时间放到自然位置。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "基础语序毕业挑战",
+              "description": "整合 A1 语序完成综合表达。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
       ]
     },
     {
-      "key":"pronouns-possession","title":"代词与所属","description":"用代词指代人物，并清楚表达谁拥有某物。","sortOrder":2,
-      "grammarPoints":[
+      "key": "pronouns-possession",
+      "title": "代词与所属",
+      "description": "用代词指代人物，并清楚表达谁拥有某物。",
+      "sortOrder": 2,
+      "grammarPoints": [
         {
-          "code":"A1-002","title":"主格人称代词：I / you / he / she / it / we / they","description":"用主格代词替代句子的主语。","grammarRule":"主格代词放在动词前充当主语；根据说话者、听话者、单复数和人物选择。","examples":[{"sentence":"She lives in Seoul.","translation":"她住在首尔。"},{"sentence":"They are classmates.","translation":"他们是同学。"}],"commonErrors":[{"incorrect":"Her is my friend.","correct":"She is my friend."}],"difficulty":1,"sortOrder":2,"prerequisiteCodes":["A1-001"],
-          "lessons":[
-            {"title":"I、you、he、she 与 it","description":"选择单数主语代词。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Mia is my sister. ___ is twelve.","options":[{"id":"A","text":"He"},{"id":"B","text":"She"},{"id":"C","text":"It"}],"correctAnswer":{"optionId":"B"},"explanation":"Mia 是女性人物，作主语时用 She。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “Us are students” uses the correct subject pronoun.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":false},"explanation":"作主语应使用 We，而不是宾格 us。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"we 与 they 的复数视角","description":"区分包含说话者的 we 和其他人的 they。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Tom and Leo are brothers. ___ live in London.","options":null,"correctAnswer":{"answers":["They"]},"explanation":"Tom and Leo 是第三人称复数，用 They。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the sentence: Me am from China.","options":null,"correctAnswer":{"acceptedAnswers":["I am from China."]},"explanation":"作主语时使用 I。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"在语境中选择主格代词","description":"根据上下文准确替换人物和事物。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["English","We","study","."],"correctAnswer":{"tokens":["We","study","English","."]},"explanation":"主格代词 We 位于动词 study 前。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all subject pronouns.","options":[{"id":"A","text":"he"},{"id":"B","text":"they"},{"id":"C","text":"him"},{"id":"D","text":"us"}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"he 和 they 是主格；him 和 us 是宾格。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-002",
+          "title": "主格人称代词：I / you / he / she / it / we / they",
+          "description": "用主格代词替代句子的主语。",
+          "grammarRule": "主格代词放在动词前充当主语；根据说话者、听话者、单复数和人物选择。",
+          "examples": [
+            {
+              "sentence": "She lives in Seoul.",
+              "translation": "她住在首尔。"
+            },
+            {
+              "sentence": "They are classmates.",
+              "translation": "他们是同学。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "Her is my friend.",
+              "correct": "She is my friend."
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 2,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "I、you、he、she 与 it",
+              "description": "选择单数主语代词。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Mia is my sister. ___ is twelve.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "He"
+                    },
+                    {
+                      "id": "B",
+                      "text": "She"
+                    },
+                    {
+                      "id": "C",
+                      "text": "It"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "B"
+                  },
+                  "explanation": "Mia 是女性人物，作主语时用 She。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-002-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “Us are students” uses the correct subject pronoun.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": false
+                  },
+                  "explanation": "作主语应使用 We，而不是宾格 us。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-002-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "we 与 they 的复数视角",
+              "description": "区分包含说话者的 we 和其他人的 they。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Tom and Leo are brothers. ___ live in London.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "They"
+                    ]
+                  },
+                  "explanation": "Tom and Leo 是第三人称复数，用 They。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-002-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: Me am from China.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "I am from China."
+                    ]
+                  },
+                  "explanation": "作主语时使用 I。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-002-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "在语境中选择主格代词",
+              "description": "根据上下文准确替换人物和事物。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "English",
+                    "We",
+                    "study",
+                    "."
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "We",
+                      "study",
+                      "English",
+                      "."
+                    ]
+                  },
+                  "explanation": "主格代词 We 位于动词 study 前。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-002-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all subject pronouns.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "he"
+                    },
+                    {
+                      "id": "B",
+                      "text": "they"
+                    },
+                    {
+                      "id": "C",
+                      "text": "him"
+                    },
+                    {
+                      "id": "D",
+                      "text": "us"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "he 和 they 是主格；him 和 us 是宾格。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-002-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
-        {"code":"A1-009","title":"宾格人称代词：me / you / him / her / it / us / them","description":"在动词或介词后用宾格代词指代对象。","grammarRule":"宾格代词通常作动词宾语或介词宾语。","examples":["Please help me.","I can see them."],"commonErrors":["She likes I → She likes me"],"difficulty":1,"sortOrder":9,"prerequisiteCodes":["A1-002"],"lessons":[{"title":"动作后面的宾格代词","description":"认识 me、him、her、us 和 them。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"主格与宾格辨析","description":"根据代词在句中的位置选择形式。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"人物互动表达","description":"在请求和日常对话中使用宾格。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-010","title":"形容词性物主代词：my / your / his / her / our / their","description":"在名词前说明所属关系。","grammarRule":"形容词性物主代词后必须接名词，并与拥有者对应。","examples":["This is my bag.","Their house is small."],"commonErrors":["the my bag → my bag"],"difficulty":1,"sortOrder":10,"prerequisiteCodes":["A1-002"],"lessons":[{"title":"名词前的所属词","description":"认识 my、your、his 和 her。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"our 与 their","description":"表达群体和他人的所属。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"家庭与物品所属","description":"在生活语境中选择正确物主代词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-011","title":"名词性物主代词：mine / yours / his / hers / ours / theirs","description":"不重复名词也能表达所属。","grammarRule":"名词性物主代词可独立使用，等于形容词性物主代词加名词。","examples":["This book is mine.","The seats are ours."],"commonErrors":["This is mine book → This is my book"],"difficulty":2,"sortOrder":11,"prerequisiteCodes":["A1-010"],"lessons":[{"title":"独立使用的物主代词","description":"理解 mine、yours、his 和 hers。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"my 与 mine 的区别","description":"根据后面是否有名词选择形式。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"避免重复名词","description":"用名词性物主代词进行自然对话。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-014","title":"名词所有格：Tom's / my parents'","description":"用撇号表达人物与事物的所属。","grammarRule":"单数名词通常加 's；以 s 结尾的规则复数名词通常只加撇号。","examples":["Tom's bike is new.","My parents' room is upstairs."],"commonErrors":["Toms bike → Tom's bike"],"difficulty":2,"sortOrder":14,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"单数名词加 's","description":"表达一个人拥有的事物。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"复数名词后的撇号","description":"处理 parents' 等复数所有格。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"家庭关系与所属","description":"在人物关系中综合使用所有格。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
-      ]
-    },
-    {
-      "key":"nouns-determiners","title":"名词与限定词","description":"掌握单复数、冠词、指示词与基础数量表达。","sortOrder":3,
-      "grammarPoints":[
-        {"code":"A1-012","title":"名词单复数：-s / -es 基础","description":"把常见可数名词变成复数。","grammarRule":"多数名词加 -s；以 s、x、ch、sh 等结尾通常加 -es。","examples":["one book, two books","one box, three boxes"],"commonErrors":["two book → two books"],"difficulty":1,"sortOrder":12,"prerequisiteCodes":["A1-001"],"lessons":[{"title":"复数词尾 -s","description":"掌握最常见的复数变化。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"何时添加 -es","description":"识别需要 -es 的词尾。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"数量与名词配对","description":"在购物和数数中使用复数。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-013","title":"常见不规则复数：men / children / feet 等","description":"记住 A1 常用名词的不规则复数。","grammarRule":"部分名词不通过 -s/-es 构成复数，需要记忆其独立形式。","examples":["one child, two children","one foot, two feet"],"commonErrors":["childs → children"],"difficulty":2,"sortOrder":13,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"人物类不规则复数","description":"学习 men、women 和 children。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"身体与日常名词复数","description":"学习 feet、teeth 等常见形式。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"规则与不规则复数辨析","description":"混合判断两类复数。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-015","title":"指示词：this / that / these / those","description":"根据距离和单复数指向事物。","grammarRule":"this/that 指单数，these/those 指复数；this/these 常指近处。","examples":["This is my key.","Those are your shoes."],"commonErrors":["this books → these books"],"difficulty":1,"sortOrder":15,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"this 与 that 的距离","description":"指向近处或远处的单数事物。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"these 与 those 的复数","description":"指向近处或远处的多个事物。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"现场指物对话","description":"结合距离和数量选择指示词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-016","title":"不定冠词：a / an","description":"在第一次提到的单数可数名词前使用 a 或 an。","grammarRule":"辅音音素前用 a，元音音素前用 an，判断依据是发音。","examples":["a book","an apple"],"commonErrors":["a apple → an apple"],"difficulty":1,"sortOrder":16,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"单数名词前的 a 和 an","description":"认识不定冠词的基本用途。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"根据发音选择冠词","description":"用开头音素判断 a 或 an。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"介绍一个新事物","description":"在真实表达中使用不定冠词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-017","title":"定冠词 the：已知、唯一、再次提及","description":"用 the 指双方已知或特定的事物。","grammarRule":"已提及、语境中明确或唯一的名词前常用 the。","examples":["I see a dog. The dog is friendly.","the sun"],"commonErrors":["避免所有名词前都加 the。"],"difficulty":2,"sortOrder":17,"prerequisiteCodes":["A1-016"],"lessons":[{"title":"再次提及时用 the","description":"从 a/an 自然切换到 the。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"已知与唯一的事物","description":"识别语境中特定的名词。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"a、an 与 the 辨析","description":"在小短文中选择合适冠词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-018","title":"可数与不可数名词入门","description":"区分可直接计数与通常不可直接计数的名词。","grammarRule":"可数名词有单复数；不可数名词通常不直接加 -s，也不直接与 a/an 连用。","examples":["two apples","some water"],"commonErrors":["a water → some water"],"difficulty":2,"sortOrder":18,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"什么可以一个个数","description":"认识常见可数名词。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"常见不可数名词","description":"认识 water、rice、information 等。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"食物与物品分类","description":"在生活词汇中判断可数性。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-019","title":"some / any 基础用法","description":"表达不确定数量或存在。","grammarRule":"肯定句常用 some；否定句和一般疑问句常用 any。","examples":["I have some bread.","Do you have any milk?"],"commonErrors":["I don't have some milk → any milk"],"difficulty":2,"sortOrder":19,"prerequisiteCodes":["A1-018"],"lessons":[{"title":"肯定句里的 some","description":"表达一些或若干。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"疑问和否定中的 any","description":"在问题和否定信息中使用 any。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"购物清单数量表达","description":"结合可数与不可数名词应用。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
-      ]
-    },
-    {
-      "key":"tenses-aspect","title":"时态与体","description":"表达日常习惯、正在发生的动作和时间频率。","sortOrder":4,
-      "grammarPoints":[
-        {"code":"A1-024","title":"一般现在时：肯定句与基本用途","description":"表达习惯、事实和长期状态。","grammarRule":"I/you/we/they 后用动词原形；一般现在时常与频率和日常时间表达连用。","examples":["I walk to school.","We live in Beijing."],"commonErrors":["避免在一般现在时随意加 be。"],"difficulty":1,"sortOrder":24,"prerequisiteCodes":["A1-001","A1-002"],"lessons":[{"title":"习惯与事实的时态","description":"认识一般现在时的核心意义。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"动词原形肯定句","description":"用 I、you、we、they 描述日常。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"我的一天","description":"用一般现在时组织日常表达。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-025","title":"一般现在时第三人称单数：-s / -es","description":"描述 he、she、it 的日常动作。","grammarRule":"第三人称单数主语的一般现在时动词通常加 -s 或 -es，部分形式不规则。","examples":["She works here.","He watches TV."],"commonErrors":["He work → He works"],"difficulty":2,"sortOrder":25,"prerequisiteCodes":["A1-024"],"lessons":[{"title":"第三人称单数加 -s","description":"掌握最常见的动词变化。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"-es 与特殊形式","description":"练习 watches、goes 和 has。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"描述他人的一天","description":"稳定使用第三人称单数。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-029","title":"频率副词：always / usually / often / sometimes / never","description":"说明动作发生的频率。","grammarRule":"频率副词通常放在实义动词前、be 动词后。","examples":["I often read at night.","She is always kind."],"commonErrors":["She always is late → She is always late"],"difficulty":2,"sortOrder":29,"prerequisiteCodes":["A1-024"],"lessons":[{"title":"从 always 到 never","description":"理解常用频率副词的程度。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"频率副词的位置","description":"区分 be 句和实义动词句的位置。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"谈论生活习惯","description":"用频率副词描述真实日常。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-030","title":"基础副词位置：be 后、实义动词前、句末时间/地点","description":"把频率、地点和时间信息放到自然位置。","grammarRule":"频率副词多在 be 后或实义动词前；具体地点和时间常放句末。","examples":["He is often busy.","We study here every day."],"commonErrors":["I every day study → I study every day"],"difficulty":2,"sortOrder":30,"prerequisiteCodes":["A1-003","A1-024","A1-029"],"lessons":[{"title":"be 后与动词前","description":"定位频率副词。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"句末的地点和时间","description":"排列补充信息。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"多种副词排序","description":"综合整理完整句子。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-031","title":"现在进行时：be + V-ing 肯定句","description":"表达说话时正在发生的动作。","grammarRule":"现在进行时由 am/is/are + 动词-ing 构成。","examples":["I am reading now.","They are cooking."],"commonErrors":["She reading → She is reading"],"difficulty":2,"sortOrder":31,"prerequisiteCodes":["A1-003"],"lessons":[{"title":"be + V-ing 结构","description":"认识现在进行时的两个组成部分。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"动词添加 -ing","description":"练习常见拼写变化。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"描述正在发生的事","description":"根据画面和情境使用进行时。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-033","title":"一般现在时 vs 现在进行时","description":"区分习惯事实与此刻动作。","grammarRule":"一般现在时表达规律或习惯；现在进行时表达当前暂时正在发生的动作。","examples":["I walk to work every day.","I am walking now."],"commonErrors":["注意 now 与 every day 的时态线索。"],"difficulty":2,"sortOrder":33,"prerequisiteCodes":["A1-024","A1-031"],"lessons":[{"title":"习惯还是此刻","description":"通过时间线索判断时态。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"两种时态形式对比","description":"在相似句子中选择正确形式。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"日常与现场综合表达","description":"切换描述习惯和当前动作。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
-      ]
-    },
-    {
-      "key":"questions-negation","title":"疑问与否定","description":"从 be 问句扩展到 there、have got 和一般现在时问句。","sortOrder":5,
-      "grammarPoints":[
         {
-          "code":"A1-006","title":"be 动词一般疑问句与简短回答","description":"把 be 提到主语前提问，并作简短回答。","grammarRule":"一般疑问句结构为 Am/Is/Are + 主语 + 其他？回答使用 Yes, 主语 + be 或 No, 主语 + be not。","examples":[{"sentence":"Are you ready? Yes, I am.","translation":"你准备好了吗？是的。"}],"commonErrors":[{"incorrect":"Do you are ready?","correct":"Are you ready?"}],"difficulty":1,"sortOrder":6,"prerequisiteCodes":["A1-003"],
-          "lessons":[
-            {"title":"把 be 移到主语前","description":"从陈述句构造一般疑问句。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the correct question.","options":[{"id":"A","text":"You are tired?"},{"id":"B","text":"Are you tired?"},{"id":"C","text":"Do you are tired?"}],"correctAnswer":{"optionId":"B"},"explanation":"be 动词一般疑问句把 are 放到主语 you 前。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “Is Leo at home?” is a correct be question.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"Is + Leo + at home 构成正确一般疑问句。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"Yes 与 No 简短回答","description":"用与主语匹配的 be 回答。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Complete the short answer: Are they students? Yes, they ___.","options":null,"correctAnswer":{"answers":["are"]},"explanation":"they 的肯定简短回答是 Yes, they are。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the question: Is you hungry?","options":null,"correctAnswer":{"acceptedAnswers":["Are you hungry?"]},"explanation":"you 搭配 are。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"be 问答对话","description":"在人物、状态和地点话题中进行问答。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["she","Is","your teacher","?"],"correctAnswer":{"tokens":["Is","she","your teacher","?"]},"explanation":"一般疑问句由 Is 开头，随后是主语 she。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct short answers to “Are you ready?”","options":[{"id":"A","text":"Yes, I am."},{"id":"B","text":"No, I'm not."},{"id":"C","text":"Yes, I are."}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"I 搭配 am；否定可回答 I'm not。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-009",
+          "title": "宾格人称代词：me / you / him / her / it / us / them",
+          "description": "在动词或介词后用宾格代词指代对象。",
+          "grammarRule": "宾格代词通常作动词宾语或介词宾语。",
+          "examples": [
+            "Please help me.",
+            "I can see them."
+          ],
+          "commonErrors": [
+            "She likes I → She likes me"
+          ],
+          "difficulty": 1,
+          "sortOrder": 9,
+          "prerequisiteCodes": [
+            "A1-002"
+          ],
+          "lessons": [
+            {
+              "title": "动作后面的宾格代词",
+              "description": "认识 me、him、her、us 和 them。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionCode": "A1-009-Q001",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Mia calls ___ every day.",
+                  "options": [{"id":"A","text":"I"},{"id":"B","text":"me"},{"id":"C","text":"my"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "calls 后需要动作对象；I 的宾格形式是 me。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q002",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: I know Ben. I know ___.",
+                  "options": null,
+                  "correctAnswer": {"answers":["him"]},
+                  "explanation": "Ben 是男生，在 know 后作宾语，所以用 him。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q003",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: In “We see them”, “them” is who or what we see.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "them 是 see 的对象，因此这里使用宾格是正确的。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q004",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Emma is kind. I like ___.",
+                  "options": [{"id":"A","text":"she"},{"id":"B","text":"her"},{"id":"C","text":"hers"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "Emma 在第二句是 like 的对象，所以用宾格 her。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q005",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all sentences with a correct object pronoun.",
+                  "options": [{"id":"A","text":"She knows me."},{"id":"B","text":"I see them."},{"id":"C","text":"He likes we."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 的 me 和 B 的 them 都在动词后作宾语；C 应使用 us。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q006",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the pronoun: She likes I.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["She likes me."]},
+                  "explanation": "I 不能放在 likes 后作宾语；对应的宾格形式是 me。",
+                  "difficulty": 1,
+                  "sortOrder": 6,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "主格与宾格辨析",
+              "description": "根据代词在句中的位置选择形式。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionCode": "A1-009-Q007",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the subject pronoun: ___ likes music.",
+                  "options": [{"id":"A","text":"He"},{"id":"B","text":"Him"},{"id":"C","text":"His"}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "空格是动作 likes 的执行者，要用主格 He。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q008",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: Tom is my friend. I call ___.",
+                  "options": null,
+                  "correctAnswer": {"answers":["him"]},
+                  "explanation": "Tom 在 call 后是动作对象，所以用宾格 him。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q009",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the pronoun: I know he.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["I know him."]},
+                  "explanation": "he 是主格；know 后的对象要改用宾格 him。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q010",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["you","I","call","."],
+                  "correctAnswer": {"tokens":["I","call","you","."]},
+                  "explanation": "I 是主语，call 是动词；you 作宾语时形式保持不变。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q011",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “Him likes cats” uses the correct subject pronoun.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":false},
+                  "explanation": "句首是动作执行者，要用主格 He，不能用宾格 Him。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "人物互动表达",
+              "description": "在请求和日常对话中使用宾格。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionCode": "A1-009-Q012",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "My parents are here. I can see ___.",
+                  "options": [{"id":"A","text":"they"},{"id":"B","text":"them"},{"id":"C","text":"their"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "my parents 是复数，在 see 后作宾语，所以用 them。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q013",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "My sister and I need help. Please help ___.",
+                  "options": null,
+                  "correctAnswer": {"answers":["us"]},
+                  "explanation": "my sister and I 表示“我们”，在 help 后用宾格 us。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q014",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["me","knows","She","."],
+                  "correctAnswer": {"tokens":["She","knows","me","."]},
+                  "explanation": "She 是主语，knows 是动词，宾格 me 放在动词后。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q015",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all sentences with the correct pronoun form.",
+                  "options": [{"id":"A","text":"They see us."},{"id":"B","text":"We like it."},{"id":"C","text":"Him knows Anna."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 的 us 和 B 的 it 都作宾语；C 的动作执行者应使用主格 He。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-009-Q016",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the pronoun: The teacher helps we.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["The teacher helps us."]},
+                  "explanation": "we 是主格；helps 后的动作对象要使用宾格 us。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
           ]
         },
         {
-          "code":"A1-007","title":"基础疑问词：what / who / where / when / how","description":"选择疑问词询问事物、人物、地点、时间和方式。","grammarRule":"what 问事物，who 问人物，where 问地点，when 问时间，how 问方式或状态。","examples":[{"sentence":"Where is the station?","translation":"车站在哪里？"},{"sentence":"Who is she?","translation":"她是谁？"}],"commonErrors":[{"incorrect":"What is she?（询问姓名）","correct":"Who is she?"}],"difficulty":1,"sortOrder":7,"prerequisiteCodes":["A1-001"],
-          "lessons":[
-            {"title":"what、who 与 where","description":"按信息类型选择疑问词。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"___ is your bag? It's under the chair.","options":[{"id":"A","text":"Who"},{"id":"B","text":"Where"},{"id":"C","text":"When"}],"correctAnswer":{"optionId":"B"},"explanation":"回答给出地点，因此用 Where。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “Who” asks about a person.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"Who 用来询问人物身份。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"when 与 how","description":"询问时间、方式和状态。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"___ are you? I'm fine, thanks.","options":null,"correctAnswer":{"answers":["How"]},"explanation":"询问状态用 How are you。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the question word: Where is your birthday? It's in May.","options":null,"correctAnswer":{"acceptedAnswers":["When is your birthday?"]},"explanation":"回答 in May 是时间，因此用 When。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"根据答案提出问题","description":"从回答中的信息反推疑问词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["your name","What","is","?"],"correctAnswer":{"tokens":["What","is","your name","?"]},"explanation":"疑问词 What 位于句首。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct matches.","options":[{"id":"A","text":"where — place"},{"id":"B","text":"when — time"},{"id":"C","text":"who — method"}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"Who 询问人物，不询问方式。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-010",
+          "title": "形容词性物主代词：my / your / his / her / our / their",
+          "description": "在名词前说明所属关系。",
+          "grammarRule": "形容词性物主代词后必须接名词，并与拥有者对应。",
+          "examples": [
+            "This is my bag.",
+            "Their house is small."
+          ],
+          "commonErrors": [
+            "the my bag → my bag"
+          ],
+          "difficulty": 1,
+          "sortOrder": 10,
+          "prerequisiteCodes": [
+            "A1-002"
+          ],
+          "lessons": [
+            {
+              "title": "名词前的所属词",
+              "description": "认识 my、your、his 和 her。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "our 与 their",
+              "description": "表达群体和他人的所属。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "家庭与物品所属",
+              "description": "在生活语境中选择正确物主代词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
           ]
         },
         {
-          "code":"A1-008","title":"be 动词特殊疑问句","description":"用疑问词和 be 动词询问具体信息。","grammarRule":"常见结构为疑问词 + am/is/are + 主语 + 其他？询问主语身份时可用 Who is ...?。","examples":[{"sentence":"Where are you?","translation":"你在哪里？"},{"sentence":"What is this?","translation":"这是什么？"}],"commonErrors":[{"incorrect":"Where you are?","correct":"Where are you?"}],"difficulty":2,"sortOrder":8,"prerequisiteCodes":["A1-006","A1-007"],
-          "lessons":[
-            {"title":"疑问词 + be 的结构","description":"把疑问词与 be 问句组合起来。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[
-              {"questionType":"SINGLE_CHOICE","questionContent":"Choose the correct question for the answer “I'm at school.”","options":[{"id":"A","text":"Where are you?"},{"id":"B","text":"Who are you?"},{"id":"C","text":"When you are?"}],"correctAnswer":{"optionId":"A"},"explanation":"回答是地点，结构为 Where + are + you。","difficulty":1,"sortOrder":1},
-              {"questionType":"TRUE_FALSE","questionContent":"True or false: “What is this?” has correct special-question order.","options":[{"value":true,"text":"True"},{"value":false,"text":"False"}],"correctAnswer":{"value":true},"explanation":"What + is + this 是正确结构。","difficulty":1,"sortOrder":2}
-            ]},
-            {"title":"询问身份、状态和地点","description":"为不同回答构造 be 特殊疑问句。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[
-              {"questionType":"FILL_BLANK","questionContent":"Complete the question: Where ___ your parents?","options":null,"correctAnswer":{"answers":["are"]},"explanation":"parents 是复数，使用 are。","difficulty":1,"sortOrder":1},
-              {"questionType":"CORRECTION","questionContent":"Correct the question: How old she is?","options":null,"correctAnswer":{"acceptedAnswers":["How old is she?"]},"explanation":"特殊疑问句中 is 位于主语 she 前。","difficulty":2,"sortOrder":2}
-            ]},
-            {"title":"be 特殊问句综合对话","description":"在连续对话中提出自然问题。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[
-              {"questionType":"SENTENCE_ORDER","questionContent":"Put the words in the correct order.","options":["your keys","Where","are","?"],"correctAnswer":{"tokens":["Where","are","your keys","?"]},"explanation":"Where 后接 are，再接复数主语 your keys。","difficulty":1,"sortOrder":1},
-              {"questionType":"MULTIPLE_CHOICE","questionContent":"Select all correct special questions.","options":[{"id":"A","text":"Who is that man?"},{"id":"B","text":"Where are we?"},{"id":"C","text":"What you are?"}],"correctAnswer":{"optionIds":["A","B"]},"explanation":"C 应为 What are you?。","difficulty":2,"sortOrder":2}
-            ]}
+          "code": "A1-011",
+          "title": "名词性物主代词：mine / yours / his / hers / ours / theirs",
+          "description": "不重复名词也能表达所属。",
+          "grammarRule": "名词性物主代词可独立使用，等于形容词性物主代词加名词。",
+          "examples": [
+            "This book is mine.",
+            "The seats are ours."
+          ],
+          "commonErrors": [
+            "This is mine book → This is my book"
+          ],
+          "difficulty": 2,
+          "sortOrder": 11,
+          "prerequisiteCodes": [
+            "A1-010"
+          ],
+          "lessons": [
+            {
+              "title": "独立使用的物主代词",
+              "description": "理解 mine、yours、his 和 hers。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "my 与 mine 的区别",
+              "description": "根据后面是否有名词选择形式。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "避免重复名词",
+              "description": "用名词性物主代词进行自然对话。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
           ]
         },
-        {"code":"A1-021","title":"There is / are 的否定句与疑问句","description":"询问或否定某处是否存在事物。","grammarRule":"否定在 is/are 后加 not；疑问把 Is/Are 提到 there 前。","examples":["There isn't a bank here.","Are there any cafés?"],"commonErrors":["Do there are...? → Are there...?"],"difficulty":2,"sortOrder":21,"prerequisiteCodes":["A1-020"],"lessons":[{"title":"There isn't 与 There aren't","description":"否定单数和复数存在。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"Is there 与 Are there","description":"询问某处是否有事物。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"城市场景问答","description":"围绕地点设施进行存在问答。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-023","title":"have / has got 否定句与疑问句","description":"询问拥有情况并表达没有。","grammarRule":"否定用 haven't/hasn't got；疑问用 Have/Has + 主语 + got。","examples":["I haven't got a car.","Has she got a phone?"],"commonErrors":["Does she has got...? → Has she got...?"],"difficulty":2,"sortOrder":23,"prerequisiteCodes":["A1-022"],"lessons":[{"title":"haven't 与 hasn't got","description":"表达没有某物。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"Have 与 Has 开头的问句","description":"询问某人是否拥有某物。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"所属信息问答","description":"在人物资料中综合问答。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-026","title":"一般现在时否定句：don't / doesn't","description":"否定习惯、事实和日常动作。","grammarRule":"I/you/we/they 用 don't + 动词原形；he/she/it 用 doesn't + 动词原形。","examples":["I don't drive.","She doesn't eat meat."],"commonErrors":["He doesn't likes → He doesn't like"],"difficulty":2,"sortOrder":26,"prerequisiteCodes":["A1-024","A1-025"],"lessons":[{"title":"don't + 动词原形","description":"否定第一、第二和复数人称。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"doesn't 后恢复原形","description":"处理第三人称单数否定。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"表达不同生活习惯","description":"用否定句说明真实情况。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-027","title":"一般现在时一般疑问句：Do / Does","description":"询问习惯、喜好和事实。","grammarRule":"I/you/we/they 用 Do；he/she/it 用 Does；后面的实义动词使用原形。","examples":["Do you like tea?","Does he work here?"],"commonErrors":["Does she likes...? → Does she like...?"],"difficulty":2,"sortOrder":27,"prerequisiteCodes":["A1-026"],"lessons":[{"title":"Do 开头的问句","description":"询问 you、we、they 的日常。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"Does 与动词原形","description":"询问第三人称单数。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"喜好与习惯采访","description":"通过问答获取日常信息。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-028","title":"一般现在时特殊疑问句","description":"用疑问词询问日常动作的具体信息。","grammarRule":"常见结构是疑问词 + do/does + 主语 + 动词原形。","examples":["Where do you live?","What does she eat?"],"commonErrors":["Where she lives? → Where does she live?"],"difficulty":2,"sortOrder":28,"prerequisiteCodes":["A1-007","A1-027"],"lessons":[{"title":"疑问词 + do/does","description":"建立实义动词特殊问句结构。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"根据主语选择助动词","description":"在 do 与 does 之间选择。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"日常信息采访","description":"询问时间、地点和内容。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-032","title":"现在进行时否定句与疑问句","description":"否定或询问此刻正在发生的动作。","grammarRule":"否定在 be 后加 not；疑问把 be 提到主语前，V-ing 保持不变。","examples":["She isn't sleeping.","Are they working?"],"commonErrors":["Do they working? → Are they working?"],"difficulty":2,"sortOrder":32,"prerequisiteCodes":["A1-031"],"lessons":[{"title":"进行时的否定位置","description":"在 be 后添加 not。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"进行时一般疑问句","description":"把 be 移到主语前。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"现场动作问答","description":"围绕当前画面进行问答。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
+        {
+          "code": "A1-014",
+          "title": "名词所有格：Tom's / my parents'",
+          "description": "用撇号表达人物与事物的所属。",
+          "grammarRule": "单数名词通常加 's；以 s 结尾的规则复数名词通常只加撇号。",
+          "examples": [
+            "Tom's bike is new.",
+            "My parents' room is upstairs."
+          ],
+          "commonErrors": [
+            "Toms bike → Tom's bike"
+          ],
+          "difficulty": 2,
+          "sortOrder": 14,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "单数名词加 's",
+              "description": "表达一个人拥有的事物。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "复数名词后的撇号",
+              "description": "处理 parents' 等复数所有格。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "家庭关系与所属",
+              "description": "在人物关系中综合使用所有格。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
       ]
     },
     {
-      "key":"modals-sentences","title":"情态与造句","description":"表达能力、许可、命令与建议。","sortOrder":6,
-      "grammarPoints":[
-        {"code":"A1-034","title":"can / can't：能力","description":"说明某人会或不会做某事。","grammarRule":"can/can't 后接动词原形，所有人称形式相同。","examples":["I can swim.","He can't drive."],"commonErrors":["She can sings → She can sing"],"difficulty":1,"sortOrder":34,"prerequisiteCodes":["A1-001"],"lessons":[{"title":"can 表达会做的事","description":"用 can + 动词原形表达能力。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"can't 表达不会","description":"用否定形式说明能力限制。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"能力清单与问答","description":"谈论自己和他人的技能。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-035","title":"can：许可、请求与简单回应","description":"礼貌地请求、给予或拒绝许可。","grammarRule":"Can I...? 可请求许可；Can you...? 可提出简单请求。","examples":["Can I sit here?","Can you help me?"],"commonErrors":["can 后不用 to。"],"difficulty":2,"sortOrder":35,"prerequisiteCodes":["A1-034"],"lessons":[{"title":"Can I 请求许可","description":"礼貌询问自己能否做某事。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"Can you 提出请求","description":"请别人提供简单帮助。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"许可与请求对话","description":"练习自然回应 Yes 和 Sorry。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-036","title":"祈使句：肯定与否定命令","description":"给出直接指令、提醒或建议。","grammarRule":"肯定祈使句以动词原形开头；否定祈使句用 Don't + 动词原形。","examples":["Open the door.","Don't run."],"commonErrors":["Don't to run → Don't run"],"difficulty":1,"sortOrder":36,"prerequisiteCodes":["A1-001"],"lessons":[{"title":"动词开头的指令","description":"构造肯定祈使句。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"Don't 开头的禁止","description":"构造否定祈使句。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"课堂与公共提示","description":"理解和表达常见指令。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-037","title":"Let's + 动词：建议","description":"邀请他人一起做某事。","grammarRule":"Let's 后接动词原形；否定建议可用 Let's not + 动词原形。","examples":["Let's go home.","Let's not be late."],"commonErrors":["Let's to go → Let's go"],"difficulty":1,"sortOrder":37,"prerequisiteCodes":["A1-036"],"lessons":[{"title":"Let's 提出共同建议","description":"用 Let's + 动词原形。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"接受与回应建议","description":"练习 Good idea 等简单回应。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"计划一次活动","description":"在情境中连续提出建议。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
+      "key": "nouns-determiners",
+      "title": "名词与限定词",
+      "description": "掌握单复数、冠词、指示词与基础数量表达。",
+      "sortOrder": 3,
+      "grammarPoints": [
+        {
+          "code": "A1-012",
+          "title": "名词单复数：-s / -es 基础",
+          "description": "把常见可数名词变成复数。",
+          "grammarRule": "多数名词加 -s；以 s、x、ch、sh 等结尾通常加 -es。",
+          "examples": [
+            "one book, two books",
+            "one box, three boxes"
+          ],
+          "commonErrors": [
+            "two book → two books"
+          ],
+          "difficulty": 1,
+          "sortOrder": 12,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "复数词尾 -s",
+              "description": "掌握最常见的复数变化。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionCode": "A1-012-Q001",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the plural form of “cat”.",
+                  "options": [{"id":"A","text":"cat"},{"id":"B","text":"cats"},{"id":"C","text":"cates"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "cat 是常见规则名词，复数直接在词尾加 -s。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q002",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: I have two ___. (book)",
+                  "options": null,
+                  "correctAnswer": {"answers":["books"]},
+                  "explanation": "two 表示复数，book 的规则复数是 books。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q003",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “two dogs” uses the correct plural form.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "dog 的规则复数加 -s，two dogs 是正确形式。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q004",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all phrases with a correct plural noun.",
+                  "options": [{"id":"A","text":"two cats"},{"id":"B","text":"three books"},{"id":"C","text":"four boxs"}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "cat 和 book 直接加 -s；box 以 x 结尾，复数应为 boxes。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q005",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the noun phrase: three cat",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["three cats"]},
+                  "explanation": "three 表示多个，规则名词 cat 要加 -s。",
+                  "difficulty": 1,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q006",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["books","have","two","I","."],
+                  "correctAnswer": {"tokens":["I","have","two","books","."]},
+                  "explanation": "two 后接复数 books，整句按主语、动词、数量和名词排列。",
+                  "difficulty": 1,
+                  "sortOrder": 6,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "何时添加 -es",
+              "description": "识别需要 -es 的词尾。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionCode": "A1-012-Q007",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the plural form of “box”.",
+                  "options": [{"id":"A","text":"boxs"},{"id":"B","text":"boxes"},{"id":"C","text":"box"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "box 以 x 结尾，规则复数要加 -es，写成 boxes。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q008",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: We see two ___. (bus)",
+                  "options": null,
+                  "correctAnswer": {"answers":["buses"]},
+                  "explanation": "bus 以 s 结尾，复数加 -es，写成 buses。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q009",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: The plural of “dish” is “dishes”.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "dish 以 sh 结尾，规则复数加 -es，得到 dishes。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q010",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct regular plural forms.",
+                  "options": [{"id":"A","text":"boxes"},{"id":"B","text":"buses"},{"id":"C","text":"watchs"}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "box 和 bus 的复数分别是 boxes、buses；watch 应写成 watches。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q011",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the noun phrase: two boxs",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["two boxes"]},
+                  "explanation": "box 以 x 结尾，不能只加 -s；正确复数是 boxes。",
+                  "difficulty": 1,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "数量与名词配对",
+              "description": "在购物和数数中使用复数。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionCode": "A1-012-Q012",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "There are three ___ on the shelf.",
+                  "options": [{"id":"A","text":"book"},{"id":"B","text":"books"},{"id":"C","text":"bookes"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "three 表示多个，book 的复数形式是 books。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q013",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: Four ___ are at the bus stop. (bus)",
+                  "options": null,
+                  "correctAnswer": {"answers":["buses"]},
+                  "explanation": "four 需要复数名词，bus 以 s 结尾，所以写 buses。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q014",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["three","see","buses","We","."],
+                  "correctAnswer": {"tokens":["We","see","three","buses","."]},
+                  "explanation": "three 后要用复数 buses，句子按主语、动词、数量和名词排列。",
+                  "difficulty": 2,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q015",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: I have two watchs.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["I have two watches."]},
+                  "explanation": "watch 以 ch 结尾，复数加 -es，正确形式是 watches。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-012-Q016",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all phrases with the correct plural form.",
+                  "options": [{"id":"A","text":"five dogs"},{"id":"B","text":"two dishes"},{"id":"C","text":"three dish"}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "dogs 直接加 -s，dishes 加 -es；three 后不能使用单数 dish。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-013",
+          "title": "常见不规则复数：men / children / feet 等",
+          "description": "记住 A1 常用名词的不规则复数。",
+          "grammarRule": "部分名词不通过 -s/-es 构成复数，需要记忆其独立形式。",
+          "examples": [
+            "one child, two children",
+            "one foot, two feet"
+          ],
+          "commonErrors": [
+            "childs → children"
+          ],
+          "difficulty": 2,
+          "sortOrder": 13,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "人物类不规则复数",
+              "description": "学习 men、women 和 children。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "身体与日常名词复数",
+              "description": "学习 feet、teeth 等常见形式。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "规则与不规则复数辨析",
+              "description": "混合判断两类复数。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-015",
+          "title": "指示词：this / that / these / those",
+          "description": "根据距离和单复数指向事物。",
+          "grammarRule": "this/that 指单数，these/those 指复数；this/these 常指近处。",
+          "examples": [
+            "This is my key.",
+            "Those are your shoes."
+          ],
+          "commonErrors": [
+            "this books → these books"
+          ],
+          "difficulty": 1,
+          "sortOrder": 15,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "this 与 that 的距离",
+              "description": "指向近处或远处的单数事物。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "these 与 those 的复数",
+              "description": "指向近处或远处的多个事物。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "现场指物对话",
+              "description": "结合距离和数量选择指示词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-016",
+          "title": "不定冠词：a / an",
+          "description": "在第一次提到的单数可数名词前使用 a 或 an。",
+          "grammarRule": "辅音音素前用 a，元音音素前用 an，判断依据是发音。",
+          "examples": [
+            "a book",
+            "an apple"
+          ],
+          "commonErrors": [
+            "a apple → an apple"
+          ],
+          "difficulty": 1,
+          "sortOrder": 16,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "单数名词前的 a 和 an",
+              "description": "认识不定冠词的基本用途。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionCode": "A1-016-Q001",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "This is ___ apple.",
+                  "options": [{"id":"A","text":"a"},{"id":"B","text":"an"},{"id":"C","text":"two"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "apple 以元音音素开头，单数名词前使用 an。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q002",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "I have ___ dog.",
+                  "options": [{"id":"A","text":"a"},{"id":"B","text":"an"},{"id":"C","text":"some"}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "dog 以辅音音素 /d/ 开头，所以使用 a。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q003",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “an egg” uses the correct article.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "egg 以元音音素开头，因此 an egg 是正确搭配。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q004",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all phrases with the correct article.",
+                  "options": [{"id":"A","text":"a book"},{"id":"B","text":"an orange"},{"id":"C","text":"a apple"}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "book 以辅音音素开头用 a，orange 以元音音素开头用 an；apple 前也应使用 an。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q005",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: She has ___ cat.",
+                  "options": null,
+                  "correctAnswer": {"answers":["a"]},
+                  "explanation": "cat 以辅音音素 /k/ 开头，单数名词前用 a。",
+                  "difficulty": 1,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q006",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["book","have","a","I","."],
+                  "correctAnswer": {"tokens":["I","have","a","book","."]},
+                  "explanation": "单数可数名词 book 前使用 a，并放在名词正前方。",
+                  "difficulty": 1,
+                  "sortOrder": 6,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "根据发音选择冠词",
+              "description": "用开头音素判断 a 或 an。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionCode": "A1-016-Q007",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "We see ___ animal in the park.",
+                  "options": [{"id":"A","text":"a"},{"id":"B","text":"an"},{"id":"C","text":"two"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "animal 以元音音素开头，因此使用 an。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q008",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: It is ___ orange.",
+                  "options": null,
+                  "correctAnswer": {"answers":["an"]},
+                  "explanation": "orange 以元音音素开头，单数名词前使用 an。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q009",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “a teacher” uses the correct article.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "teacher 以辅音音素 /t/ 开头，因此使用 a。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q010",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all phrases with the correct article.",
+                  "options": [{"id":"A","text":"a bag"},{"id":"B","text":"an egg"},{"id":"C","text":"an teacher"}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "bag 前用 a，egg 前用 an；teacher 以辅音音素开头，应写 a teacher。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q011",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: This is a apple.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["This is an apple."]},
+                  "explanation": "apple 以元音音素开头，要把 a 改为 an。",
+                  "difficulty": 1,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "介绍一个新事物",
+              "description": "在真实表达中使用不定冠词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionCode": "A1-016-Q012",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Leo is ___ teacher.",
+                  "options": [{"id":"A","text":"a"},{"id":"B","text":"an"},{"id":"C","text":"two"}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "teacher 是单数可数名词，并以辅音音素开头，所以用 a。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q013",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: We see ___ old dog.",
+                  "options": null,
+                  "correctAnswer": {"answers":["an"]},
+                  "explanation": "冠词后紧接 old，old 以元音音素开头，因此用 an。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q014",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["orange","has","an","She","."],
+                  "correctAnswer": {"tokens":["She","has","an","orange","."]},
+                  "explanation": "an 放在以元音音素开头的 orange 前，构成 an orange。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q015",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: I have an dog.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["I have a dog."]},
+                  "explanation": "dog 以辅音音素开头，要把 an 改为 a。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-016-Q016",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["bag","is","new","a","It","."],
+                  "correctAnswer": {"tokens":["It","is","a","new","bag","."]},
+                  "explanation": "a 放在以辅音音素开头的 new 前，形成 a new bag。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-017",
+          "title": "定冠词 the：已知、唯一、再次提及",
+          "description": "用 the 指双方已知或特定的事物。",
+          "grammarRule": "已提及、语境中明确或唯一的名词前常用 the。",
+          "examples": [
+            "I see a dog. The dog is friendly.",
+            "the sun"
+          ],
+          "commonErrors": [
+            "避免所有名词前都加 the。"
+          ],
+          "difficulty": 2,
+          "sortOrder": 17,
+          "prerequisiteCodes": [
+            "A1-016"
+          ],
+          "lessons": [
+            {
+              "title": "再次提及时用 the",
+              "description": "从 a/an 自然切换到 the。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "已知与唯一的事物",
+              "description": "识别语境中特定的名词。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "a、an 与 the 辨析",
+              "description": "在小短文中选择合适冠词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-018",
+          "title": "可数与不可数名词入门",
+          "description": "区分可直接计数与通常不可直接计数的名词。",
+          "grammarRule": "可数名词有单复数；不可数名词通常不直接加 -s，也不直接与 a/an 连用。",
+          "examples": [
+            "two apples",
+            "some water"
+          ],
+          "commonErrors": [
+            "a water → some water"
+          ],
+          "difficulty": 2,
+          "sortOrder": 18,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "什么可以一个个数",
+              "description": "认识常见可数名词。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "常见不可数名词",
+              "description": "认识 water、rice、information 等。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "食物与物品分类",
+              "description": "在生活词汇中判断可数性。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-019",
+          "title": "some / any 基础用法",
+          "description": "表达不确定数量或存在。",
+          "grammarRule": "肯定句常用 some；否定句和一般疑问句常用 any。",
+          "examples": [
+            "I have some bread.",
+            "Do you have any milk?"
+          ],
+          "commonErrors": [
+            "I don't have some milk → any milk"
+          ],
+          "difficulty": 2,
+          "sortOrder": 19,
+          "prerequisiteCodes": [
+            "A1-018"
+          ],
+          "lessons": [
+            {
+              "title": "肯定句里的 some",
+              "description": "表达一些或若干。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionCode": "A1-019-Q001",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "I have ___ books in my bag.",
+                  "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"an"}],
+                  "correctAnswer": {"optionId":"A"},
+                  "explanation": "这是基础肯定句，表达不确定数量时通常使用 some。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q002",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: There is ___ milk in the fridge.",
+                  "options": null,
+                  "correctAnswer": {"answers":["some"]},
+                  "explanation": "这是肯定句，milk 的数量不确定，因此使用 some。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q003",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “I have some apples” is correct in this lesson.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "肯定句中通常使用 some，所以这个句子符合基础规则。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q004",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all sentences with correct use of “some”.",
+                  "options": [{"id":"A","text":"We have some bread."},{"id":"B","text":"Anna has some books."},{"id":"C","text":"I have any milk."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 和 B 都是肯定句，通常用 some；C 按本课基础规则应使用 some。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q005",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: We have any apples.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["We have some apples."]},
+                  "explanation": "这是基础肯定句，通常把 any 改为 some。",
+                  "difficulty": 1,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q006",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["some","have","milk","We","."],
+                  "correctAnswer": {"tokens":["We","have","some","milk","."]},
+                  "explanation": "肯定句中 some 放在名词 milk 前，表示不确定数量。",
+                  "difficulty": 1,
+                  "sortOrder": 6,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "疑问和否定中的 any",
+              "description": "在问题和否定信息中使用 any。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionCode": "A1-019-Q007",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "I don't have ___ brothers.",
+                  "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"an"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "这是基础否定句，表达没有时通常使用 any。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q008",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: I don't have ___ milk.",
+                  "options": null,
+                  "correctAnswer": {"answers":["any"]},
+                  "explanation": "don't have 构成否定句，基础用法选择 any。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q009",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Do you have ___ questions?",
+                  "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"a"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "这是普通一般疑问句，基础规则通常使用 any。",
+                  "difficulty": 1,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q010",
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “We don't have any bread” is correct in this lesson.",
+                  "options": [{"value":true,"text":"True"},{"value":false,"text":"False"}],
+                  "correctAnswer": {"value":true},
+                  "explanation": "否定句中通常使用 any，所以这个句子符合基础规则。",
+                  "difficulty": 1,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q011",
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all sentences that correctly use “any”.",
+                  "options": [{"id":"A","text":"I don't have any pets."},{"id":"B","text":"Do you have any sisters?"},{"id":"C","text":"We don't have some milk."}],
+                  "correctAnswer": {"optionIds":["A","B"]},
+                  "explanation": "A 是否定句，B 是一般疑问句，都用 any；C 按基础规则应改用 any。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "购物清单数量表达",
+              "description": "结合可数与不可数名词应用。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionCode": "A1-019-Q012",
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Are there ___ students in the classroom?",
+                  "options": [{"id":"A","text":"some"},{"id":"B","text":"any"},{"id":"C","text":"an"}],
+                  "correctAnswer": {"optionId":"B"},
+                  "explanation": "这是普通一般疑问句，询问是否有学生时通常使用 any。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q013",
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Fill in the blank: They have ___ apples for lunch.",
+                  "options": null,
+                  "correctAnswer": {"answers":["some"]},
+                  "explanation": "这是肯定句，表示若干苹果时使用 some。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q014",
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": ["questions","you","any","Do","have","?"],
+                  "correctAnswer": {"tokens":["Do","you","have","any","questions","?"]},
+                  "explanation": "一般疑问句中 any 放在复数名词 questions 前。",
+                  "difficulty": 2,
+                  "sortOrder": 3,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q015",
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the sentence: I don't have some brothers.",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["I don't have any brothers."]},
+                  "explanation": "这是基础否定句，要把 some 改为 any。",
+                  "difficulty": 2,
+                  "sortOrder": 4,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionCode": "A1-019-Q016",
+                  "questionType": "CORRECTION",
+                  "questionContent": "A teacher asks a neutral question. Correct it: Do you have some questions?",
+                  "options": null,
+                  "correctAnswer": {"acceptedAnswers":["Do you have any questions?"]},
+                  "explanation": "这是普通一般疑问句，按本课基础规则把 some 改为 any。",
+                  "difficulty": 2,
+                  "sortOrder": 5,
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
-      "key":"description-connections","title":"描述、比较与连接","description":"用形容词、副词、介词和连接词扩展基础句。","sortOrder":7,
-      "grammarPoints":[
-        {"code":"A1-038","title":"形容词位置：be 后与名词前","description":"用形容词描述主语或修饰名词。","grammarRule":"形容词可放在 be 后作补语，也可放在名词前作修饰语，通常不随名词变形。","examples":["The room is quiet.","a quiet room"],"commonErrors":["a room quiet → a quiet room"],"difficulty":1,"sortOrder":38,"prerequisiteCodes":["A1-003","A1-012"],"lessons":[{"title":"be 后描述主语","description":"用形容词说明状态和特征。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"名词前修饰事物","description":"把形容词放在名词前。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"人物与物品描述","description":"在两种位置间灵活切换。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-039","title":"方式副词：slowly / carefully / well 等","description":"说明动作以什么方式进行。","grammarRule":"方式副词通常修饰动词，常放在动词或宾语之后；well 是 good 对应的常见副词。","examples":["Please speak slowly.","She sings well."],"commonErrors":["She sings good → She sings well"],"difficulty":2,"sortOrder":39,"prerequisiteCodes":["A1-038"],"lessons":[{"title":"形容词变方式副词","description":"认识常见 -ly 形式。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"副词修饰动作","description":"把方式副词放到自然位置。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"描述动作方式","description":"用 slowly、carefully 和 well 表达。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-040","title":"地点介词：in / on / under / next to / between / behind","description":"说明事物在空间中的位置。","grammarRule":"地点介词通常置于名词短语前构成地点表达。","examples":["The keys are on the table.","The bank is next to the café."],"commonErrors":["注意 in 与 on 的空间关系不同。"],"difficulty":1,"sortOrder":40,"prerequisiteCodes":["A1-012"],"lessons":[{"title":"in、on 与 under","description":"掌握基础空间关系。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"next to、between 与 behind","description":"描述相对位置。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"房间与街区定位","description":"根据场景完整描述位置。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-041","title":"时间介词：at / on / in","description":"为时刻、日期和较长时间选择介词。","grammarRule":"at 常用于具体时刻，on 用于日期和星期，in 用于月份、年份和一天的部分。","examples":["at six","on Monday","in July"],"commonErrors":["in Monday → on Monday"],"difficulty":2,"sortOrder":41,"prerequisiteCodes":["A1-024"],"lessons":[{"title":"at + 具体时刻","description":"表达钟点和固定时间点。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"on 与 in 的时间范围","description":"区分星期日期与月份年份。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"安排一周日程","description":"在计划中综合使用时间介词。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-042","title":"基础连接词：and / but / or / because","description":"连接词语和简单句，表达并列、转折、选择与原因。","grammarRule":"and 表并列，but 表转折，or 表选择，because 引出原因。","examples":["I like tea and coffee.","I stayed home because it was cold."],"commonErrors":["避免只用逗号连接两个完整句。"],"difficulty":2,"sortOrder":42,"prerequisiteCodes":["A1-001"],"lessons":[{"title":"and、but 与 or","description":"连接并列、转折和选择。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"because 说明原因","description":"用简单从句回答 why。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"把短句连起来","description":"让基础表达更完整流畅。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-043","title":"形容词比较级：-er / more","description":"比较两个人或事物的特征。","grammarRule":"短形容词常加 -er，较长形容词常用 more；比较对象前常用 than。","examples":["Leo is taller than Ben.","This book is more interesting."],"commonErrors":["more taller → taller"],"difficulty":2,"sortOrder":43,"prerequisiteCodes":["A1-038"],"lessons":[{"title":"短形容词加 -er","description":"构造常见比较级。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"more 与 than","description":"比较较长形容词和两个对象。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"人物与物品比较","description":"在真实情境中作双向比较。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]},
-        {"code":"A1-044","title":"形容词最高级：-est / most","description":"在三个或更多对象中指出程度最高者。","grammarRule":"短形容词常加 -est，较长形容词常用 most；最高级前通常有 the。","examples":["Mia is the tallest in her class.","This is the most beautiful park."],"commonErrors":["the most tallest → the tallest"],"difficulty":2,"sortOrder":44,"prerequisiteCodes":["A1-043"],"lessons":[{"title":"短形容词加 -est","description":"构造常见最高级。","lessonType":"LEARNING","xpReward":8,"sortOrder":1,"questions":[]},{"title":"the most 结构","description":"处理较长形容词。","lessonType":"PRACTICE","xpReward":10,"sortOrder":2,"questions":[]},{"title":"从一组中选出之最","description":"比较多个对象并说明结果。","lessonType":"REVIEW","xpReward":12,"sortOrder":3,"questions":[]}]}
+      "key": "tenses-aspect",
+      "title": "时态与体",
+      "description": "表达日常习惯、正在发生的动作和时间频率。",
+      "sortOrder": 4,
+      "grammarPoints": [
+        {
+          "code": "A1-024",
+          "title": "一般现在时：肯定句与基本用途",
+          "description": "表达习惯、事实和长期状态。",
+          "grammarRule": "I/you/we/they 后用动词原形；一般现在时常与频率和日常时间表达连用。",
+          "examples": [
+            "I walk to school.",
+            "We live in Beijing."
+          ],
+          "commonErrors": [
+            "避免在一般现在时随意加 be。"
+          ],
+          "difficulty": 1,
+          "sortOrder": 24,
+          "prerequisiteCodes": [
+            "A1-001",
+            "A1-002"
+          ],
+          "lessons": [
+            {
+              "title": "习惯与事实的时态",
+              "description": "认识一般现在时的核心意义。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "动词原形肯定句",
+              "description": "用 I、you、we、they 描述日常。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "我的一天",
+              "description": "用一般现在时组织日常表达。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-025",
+          "title": "一般现在时第三人称单数：-s / -es",
+          "description": "描述 he、she、it 的日常动作。",
+          "grammarRule": "第三人称单数主语的一般现在时动词通常加 -s 或 -es，部分形式不规则。",
+          "examples": [
+            "She works here.",
+            "He watches TV."
+          ],
+          "commonErrors": [
+            "He work → He works"
+          ],
+          "difficulty": 2,
+          "sortOrder": 25,
+          "prerequisiteCodes": [
+            "A1-024"
+          ],
+          "lessons": [
+            {
+              "title": "第三人称单数加 -s",
+              "description": "掌握最常见的动词变化。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "-es 与特殊形式",
+              "description": "练习 watches、goes 和 has。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "描述他人的一天",
+              "description": "稳定使用第三人称单数。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-029",
+          "title": "频率副词：always / usually / often / sometimes / never",
+          "description": "说明动作发生的频率。",
+          "grammarRule": "频率副词通常放在实义动词前、be 动词后。",
+          "examples": [
+            "I often read at night.",
+            "She is always kind."
+          ],
+          "commonErrors": [
+            "She always is late → She is always late"
+          ],
+          "difficulty": 2,
+          "sortOrder": 29,
+          "prerequisiteCodes": [
+            "A1-024"
+          ],
+          "lessons": [
+            {
+              "title": "从 always 到 never",
+              "description": "理解常用频率副词的程度。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "频率副词的位置",
+              "description": "区分 be 句和实义动词句的位置。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "谈论生活习惯",
+              "description": "用频率副词描述真实日常。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-030",
+          "title": "基础副词位置：be 后、实义动词前、句末时间/地点",
+          "description": "把频率、地点和时间信息放到自然位置。",
+          "grammarRule": "频率副词多在 be 后或实义动词前；具体地点和时间常放句末。",
+          "examples": [
+            "He is often busy.",
+            "We study here every day."
+          ],
+          "commonErrors": [
+            "I every day study → I study every day"
+          ],
+          "difficulty": 2,
+          "sortOrder": 30,
+          "prerequisiteCodes": [
+            "A1-003",
+            "A1-024",
+            "A1-029"
+          ],
+          "lessons": [
+            {
+              "title": "be 后与动词前",
+              "description": "定位频率副词。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "句末的地点和时间",
+              "description": "排列补充信息。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "多种副词排序",
+              "description": "综合整理完整句子。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-031",
+          "title": "现在进行时：be + V-ing 肯定句",
+          "description": "表达说话时正在发生的动作。",
+          "grammarRule": "现在进行时由 am/is/are + 动词-ing 构成。",
+          "examples": [
+            "I am reading now.",
+            "They are cooking."
+          ],
+          "commonErrors": [
+            "She reading → She is reading"
+          ],
+          "difficulty": 2,
+          "sortOrder": 31,
+          "prerequisiteCodes": [
+            "A1-003"
+          ],
+          "lessons": [
+            {
+              "title": "be + V-ing 结构",
+              "description": "认识现在进行时的两个组成部分。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "动词添加 -ing",
+              "description": "练习常见拼写变化。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "描述正在发生的事",
+              "description": "根据画面和情境使用进行时。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-033",
+          "title": "一般现在时 vs 现在进行时",
+          "description": "区分习惯事实与此刻动作。",
+          "grammarRule": "一般现在时表达规律或习惯；现在进行时表达当前暂时正在发生的动作。",
+          "examples": [
+            "I walk to work every day.",
+            "I am walking now."
+          ],
+          "commonErrors": [
+            "注意 now 与 every day 的时态线索。"
+          ],
+          "difficulty": 2,
+          "sortOrder": 33,
+          "prerequisiteCodes": [
+            "A1-024",
+            "A1-031"
+          ],
+          "lessons": [
+            {
+              "title": "习惯还是此刻",
+              "description": "通过时间线索判断时态。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "两种时态形式对比",
+              "description": "在相似句子中选择正确形式。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "日常与现场综合表达",
+              "description": "切换描述习惯和当前动作。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "questions-negation",
+      "title": "疑问与否定",
+      "description": "从 be 问句扩展到 there、have got 和一般现在时问句。",
+      "sortOrder": 5,
+      "grammarPoints": [
+        {
+          "code": "A1-006",
+          "title": "be 动词一般疑问句与简短回答",
+          "description": "把 be 提到主语前提问，并作简短回答。",
+          "grammarRule": "一般疑问句结构为 Am/Is/Are + 主语 + 其他？回答使用 Yes, 主语 + be 或 No, 主语 + be not。",
+          "examples": [
+            {
+              "sentence": "Are you ready? Yes, I am.",
+              "translation": "你准备好了吗？是的。"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "Do you are ready?",
+              "correct": "Are you ready?"
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 6,
+          "prerequisiteCodes": [
+            "A1-003"
+          ],
+          "lessons": [
+            {
+              "title": "把 be 移到主语前",
+              "description": "从陈述句构造一般疑问句。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct question.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "You are tired?"
+                    },
+                    {
+                      "id": "B",
+                      "text": "Are you tired?"
+                    },
+                    {
+                      "id": "C",
+                      "text": "Do you are tired?"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "B"
+                  },
+                  "explanation": "be 动词一般疑问句把 are 放到主语 you 前。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-006-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “Is Leo at home?” is a correct be question.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "Is + Leo + at home 构成正确一般疑问句。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-006-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "Yes 与 No 简短回答",
+              "description": "用与主语匹配的 be 回答。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Complete the short answer: Are they students? Yes, they ___.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "are"
+                    ]
+                  },
+                  "explanation": "they 的肯定简短回答是 Yes, they are。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-006-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the question: Is you hungry?",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "Are you hungry?"
+                    ]
+                  },
+                  "explanation": "you 搭配 are。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-006-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "be 问答对话",
+              "description": "在人物、状态和地点话题中进行问答。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "she",
+                    "Is",
+                    "your teacher",
+                    "?"
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "Is",
+                      "she",
+                      "your teacher",
+                      "?"
+                    ]
+                  },
+                  "explanation": "一般疑问句由 Is 开头，随后是主语 she。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-006-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct short answers to “Are you ready?”",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "Yes, I am."
+                    },
+                    {
+                      "id": "B",
+                      "text": "No, I'm not."
+                    },
+                    {
+                      "id": "C",
+                      "text": "Yes, I are."
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "I 搭配 am；否定可回答 I'm not。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-006-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-007",
+          "title": "基础疑问词：what / who / where / when / how",
+          "description": "选择疑问词询问事物、人物、地点、时间和方式。",
+          "grammarRule": "what 问事物，who 问人物，where 问地点，when 问时间，how 问方式或状态。",
+          "examples": [
+            {
+              "sentence": "Where is the station?",
+              "translation": "车站在哪里？"
+            },
+            {
+              "sentence": "Who is she?",
+              "translation": "她是谁？"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "What is she?（询问姓名）",
+              "correct": "Who is she?"
+            }
+          ],
+          "difficulty": 1,
+          "sortOrder": 7,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "what、who 与 where",
+              "description": "按信息类型选择疑问词。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "___ is your bag? It's under the chair.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "Who"
+                    },
+                    {
+                      "id": "B",
+                      "text": "Where"
+                    },
+                    {
+                      "id": "C",
+                      "text": "When"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "B"
+                  },
+                  "explanation": "回答给出地点，因此用 Where。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-007-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “Who” asks about a person.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "Who 用来询问人物身份。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-007-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "when 与 how",
+              "description": "询问时间、方式和状态。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "___ are you? I'm fine, thanks.",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "How"
+                    ]
+                  },
+                  "explanation": "询问状态用 How are you。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-007-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the question word: Where is your birthday? It's in May.",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "When is your birthday?"
+                    ]
+                  },
+                  "explanation": "回答 in May 是时间，因此用 When。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-007-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "根据答案提出问题",
+              "description": "从回答中的信息反推疑问词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "your name",
+                    "What",
+                    "is",
+                    "?"
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "What",
+                      "is",
+                      "your name",
+                      "?"
+                    ]
+                  },
+                  "explanation": "疑问词 What 位于句首。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-007-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct matches.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "where — place"
+                    },
+                    {
+                      "id": "B",
+                      "text": "when — time"
+                    },
+                    {
+                      "id": "C",
+                      "text": "who — method"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "where 对应地点，when 对应时间；who 询问人物，不能与 method 配对。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-007-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-008",
+          "title": "be 动词特殊疑问句",
+          "description": "用疑问词和 be 动词询问具体信息。",
+          "grammarRule": "常见结构为疑问词 + am/is/are + 主语 + 其他？询问主语身份时可用 Who is ...?。",
+          "examples": [
+            {
+              "sentence": "Where are you?",
+              "translation": "你在哪里？"
+            },
+            {
+              "sentence": "What is this?",
+              "translation": "这是什么？"
+            }
+          ],
+          "commonErrors": [
+            {
+              "incorrect": "Where you are?",
+              "correct": "Where are you?"
+            }
+          ],
+          "difficulty": 2,
+          "sortOrder": 8,
+          "prerequisiteCodes": [
+            "A1-006",
+            "A1-007"
+          ],
+          "lessons": [
+            {
+              "title": "疑问词 + be 的结构",
+              "description": "把疑问词与 be 问句组合起来。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": [
+                {
+                  "questionType": "SINGLE_CHOICE",
+                  "questionContent": "Choose the correct question for the answer “I'm at school.”",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "Where are you?"
+                    },
+                    {
+                      "id": "B",
+                      "text": "Who are you?"
+                    },
+                    {
+                      "id": "C",
+                      "text": "When you are?"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionId": "A"
+                  },
+                  "explanation": "回答是地点，结构为 Where + are + you。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-008-Q001",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "TRUE_FALSE",
+                  "questionContent": "True or false: “What is this?” has correct special-question order.",
+                  "options": [
+                    {
+                      "value": true,
+                      "text": "True"
+                    },
+                    {
+                      "value": false,
+                      "text": "False"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "value": true
+                  },
+                  "explanation": "What + is + this 是正确结构。",
+                  "difficulty": 1,
+                  "sortOrder": 2,
+                  "questionCode": "A1-008-Q002",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "询问身份、状态和地点",
+              "description": "为不同回答构造 be 特殊疑问句。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": [
+                {
+                  "questionType": "FILL_BLANK",
+                  "questionContent": "Complete the question: Where ___ your parents?",
+                  "options": null,
+                  "correctAnswer": {
+                    "answers": [
+                      "are"
+                    ]
+                  },
+                  "explanation": "parents 是复数，使用 are。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-008-Q003",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "CORRECTION",
+                  "questionContent": "Correct the question: How old she is?",
+                  "options": null,
+                  "correctAnswer": {
+                    "acceptedAnswers": [
+                      "How old is she?"
+                    ]
+                  },
+                  "explanation": "特殊疑问句中 is 位于主语 she 前。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-008-Q004",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            },
+            {
+              "title": "be 特殊问句综合对话",
+              "description": "在连续对话中提出自然问题。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": [
+                {
+                  "questionType": "SENTENCE_ORDER",
+                  "questionContent": "Put the words in the correct order.",
+                  "options": [
+                    "your keys",
+                    "Where",
+                    "are",
+                    "?"
+                  ],
+                  "correctAnswer": {
+                    "tokens": [
+                      "Where",
+                      "are",
+                      "your keys",
+                      "?"
+                    ]
+                  },
+                  "explanation": "Where 后接 are，再接复数主语 your keys。",
+                  "difficulty": 1,
+                  "sortOrder": 1,
+                  "questionCode": "A1-008-Q005",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                },
+                {
+                  "questionType": "MULTIPLE_CHOICE",
+                  "questionContent": "Select all correct special questions.",
+                  "options": [
+                    {
+                      "id": "A",
+                      "text": "Who is that man?"
+                    },
+                    {
+                      "id": "B",
+                      "text": "Where are we?"
+                    },
+                    {
+                      "id": "C",
+                      "text": "What you are?"
+                    }
+                  ],
+                  "correctAnswer": {
+                    "optionIds": [
+                      "A",
+                      "B"
+                    ]
+                  },
+                  "explanation": "A 和 B 都遵循疑问词 + be + 主语；C 语序错误，应为 What are you?。",
+                  "difficulty": 2,
+                  "sortOrder": 2,
+                  "questionCode": "A1-008-Q006",
+                  "provenance": "AI_DRAFT",
+                  "reviewStatus": "REVIEW_REQUIRED"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "code": "A1-021",
+          "title": "There is / are 的否定句与疑问句",
+          "description": "询问或否定某处是否存在事物。",
+          "grammarRule": "否定在 is/are 后加 not；疑问把 Is/Are 提到 there 前。",
+          "examples": [
+            "There isn't a bank here.",
+            "Are there any cafés?"
+          ],
+          "commonErrors": [
+            "Do there are...? → Are there...?"
+          ],
+          "difficulty": 2,
+          "sortOrder": 21,
+          "prerequisiteCodes": [
+            "A1-020"
+          ],
+          "lessons": [
+            {
+              "title": "There isn't 与 There aren't",
+              "description": "否定单数和复数存在。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "Is there 与 Are there",
+              "description": "询问某处是否有事物。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "城市场景问答",
+              "description": "围绕地点设施进行存在问答。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-023",
+          "title": "have / has got 否定句与疑问句",
+          "description": "询问拥有情况并表达没有。",
+          "grammarRule": "否定用 haven't/hasn't got；疑问用 Have/Has + 主语 + got。",
+          "examples": [
+            "I haven't got a car.",
+            "Has she got a phone?"
+          ],
+          "commonErrors": [
+            "Does she has got...? → Has she got...?"
+          ],
+          "difficulty": 2,
+          "sortOrder": 23,
+          "prerequisiteCodes": [
+            "A1-022"
+          ],
+          "lessons": [
+            {
+              "title": "haven't 与 hasn't got",
+              "description": "表达没有某物。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "Have 与 Has 开头的问句",
+              "description": "询问某人是否拥有某物。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "所属信息问答",
+              "description": "在人物资料中综合问答。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-026",
+          "title": "一般现在时否定句：don't / doesn't",
+          "description": "否定习惯、事实和日常动作。",
+          "grammarRule": "I/you/we/they 用 don't + 动词原形；he/she/it 用 doesn't + 动词原形。",
+          "examples": [
+            "I don't drive.",
+            "She doesn't eat meat."
+          ],
+          "commonErrors": [
+            "He doesn't likes → He doesn't like"
+          ],
+          "difficulty": 2,
+          "sortOrder": 26,
+          "prerequisiteCodes": [
+            "A1-024",
+            "A1-025"
+          ],
+          "lessons": [
+            {
+              "title": "don't + 动词原形",
+              "description": "否定第一、第二和复数人称。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "doesn't 后恢复原形",
+              "description": "处理第三人称单数否定。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "表达不同生活习惯",
+              "description": "用否定句说明真实情况。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-027",
+          "title": "一般现在时一般疑问句：Do / Does",
+          "description": "询问习惯、喜好和事实。",
+          "grammarRule": "I/you/we/they 用 Do；he/she/it 用 Does；后面的实义动词使用原形。",
+          "examples": [
+            "Do you like tea?",
+            "Does he work here?"
+          ],
+          "commonErrors": [
+            "Does she likes...? → Does she like...?"
+          ],
+          "difficulty": 2,
+          "sortOrder": 27,
+          "prerequisiteCodes": [
+            "A1-026"
+          ],
+          "lessons": [
+            {
+              "title": "Do 开头的问句",
+              "description": "询问 you、we、they 的日常。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "Does 与动词原形",
+              "description": "询问第三人称单数。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "喜好与习惯采访",
+              "description": "通过问答获取日常信息。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-028",
+          "title": "一般现在时特殊疑问句",
+          "description": "用疑问词询问日常动作的具体信息。",
+          "grammarRule": "常见结构是疑问词 + do/does + 主语 + 动词原形。",
+          "examples": [
+            "Where do you live?",
+            "What does she eat?"
+          ],
+          "commonErrors": [
+            "Where she lives? → Where does she live?"
+          ],
+          "difficulty": 2,
+          "sortOrder": 28,
+          "prerequisiteCodes": [
+            "A1-007",
+            "A1-027"
+          ],
+          "lessons": [
+            {
+              "title": "疑问词 + do/does",
+              "description": "建立实义动词特殊问句结构。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "根据主语选择助动词",
+              "description": "在 do 与 does 之间选择。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "日常信息采访",
+              "description": "询问时间、地点和内容。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-032",
+          "title": "现在进行时否定句与疑问句",
+          "description": "否定或询问此刻正在发生的动作。",
+          "grammarRule": "否定在 be 后加 not；疑问把 be 提到主语前，V-ing 保持不变。",
+          "examples": [
+            "She isn't sleeping.",
+            "Are they working?"
+          ],
+          "commonErrors": [
+            "Do they working? → Are they working?"
+          ],
+          "difficulty": 2,
+          "sortOrder": 32,
+          "prerequisiteCodes": [
+            "A1-031"
+          ],
+          "lessons": [
+            {
+              "title": "进行时的否定位置",
+              "description": "在 be 后添加 not。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "进行时一般疑问句",
+              "description": "把 be 移到主语前。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "现场动作问答",
+              "description": "围绕当前画面进行问答。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "modals-sentences",
+      "title": "情态与造句",
+      "description": "表达能力、许可、命令与建议。",
+      "sortOrder": 6,
+      "grammarPoints": [
+        {
+          "code": "A1-034",
+          "title": "can / can't：能力",
+          "description": "说明某人会或不会做某事。",
+          "grammarRule": "can/can't 后接动词原形，所有人称形式相同。",
+          "examples": [
+            "I can swim.",
+            "He can't drive."
+          ],
+          "commonErrors": [
+            "She can sings → She can sing"
+          ],
+          "difficulty": 1,
+          "sortOrder": 34,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "can 表达会做的事",
+              "description": "用 can + 动词原形表达能力。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "can't 表达不会",
+              "description": "用否定形式说明能力限制。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "能力清单与问答",
+              "description": "谈论自己和他人的技能。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-035",
+          "title": "can：许可、请求与简单回应",
+          "description": "礼貌地请求、给予或拒绝许可。",
+          "grammarRule": "Can I...? 可请求许可；Can you...? 可提出简单请求。",
+          "examples": [
+            "Can I sit here?",
+            "Can you help me?"
+          ],
+          "commonErrors": [
+            "can 后不用 to。"
+          ],
+          "difficulty": 2,
+          "sortOrder": 35,
+          "prerequisiteCodes": [
+            "A1-034"
+          ],
+          "lessons": [
+            {
+              "title": "Can I 请求许可",
+              "description": "礼貌询问自己能否做某事。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "Can you 提出请求",
+              "description": "请别人提供简单帮助。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "许可与请求对话",
+              "description": "练习自然回应 Yes 和 Sorry。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-036",
+          "title": "祈使句：肯定与否定命令",
+          "description": "给出直接指令、提醒或建议。",
+          "grammarRule": "肯定祈使句以动词原形开头；否定祈使句用 Don't + 动词原形。",
+          "examples": [
+            "Open the door.",
+            "Don't run."
+          ],
+          "commonErrors": [
+            "Don't to run → Don't run"
+          ],
+          "difficulty": 1,
+          "sortOrder": 36,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "动词开头的指令",
+              "description": "构造肯定祈使句。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "Don't 开头的禁止",
+              "description": "构造否定祈使句。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "课堂与公共提示",
+              "description": "理解和表达常见指令。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-037",
+          "title": "Let's + 动词：建议",
+          "description": "邀请他人一起做某事。",
+          "grammarRule": "Let's 后接动词原形；否定建议可用 Let's not + 动词原形。",
+          "examples": [
+            "Let's go home.",
+            "Let's not be late."
+          ],
+          "commonErrors": [
+            "Let's to go → Let's go"
+          ],
+          "difficulty": 1,
+          "sortOrder": 37,
+          "prerequisiteCodes": [
+            "A1-036"
+          ],
+          "lessons": [
+            {
+              "title": "Let's 提出共同建议",
+              "description": "用 Let's + 动词原形。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "接受与回应建议",
+              "description": "练习 Good idea 等简单回应。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "计划一次活动",
+              "description": "在情境中连续提出建议。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "description-connections",
+      "title": "描述、比较与连接",
+      "description": "用形容词、副词、介词和连接词扩展基础句。",
+      "sortOrder": 7,
+      "grammarPoints": [
+        {
+          "code": "A1-038",
+          "title": "形容词位置：be 后与名词前",
+          "description": "用形容词描述主语或修饰名词。",
+          "grammarRule": "形容词可放在 be 后作补语，也可放在名词前作修饰语，通常不随名词变形。",
+          "examples": [
+            "The room is quiet.",
+            "a quiet room"
+          ],
+          "commonErrors": [
+            "a room quiet → a quiet room"
+          ],
+          "difficulty": 1,
+          "sortOrder": 38,
+          "prerequisiteCodes": [
+            "A1-003",
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "be 后描述主语",
+              "description": "用形容词说明状态和特征。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "名词前修饰事物",
+              "description": "把形容词放在名词前。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "人物与物品描述",
+              "description": "在两种位置间灵活切换。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-039",
+          "title": "方式副词：slowly / carefully / well 等",
+          "description": "说明动作以什么方式进行。",
+          "grammarRule": "方式副词通常修饰动词，常放在动词或宾语之后；well 是 good 对应的常见副词。",
+          "examples": [
+            "Please speak slowly.",
+            "She sings well."
+          ],
+          "commonErrors": [
+            "She sings good → She sings well"
+          ],
+          "difficulty": 2,
+          "sortOrder": 39,
+          "prerequisiteCodes": [
+            "A1-038"
+          ],
+          "lessons": [
+            {
+              "title": "形容词变方式副词",
+              "description": "认识常见 -ly 形式。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "副词修饰动作",
+              "description": "把方式副词放到自然位置。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "描述动作方式",
+              "description": "用 slowly、carefully 和 well 表达。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-040",
+          "title": "地点介词：in / on / under / next to / between / behind",
+          "description": "说明事物在空间中的位置。",
+          "grammarRule": "地点介词通常置于名词短语前构成地点表达。",
+          "examples": [
+            "The keys are on the table.",
+            "The bank is next to the café."
+          ],
+          "commonErrors": [
+            "注意 in 与 on 的空间关系不同。"
+          ],
+          "difficulty": 1,
+          "sortOrder": 40,
+          "prerequisiteCodes": [
+            "A1-012"
+          ],
+          "lessons": [
+            {
+              "title": "in、on 与 under",
+              "description": "掌握基础空间关系。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "next to、between 与 behind",
+              "description": "描述相对位置。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "房间与街区定位",
+              "description": "根据场景完整描述位置。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-041",
+          "title": "时间介词：at / on / in",
+          "description": "为时刻、日期和较长时间选择介词。",
+          "grammarRule": "at 常用于具体时刻，on 用于日期和星期，in 用于月份、年份和一天的部分。",
+          "examples": [
+            "at six",
+            "on Monday",
+            "in July"
+          ],
+          "commonErrors": [
+            "in Monday → on Monday"
+          ],
+          "difficulty": 2,
+          "sortOrder": 41,
+          "prerequisiteCodes": [
+            "A1-024"
+          ],
+          "lessons": [
+            {
+              "title": "at + 具体时刻",
+              "description": "表达钟点和固定时间点。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "on 与 in 的时间范围",
+              "description": "区分星期日期与月份年份。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "安排一周日程",
+              "description": "在计划中综合使用时间介词。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-042",
+          "title": "基础连接词：and / but / or / because",
+          "description": "连接词语和简单句，表达并列、转折、选择与原因。",
+          "grammarRule": "and 表并列，but 表转折，or 表选择，because 引出原因。",
+          "examples": [
+            "I like tea and coffee.",
+            "I stayed home because it was cold."
+          ],
+          "commonErrors": [
+            "避免只用逗号连接两个完整句。"
+          ],
+          "difficulty": 2,
+          "sortOrder": 42,
+          "prerequisiteCodes": [
+            "A1-001"
+          ],
+          "lessons": [
+            {
+              "title": "and、but 与 or",
+              "description": "连接并列、转折和选择。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "because 说明原因",
+              "description": "用简单从句回答 why。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "把短句连起来",
+              "description": "让基础表达更完整流畅。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-043",
+          "title": "形容词比较级：-er / more",
+          "description": "比较两个人或事物的特征。",
+          "grammarRule": "短形容词常加 -er，较长形容词常用 more；比较对象前常用 than。",
+          "examples": [
+            "Leo is taller than Ben.",
+            "This book is more interesting."
+          ],
+          "commonErrors": [
+            "more taller → taller"
+          ],
+          "difficulty": 2,
+          "sortOrder": 43,
+          "prerequisiteCodes": [
+            "A1-038"
+          ],
+          "lessons": [
+            {
+              "title": "短形容词加 -er",
+              "description": "构造常见比较级。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "more 与 than",
+              "description": "比较较长形容词和两个对象。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "人物与物品比较",
+              "description": "在真实情境中作双向比较。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        },
+        {
+          "code": "A1-044",
+          "title": "形容词最高级：-est / most",
+          "description": "在三个或更多对象中指出程度最高者。",
+          "grammarRule": "短形容词常加 -est，较长形容词常用 most；最高级前通常有 the。",
+          "examples": [
+            "Mia is the tallest in her class.",
+            "This is the most beautiful park."
+          ],
+          "commonErrors": [
+            "the most tallest → the tallest"
+          ],
+          "difficulty": 2,
+          "sortOrder": 44,
+          "prerequisiteCodes": [
+            "A1-043"
+          ],
+          "lessons": [
+            {
+              "title": "短形容词加 -est",
+              "description": "构造常见最高级。",
+              "lessonType": "LEARNING",
+              "xpReward": 8,
+              "sortOrder": 1,
+              "questions": []
+            },
+            {
+              "title": "the most 结构",
+              "description": "处理较长形容词。",
+              "lessonType": "PRACTICE",
+              "xpReward": 10,
+              "sortOrder": 2,
+              "questions": []
+            },
+            {
+              "title": "从一组中选出之最",
+              "description": "比较多个对象并说明结果。",
+              "lessonType": "REVIEW",
+              "xpReward": 12,
+              "sortOrder": 3,
+              "questions": []
+            }
+          ]
+        }
       ]
     }
   ]

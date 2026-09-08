@@ -20,6 +20,7 @@ public class CurriculumContentValidator {
 
     private static final Pattern A1_CODE = Pattern.compile("A1-\\d{3}");
     private static final Pattern PLACEHOLDER_LESSON = Pattern.compile("(?i)^lesson\\s*\\d+$");
+    private final QuestionContentValidator questionContentValidator = new QuestionContentValidator();
 
     public CurriculumStats validate(CurriculumContent content) {
         List<String> errors = new ArrayList<>();
@@ -105,12 +106,14 @@ public class CurriculumContentValidator {
         if (lessonCount < 120 || lessonCount > 160) {
             errors.add("Expected 120 to 160 lessons but found " + lessonCount);
         }
-        if (questionCount < 40 || questionCount > 80) {
-            errors.add("Expected 40 to 80 authored questions but found " + questionCount);
+        if (questionCount < 40) {
+            errors.add("Expected at least 40 authored questions but found " + questionCount);
         }
         if (!questionTypes.equals(EnumSet.allOf(QuestionType.class))) {
             errors.add("All six question types must be represented");
         }
+        var qualityReport = questionContentValidator.inspect(content);
+        errors.addAll(qualityReport.errors());
         if (!errors.isEmpty()) {
             throw new IllegalStateException("Invalid curriculum content:\n- " + String.join("\n- ", errors));
         }

@@ -5,13 +5,14 @@
 阶段 8A 只落地 English A1。知识点编号、名称和前置关系来自
 `GrammarAgent_English_A1-B2_Grammar_Tree_Curriculum_v1.docx` 的 A1 表格；A2、B1、B2
 没有导入数据库，也没有出现在客户端课程树中。可执行内容源为
-`backend/src/main/resources/content/en/a1/curriculum.json`，当前版本为 `en-a1-v1`。
+`backend/src/main/resources/content/en/a1/curriculum.json`，当前版本为 `en-a1-v2`；v2 增加五个
+阶段 8C.1 Gold Standard 内容包，未改变既有稳定编号。
 
 ## 2. 稳定编号策略
 
 `grammar_points.code` 是跨环境稳定内容标识，A1 固定使用 `A1-001` 至 `A1-045`。
-数据库自增 `id` 只用于内部外键和 API 资源定位，不承担内容版本标识。Lesson 和 Question
-当前以“父级稳定标识 + sort_order”进行幂等更新。
+数据库自增 `id` 只用于内部外键和 API 资源定位，不承担内容版本标识。Question
+使用 `A1-NNN-QNNN` 形式的独立稳定编号，内容导入不再把 Question 排序位当作身份。
 
 ## 3. 七个 A1 学习领域
 
@@ -89,34 +90,36 @@
 合计 135 节，均带 Lesson 类型、XP、排序和 5～10 分钟学习目标。标题不得使用
 `Lesson 1` 一类占位名称。
 
-## 7. 首批完整题目内容
+## 7. 当前候选题目内容
 
-A1-001 至 A1-008 是第一条可真实学习链，共 48 道启用题目。六种现有题型
-`SINGLE_CHOICE`、`MULTIPLE_CHOICE`、`FILL_BLANK`、`SENTENCE_ORDER`、
-`TRUE_FALSE`、`CORRECTION` 各 8 道。判题继续完全使用现有确定性 evaluator，
-正确答案只在提交后返回。
+A1-001 至 A1-008 是阶段 8B 的第一条可真实学习链，共 48 道题。阶段 8C.1 只为
+A1-009、A1-012、A1-016、A1-019、A1-020 各保留 16 道 Gold Standard 候选，当前合计
+128 道 `AI_DRAFT + REVIEW_REQUIRED` 题目。六种现有题型均有覆盖；判题继续完全使用
+现有确定性 evaluator，正确答案只在提交后返回。
 
 ## 8. 导入与幂等规则
 
 local Profile 默认在 Flyway 后运行 `EnglishA1ContentImportRunner`。导入器按语言代码、
-等级代码、Chapter 排序位、Grammar Point 稳定编号、Lesson 排序位和 Question 排序位
+等级代码、Chapter 排序位、Grammar Point 稳定编号、Lesson 排序位和 Question 稳定编号
 执行更新或插入。重复导入不会增加启用内容数量；不再属于当前版本的旧 Question 只会
 停用，历史 `user_answers` 不删除。
 
 可用 `CONTENT_IMPORT_ENABLED=false` 临时关闭本地内容导入，但常规开发应保持开启。
 
-## 9. 旧数据兼容与版本化债务
+## 9. 旧数据兼容与版本化
 
 旧 `EN_A1_BE_001` 会原位改名为 `A1-003`，不会删除或重建该 Grammar Point，因而其
-Lesson、用户进度、答题和错题关系仍指向原 id。Question 目前尚无独立稳定内容编号与
-版本列；修改已被用户作答的题目可能改变历史题义。商业化内容迭代前需要增加
-`question_code`、`content_version` 和退役策略，而不是覆盖已发布题义。
+Lesson、用户进度、答题和错题关系仍指向原 id。V3 迁移新增必填且唯一的
+`questions.question_code`。离开当前内容源的 Question 只会停用，不会删除历史答题和
+复习关系。正式发布后如果正确答案、考查规则或题义发生变化，必须创建新编号并退役旧版；
+纯拼写或解析表达优化可保留原编号。完整质量和审核规则见
+[English A1 内容质量说明](english-a1-content-quality.md)。
 
 ## 10. 验证清单
 
 - 课程源必须恰好包含 45 个连续 A1 编号、7 个 Chapter、135 个 Lesson。
 - 前置图必须包含 56 条无环、无重复、无悬空的边。
-- 首批启用题目必须为 48 道且覆盖六种题型。
+- 当前候选题目必须为 128 道且覆盖六种题型；新增 80 道只能属于五个 8C.1 指定点。
 - 连续执行两次导入后，启用数量和旧 be Grammar Point id 必须保持不变。
 - `/api/v1/learning-path/en` 与 `/api/v1/learning-path/en/me` 必须返回真实 45 点数据。
 - Flutter 主树必须由 API Chapter 构建，分支树必须使用 API 返回的前置编号连线。

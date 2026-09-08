@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已进入阶段 8A：后端基础设施、用户认证、Lesson 答题与 Review 闭环、Flutter Android MVP、绿色品牌语法树，以及 English A1 的 45 个正式知识点和 135 节课程骨架已经落地。AI Tutor、订阅等业务尚未实现。
+当前已进入阶段 8C.1：后端基础设施、用户认证、Lesson 答题与 Review 闭环、Flutter Android MVP、绿色品牌语法树，以及 English A1 的 45 个知识点和 135 节课程骨架已经落地。阶段 8B 的内容质量基础、Micro Lesson 和审核流程保持冻结；当前只为五个指定 GrammarPoint 制作 Gold Standard 内容样板。AI Tutor、订阅等业务尚未实现。
 
 ## 当前技术栈
 
@@ -226,7 +226,24 @@ flutter build apk --debug \
 ### 阶段 8A：English A1 正式课程树
 
 English A1 内容使用 `A1-001`～`A1-045` 稳定编号，划分为 7 个学习领域，
-共 135 节具名 Lesson。A1-001～A1-008 已包含 48 道可真实作答题目并覆盖现有六种题型。
+共 135 节具名 Lesson。阶段 8A 首批 A1-001～A1-008 包含 48 道可真实作答题目并覆盖现有六种题型。
 local Profile 会从版本化 JSON 幂等导入内容，Flutter 主树直接使用后端 Chapter 和
 Grammar Point 数据。完整课程表、前置 DAG 与版本策略见
 [English A1 课程说明](docs/english-a1-curriculum.md)。
+
+### 阶段 8B：内容质量与 Micro Lesson
+
+阶段 8B 的 48 道基线题作为候选正式题库保留，已加入稳定 Question Code、内容校验、
+重复检测以及来源/审核状态。后端 Content Source of Truth 新增 13 组高质量
+Micro Lesson 样板和 26 道独立 Quick Check；Quick Check 不计入 XP 或 Mastery。
+详细库存、质量审计和未来发布流程见
+[English A1 内容质量说明](docs/english-a1-content-quality.md)。
+题型规范、Blueprint、词汇控制和解析标准见
+[English A1 题库规范](docs/english-a1-question-bank.md)。
+
+### 阶段 8C.1：English A1 Gold Standard Content Pack
+
+仅为 A1-009、A1-012、A1-016、A1-019、A1-020 建立完整 Specification、Micro Lesson、
+Quick Check、Question Blueprint 和候选题自审记录。每点生成 20 个候选、拒绝 4 个、保留
+16 个，共向内容源加入 80 道 `AI_DRAFT + REVIEW_REQUIRED` 题目；没有任何题目被自动批准。
+详见 [Gold Standard 编辑指南](docs/content/gold-standard/editorial-guide.md)。

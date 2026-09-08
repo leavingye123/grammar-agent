@@ -28,6 +28,8 @@ class LessonSummary {
     required this.lessonType,
     required this.xpReward,
     required this.sortOrder,
+    this.questionCount = 0,
+    this.contentStatus = 'COMING_SOON',
     this.status,
   });
   final int id;
@@ -36,7 +38,12 @@ class LessonSummary {
   final String lessonType;
   final int xpReward;
   final int sortOrder;
+  @JsonKey(defaultValue: 0)
+  final int questionCount;
+  @JsonKey(defaultValue: 'COMING_SOON')
+  final String contentStatus;
   final String? status;
+  bool get contentAvailable => contentStatus == 'READY' && questionCount > 0;
   factory LessonSummary.fromJson(Map<String, dynamic> json) =>
       _$LessonSummaryFromJson(json);
   Map<String, dynamic> toJson() => _$LessonSummaryToJson(this);
@@ -146,6 +153,7 @@ class GrammarPointDetail {
     this.grammarRule,
     this.examples,
     this.commonErrors,
+    this.microLesson,
     required this.difficulty,
     required this.sortOrder,
     required this.prerequisites,
@@ -158,6 +166,7 @@ class GrammarPointDetail {
   final String? grammarRule;
   final Object? examples;
   final Object? commonErrors;
+  final MicroLesson? microLesson;
   final int difficulty;
   final int sortOrder;
   final List<Prerequisite> prerequisites;
@@ -176,6 +185,8 @@ class LessonDetail {
     required this.lessonType,
     required this.xpReward,
     required this.sortOrder,
+    this.questionCount = 0,
+    this.contentStatus = 'COMING_SOON',
   });
   final int id;
   final int grammarPointId;
@@ -184,7 +195,91 @@ class LessonDetail {
   final String lessonType;
   final int xpReward;
   final int sortOrder;
+  @JsonKey(defaultValue: 0)
+  final int questionCount;
+  @JsonKey(defaultValue: 'COMING_SOON')
+  final String contentStatus;
+  bool get contentAvailable => contentStatus == 'READY' && questionCount > 0;
   factory LessonDetail.fromJson(Map<String, dynamic> json) =>
       _$LessonDetailFromJson(json);
   Map<String, dynamic> toJson() => _$LessonDetailToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class MicroLesson {
+  const MicroLesson({
+    required this.learningObjective,
+    required this.shortIntroduction,
+    required this.coreRule,
+    required this.structure,
+    required this.examples,
+    required this.commonMistakes,
+    this.memoryTip,
+    required this.quickCheck,
+  });
+  final String learningObjective;
+  final String shortIntroduction;
+  final String coreRule;
+  final String structure;
+  final List<MicroLessonExample> examples;
+  final List<MicroLessonMistake> commonMistakes;
+  final String? memoryTip;
+  final List<MicroQuickCheck> quickCheck;
+  factory MicroLesson.fromJson(Map<String, dynamic> json) =>
+      _$MicroLessonFromJson(json);
+  Map<String, dynamic> toJson() => _$MicroLessonToJson(this);
+}
+
+@JsonSerializable()
+class MicroLessonExample {
+  const MicroLessonExample({required this.sentence, required this.note});
+  final String sentence;
+  final String note;
+  factory MicroLessonExample.fromJson(Map<String, dynamic> json) =>
+      _$MicroLessonExampleFromJson(json);
+  Map<String, dynamic> toJson() => _$MicroLessonExampleToJson(this);
+}
+
+@JsonSerializable()
+class MicroLessonMistake {
+  const MicroLessonMistake({
+    required this.incorrect,
+    required this.correct,
+    required this.reason,
+  });
+  final String incorrect;
+  final String correct;
+  final String reason;
+  factory MicroLessonMistake.fromJson(Map<String, dynamic> json) =>
+      _$MicroLessonMistakeFromJson(json);
+  Map<String, dynamic> toJson() => _$MicroLessonMistakeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class MicroQuickCheck {
+  const MicroQuickCheck({
+    required this.checkCode,
+    required this.prompt,
+    required this.options,
+    required this.correctOptionId,
+    required this.explanation,
+  });
+  final String checkCode;
+  final String prompt;
+  final List<MicroQuickCheckOption> options;
+  final String correctOptionId;
+  final String explanation;
+  factory MicroQuickCheck.fromJson(Map<String, dynamic> json) =>
+      _$MicroQuickCheckFromJson(json);
+  Map<String, dynamic> toJson() => _$MicroQuickCheckToJson(this);
+}
+
+@JsonSerializable()
+class MicroQuickCheckOption {
+  const MicroQuickCheckOption({required this.id, required this.text});
+  final String id;
+  final String text;
+  factory MicroQuickCheckOption.fromJson(Map<String, dynamic> json) =>
+      _$MicroQuickCheckOptionFromJson(json);
+  Map<String, dynamic> toJson() => _$MicroQuickCheckOptionToJson(this);
 }

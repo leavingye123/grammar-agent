@@ -17,6 +17,9 @@ import com.grammaragent.grammar.entity.GrammarPointPrerequisite;
 import com.grammaragent.grammar.repository.GrammarCatalogRepository;
 import com.grammaragent.lesson.entity.Lesson;
 import com.grammaragent.lesson.repository.LessonCatalogRepository;
+import com.grammaragent.question.entity.Question;
+import com.grammaragent.question.repository.QuestionRepository;
+import com.grammaragent.lesson.enums.LessonContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,7 @@ public class LearningPathService {
     private final CourseCatalogRepository courseRepository;
     private final GrammarCatalogRepository grammarRepository;
     private final LessonCatalogRepository lessonRepository;
+    private final QuestionRepository questionRepository;
 
     public LearningPathResponse getLearningPath(String languageCode) {
         LearningPathStructure structure = assembleStructure(languageCode);
@@ -77,6 +81,9 @@ public class LearningPathService {
                 .toList();
         List<GrammarPointPrerequisite> prerequisites = grammarRepository.findPrerequisitesByGrammarPointIds(
                 grammarPoints.stream().map(GrammarPoint::getId).toList());
+        Map<Long, Integer> questionCountsByLesson = questionRepository.findEnabledByLessonIds(
+                        lessons.stream().map(Lesson::getId).toList()).stream()
+                .collect(Collectors.groupingBy(Question::getLessonId, Collectors.summingInt(item -> 1)));
 
         Map<Long, List<Lesson>> lessonsByGrammarPoint = lessons.stream()
                 .collect(Collectors.groupingBy(Lesson::getGrammarPointId));
@@ -100,7 +107,8 @@ public class LearningPathService {
                 chaptersByLevel,
                 grammarPointsByChapter,
                 lessonsByGrammarPoint,
-                prerequisiteCodesByGrammarPoint);
+                prerequisiteCodesByGrammarPoint,
+                questionCountsByLesson);
     }
 
     private LearningPathLevelResponse toLevel(
@@ -136,6 +144,8 @@ public class LearningPathService {
                         lesson.getLessonType(),
                         lesson.getXpReward(),
                         lesson.getSortOrder(),
+                        structure.questionCountsByLesson().getOrDefault(lesson.getId(), 0),
+                        contentStatus(structure.questionCountsByLesson().getOrDefault(lesson.getId(), 0)),
                         null))
                 .toList();
         return new LearningPathGrammarPointResponse(
@@ -162,7 +172,12 @@ public class LearningPathService {
             Map<Long, List<Chapter>> chaptersByLevel,
             Map<Long, List<GrammarPoint>> grammarPointsByChapter,
             Map<Long, List<Lesson>> lessonsByGrammarPoint,
-            Map<Long, List<String>> prerequisiteCodesByGrammarPoint
+            Map<Long, List<String>> prerequisiteCodesByGrammarPoint,
+            Map<Long, Integer> questionCountsByLesson
     ) {
+    }
+
+    public static LessonContentStatus contentStatus(int questionCount) {
+        return questionCount > 0 ? LessonContentStatus.READY : LessonContentStatus.COMING_SOON;
     }
 }

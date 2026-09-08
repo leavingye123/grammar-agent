@@ -40,4 +40,15 @@ public class MyBatisQuestionRepository implements QuestionRepository {
                 .eq(Question::getEnabled, true)
                 .orderByAsc(Question::getSortOrder, Question::getId));
     }
+
+    @Override
+    public List<Question> findEnabledByLessonIds(Collection<Long> lessonIds) {
+        if (lessonIds.isEmpty()) {
+            return List.of();
+        }
+        return questionMapper.selectList(Wrappers.<Question>lambdaQuery()
+                .in(Question::getLessonId, lessonIds)
+                .eq(Question::getEnabled, true)
+                .orderByAsc(Question::getLessonId, Question::getSortOrder, Question::getId));
+    }
 }

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,11 +25,11 @@ class CurriculumContentIntegrityTest {
         var content = loader.loadEnglishA1();
         var stats = validator.validate(content);
 
-        assertEquals("en-a1-v1", content.version());
+        assertEquals("en-a1-v2", content.version());
         assertEquals(7, content.chapters().size());
         assertEquals(45, stats.grammarPoints());
         assertEquals(135, stats.lessons());
-        assertEquals(48, stats.questions());
+        assertEquals(128, stats.questions());
         assertEquals(56, stats.prerequisites());
         assertEquals(QuestionType.values().length, stats.questionTypes().size());
 
@@ -45,7 +44,7 @@ class CurriculumContentIntegrityTest {
     }
 
     @Test
-    void authoredChainUsesAllSixQuestionTypesEvenly() {
+    void authoredPacksUseAllSixQuestionTypesWithReviewedDistribution() {
         Map<QuestionType, Long> distribution = loader.loadEnglishA1().chapters().stream()
                 .flatMap(chapter -> chapter.grammarPoints().stream())
                 .flatMap(point -> point.lessons().stream())
@@ -55,10 +54,13 @@ class CurriculumContentIntegrityTest {
                         () -> new EnumMap<>(QuestionType.class),
                         Collectors.counting()));
 
-        for (QuestionType type : QuestionType.values()) {
-            assertNotNull(distribution.get(type));
-            assertEquals(8L, distribution.get(type));
-        }
+        assertEquals(Map.of(
+                QuestionType.SINGLE_CHOICE, 27L,
+                QuestionType.MULTIPLE_CHOICE, 19L,
+                QuestionType.FILL_BLANK, 23L,
+                QuestionType.SENTENCE_ORDER, 20L,
+                QuestionType.TRUE_FALSE, 18L,
+                QuestionType.CORRECTION, 21L), distribution);
     }
 
     @Test
@@ -69,7 +71,7 @@ class CurriculumContentIntegrityTest {
         var cyclicFirstPoint = new com.grammaragent.content.model.CurriculumContent.GrammarPointContent(
                 firstPoint.code(), firstPoint.title(), firstPoint.description(), firstPoint.grammarRule(),
                 firstPoint.examples(), firstPoint.commonErrors(), firstPoint.difficulty(), firstPoint.sortOrder(),
-                List.of("A1-045"), firstPoint.lessons());
+                List.of("A1-045"), firstPoint.lessons(), firstPoint.microLesson());
         var cyclicFirstChapter = new com.grammaragent.content.model.CurriculumContent.ChapterContent(
                 firstChapter.key(), firstChapter.title(), firstChapter.description(), firstChapter.sortOrder(),
                 java.util.stream.Stream.concat(

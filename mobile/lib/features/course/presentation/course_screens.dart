@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/async_views.dart';
 import '../../../core/widgets/grammar_tree_widgets.dart';
+import '../../../core/widgets/grammar_cat.dart';
 import '../../../core/widgets/learning_widgets.dart';
 import '../domain/course_models.dart';
 import '../domain/grammar_tree.dart';
@@ -380,12 +381,22 @@ class GrammarPointScreen extends ConsumerWidget {
                         for (final lesson in items)
                           LessonCard(
                             title: lesson.title,
-                            subtitle: '本课最高 ${lesson.xpReward} XP',
+                            subtitle: lesson.contentAvailable
+                                ? '${lesson.questionCount} 道练习 · 最高 ${lesson.xpReward} XP'
+                                : point.microLesson == null
+                                ? '内容准备中'
+                                : '先学习 1–2 分钟知识讲解 · 正式练习准备中',
                             status: summary?.lessons
                                 .where((l) => l.id == lesson.id)
                                 .firstOrNull
                                 ?.status,
-                            onTap: () => context.push('/lesson/${lesson.id}'),
+                            onTap: point.microLesson != null
+                                ? () => context.push(
+                                    '/grammar-point/$id/micro-lesson?lessonId=${lesson.id}',
+                                  )
+                                : lesson.contentAvailable
+                                ? () => context.push('/lesson/${lesson.id}')
+                                : null,
                           ),
                       ],
                     ),
@@ -404,6 +415,250 @@ class GrammarPointScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+class MicroLessonScreen extends ConsumerStatefulWidget {
+  const MicroLessonScreen({
+    super.key,
+    required this.grammarPointId,
+    required this.lessonId,
+  });
+
+  final int grammarPointId;
+  final int lessonId;
+
+  @override
+  ConsumerState<MicroLessonScreen> createState() => _MicroLessonScreenState();
+}
+
+class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
+  bool checking = false;
+  int checkIndex = 0;
+  String? selectedOptionId;
+  bool? answerCorrect;
+
+  @override
+  Widget build(BuildContext context) {
+    final detail = ref.watch(grammarPointProvider(widget.grammarPointId));
+    final lessons = ref.watch(
+      grammarPointLessonsProvider(widget.grammarPointId),
+    );
+    return Scaffold(
+      appBar: AppBar(title: const Text('1–2 分钟知识课')),
+      body: detail.when(
+        loading: () => const LoadingView(),
+        error: (error, _) => ErrorView(
+          error: error,
+          onRetry: () =>
+              ref.invalidate(grammarPointProvider(widget.grammarPointId)),
+        ),
+        data: (point) {
+          final micro = point.microLesson;
+          if (micro == null) {
+            return const EmptyView(message: '这节知识讲解正在准备中');
+          }
+          final selectedLesson = lessons.asData?.value
+              .where((lesson) => lesson.id == widget.lessonId)
+              .firstOrNull;
+          final practiceReady = selectedLesson?.contentAvailable == true;
+          return checking
+              ? _quickCheckView(context, micro, practiceReady)
+              : _knowledgeView(context, point.title, micro);
+        },
+      ),
+    );
+  }
+
+  Widget _knowledgeView(
+    BuildContext context,
+    String grammarPointTitle,
+    MicroLesson micro,
+  ) => PageBody(
+    children: [
+      const Center(child: GrammarCat(size: 88)),
+      Text(
+        grammarPointTitle,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.headlineMedium,
+      ),
+      CatMessage(micro.shortIntroduction),
+      _MicroSection(
+        icon: Icons.flag_outlined,
+        title: '学习目标',
+        child: Text(micro.learningObjective),
+      ),
+      _MicroSection(
+        icon: Icons.auto_stories_outlined,
+        title: '核心规则',
+        child: Text(micro.coreRule),
+      ),
+      _MicroSection(
+        icon: Icons.account_tree_outlined,
+        title: '句型结构',
+        child: SelectableText(micro.structure),
+      ),
+      _MicroSection(
+        icon: Icons.lightbulb_outline,
+        title: '看例句',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final example in micro.examples) ...[
+              Text(
+                example.sentence,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Text(example.note),
+              const SizedBox(height: AppSpacing.sm),
+            ],
+          ],
+        ),
+      ),
+      _MicroSection(
+        icon: Icons.warning_amber_rounded,
+        title: '常见错误',
+        color: AppColors.softOrange,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final mistake in micro.commonMistakes) ...[
+              Text('✕ ${mistake.incorrect}'),
+              Text(
+                '✓ ${mistake.correct}',
+                style: const TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(mistake.reason),
+            ],
+          ],
+        ),
+      ),
+      if (micro.memoryTip?.isNotEmpty == true)
+        CatMessage('记忆小贴士：${micro.memoryTip}'),
+      FilledButton.icon(
+        key: const ValueKey('start-quick-check'),
+        onPressed: () => setState(() => checking = true),
+        icon: const Icon(Icons.quiz_outlined),
+        label: const Text('开始 Quick Check'),
+      ),
+    ],
+  );
+
+  Widget _quickCheckView(
+    BuildContext context,
+    MicroLesson micro,
+    bool practiceReady,
+  ) {
+    final check = micro.quickCheck[checkIndex];
+    final last = checkIndex == micro.quickCheck.length - 1;
+    return PageBody(
+      children: [
+        Text(
+          'Quick Check ${checkIndex + 1}/${micro.quickCheck.length}',
+          style: const TextStyle(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Text(check.prompt, style: Theme.of(context).textTheme.headlineSmall),
+        for (final option in check.options)
+          Card(
+            color: selectedOptionId == option.id ? AppColors.mint : null,
+            child: ListTile(
+              title: Text(option.text),
+              leading: CircleAvatar(child: Text(option.id)),
+              onTap: answerCorrect == null
+                  ? () => setState(() {
+                      selectedOptionId = option.id;
+                      answerCorrect = option.id == check.correctOptionId;
+                    })
+                  : null,
+            ),
+          ),
+        if (answerCorrect != null)
+          GrammarCard(
+            color: answerCorrect! ? AppColors.mint : AppColors.softOrange,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  answerCorrect! ? '理解正确' : '再看一下这个规则',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Text(check.explanation),
+                const SizedBox(height: AppSpacing.sm),
+                const Text('Quick Check 不计入 Mastery。'),
+              ],
+            ),
+          ),
+        if (answerCorrect != null && !last)
+          FilledButton(
+            onPressed: () => setState(() {
+              checkIndex++;
+              selectedOptionId = null;
+              answerCorrect = null;
+            }),
+            child: const Text('下一题'),
+          ),
+        if (answerCorrect != null && last) ...[
+          FilledButton.icon(
+            key: const ValueKey('enter-practice'),
+            onPressed: practiceReady
+                ? () => context.go('/lesson/${widget.lessonId}')
+                : null,
+            icon: Icon(
+              practiceReady ? Icons.play_arrow_rounded : Icons.hourglass_empty,
+            ),
+            label: Text(practiceReady ? '进入正式练习' : '正式练习内容准备中'),
+          ),
+          TextButton(
+            onPressed: () => setState(() {
+              checking = false;
+              checkIndex = 0;
+              selectedOptionId = null;
+              answerCorrect = null;
+            }),
+            child: const Text('重新阅读知识讲解'),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _MicroSection extends StatelessWidget {
+  const _MicroSection({
+    required this.icon,
+    required this.title,
+    required this.child,
+    this.color,
+  });
+
+  final IconData icon;
+  final String title;
+  final Widget child;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) => GrammarCard(
+    color: color ?? AppColors.surface,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, color: AppColors.primary),
+            const SizedBox(width: AppSpacing.sm),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        child,
+      ],
+    ),
+  );
 }
 
 class _InfoCard extends StatelessWidget {

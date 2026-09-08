@@ -8,6 +8,7 @@ part of 'lesson_models.dart';
 
 Question _$QuestionFromJson(Map<String, dynamic> json) => Question(
   id: (json['id'] as num).toInt(),
+  questionCode: json['questionCode'] as String?,
   questionType: questionTypeFromWire(json['questionType'] as String),
   questionContent: json['questionContent'] as String,
   options: json['options'],
@@ -17,6 +18,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) => Question(
 
 Map<String, dynamic> _$QuestionToJson(Question instance) => <String, dynamic>{
   'id': instance.id,
+  'questionCode': instance.questionCode,
   'questionType': questionTypeToWire(instance.questionType),
   'questionContent': instance.questionContent,
   'options': instance.options,

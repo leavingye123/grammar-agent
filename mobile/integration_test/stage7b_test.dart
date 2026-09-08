@@ -68,9 +68,23 @@ void main() {
     await binding.takeScreenshot('05-grammar-point');
     await _scroll(tester, find.text(lesson.title));
     await _tap(tester, find.text(lesson.title));
+    await _wait(tester, find.byType(MicroLessonScreen));
+    await _scroll(tester, find.text('开始 Quick Check'));
+    await binding.takeScreenshot('06-micro-lesson');
+    await _tap(tester, find.text('开始 Quick Check'));
+    await _wait(tester, find.text('Tom'));
+    await _tap(tester, find.text('Tom'));
+    await _scroll(tester, find.text('下一题'));
+    await _tap(tester, find.text('下一题'));
+    await _wait(tester, find.text('My sister sings.'));
+    await _tap(tester, find.text('My sister sings.'));
+    await _wait(tester, find.text('Quick Check 不计入 Mastery。'));
+    await _scroll(tester, find.text('进入正式练习'));
+    await binding.takeScreenshot('07-quick-check');
+    await _tap(tester, find.text('进入正式练习'));
     await _wait(tester, find.byType(LessonScreen));
     await _scroll(tester, find.text('开始学习'));
-    await binding.takeScreenshot('06-lesson');
+    await binding.takeScreenshot('08-lesson');
     await _tap(tester, find.text('开始学习'));
     await _wait(tester, find.byType(QuestionInput));
     final questions = c.read(lessonSessionProvider(lesson.id)).questions;
@@ -112,7 +126,7 @@ void main() {
         tester.widget<FeedbackPanel>(find.byType(FeedbackPanel)).explanation,
         isNotEmpty,
       );
-      if (i == 0) await binding.takeScreenshot('07-answer-feedback');
+      if (i == 0) await binding.takeScreenshot('09-answer-feedback');
       await _scroll(
         tester,
         find.text(i == questions.length - 1 ? '完成 Lesson' : '继续'),
@@ -136,7 +150,7 @@ void main() {
           .score,
       50,
     );
-    await binding.takeScreenshot('08-result');
+    await binding.takeScreenshot('10-result');
     await _scroll(tester, find.text('返回语法树'));
     await _tap(tester, find.text('返回语法树'));
     await _wait(tester, find.byType(LearningPathScreen));
@@ -146,7 +160,7 @@ void main() {
     await _tap(tester, find.text('复习'));
     await _wait(tester, find.byType(ReviewScreen));
     await tester.pumpAndSettle();
-    await binding.takeScreenshot('09-review');
+    await binding.takeScreenshot('11-review');
     await _scroll(tester, find.text('全部未掌握错题'));
     await _tap(tester, find.text('全部未掌握错题'));
     await _wait(tester, find.byType(WrongQuestionsScreen));
@@ -169,7 +183,7 @@ void main() {
     await _tap(tester, find.text('我的'));
     await _wait(tester, find.byType(ProfileScreen));
     await tester.pumpAndSettle();
-    await binding.takeScreenshot('10-profile');
+    await binding.takeScreenshot('12-profile');
     expect(tester.takeException(), isNull);
     await auth.logout();
   }, timeout: const Timeout(Duration(minutes: 8)));

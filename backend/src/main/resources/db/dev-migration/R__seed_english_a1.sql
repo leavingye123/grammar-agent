@@ -113,10 +113,11 @@ ON CONFLICT (grammar_point_id, sort_order) DO UPDATE SET
     updated_at = CURRENT_TIMESTAMP;
 
 INSERT INTO questions (
-    lesson_id, grammar_point_id, question_type, question_content,
+    question_code, lesson_id, grammar_point_id, question_type, question_content,
     options, correct_answer, explanation, difficulty, sort_order, enabled
 )
 SELECT
+    seed.question_code,
     lesson.id,
     gp.id,
     seed.question_type,
@@ -135,6 +136,7 @@ JOIN languages l ON l.id = ll.language_id
 CROSS JOIN (
     VALUES
         (
+            'A1-003-Q001',
             'SINGLE_CHOICE',
             'Choose the correct word: I ___ a student.',
             '[{"id":"A","text":"am"},{"id":"B","text":"is"},{"id":"C","text":"are"}]'::JSONB,
@@ -144,6 +146,7 @@ CROSS JOIN (
             1
         ),
         (
+            'A1-003-Q002',
             'FILL_BLANK',
             'Fill in the blank: She ___ happy.',
             NULL::JSONB,
@@ -151,36 +154,9 @@ CROSS JOIN (
             'She 是第三人称单数，因此使用 is。',
             1::SMALLINT,
             2
-        ),
-        (
-            'TRUE_FALSE',
-            'True or false: “They are friends.” is grammatically correct.',
-            '[{"value":true,"text":"True"},{"value":false,"text":"False"}]'::JSONB,
-            '{"value":true}'::JSONB,
-            'They 是复数主语，需要搭配 are。',
-            1::SMALLINT,
-            3
-        ),
-        (
-            'CORRECTION',
-            'Correct the sentence: She are my teacher.',
-            NULL::JSONB,
-            '{"acceptedAnswers":["She is my teacher."]}'::JSONB,
-            'She 是第三人称单数，应将 are 改为 is。',
-            2::SMALLINT,
-            4
-        ),
-        (
-            'SENTENCE_ORDER',
-            'Put the words in the correct order.',
-            '["friends","They","are","."]'::JSONB,
-            '{"tokens":["They","are","friends","."]}'::JSONB,
-            '英语陈述句的基本顺序是主语 + be 动词 + 表语。',
-            2::SMALLINT,
-            5
         )
 ) AS seed(
-    question_type, question_content, options, correct_answer,
+    question_code, question_type, question_content, options, correct_answer,
     explanation, difficulty, sort_order
 )
 WHERE l.code = 'en'
@@ -189,6 +165,7 @@ WHERE l.code = 'en'
   AND gp.code = 'A1-003'
   AND lesson.sort_order = 1
 ON CONFLICT (lesson_id, sort_order) DO UPDATE SET
+    question_code = EXCLUDED.question_code,
     grammar_point_id = EXCLUDED.grammar_point_id,
     question_type = EXCLUDED.question_type,
     question_content = EXCLUDED.question_content,

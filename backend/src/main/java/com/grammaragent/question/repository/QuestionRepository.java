@@ -13,4 +13,8 @@ public interface QuestionRepository {
     List<Question> findEnabledByIds(Collection<Long> questionIds);
 
     List<Question> findEnabledByLessonId(Long lessonId);
+
+    default List<Question> findEnabledByLessonIds(Collection<Long> lessonIds) {
+        return lessonIds.stream().flatMap(id -> findEnabledByLessonId(id).stream()).toList();
+    }
 }
