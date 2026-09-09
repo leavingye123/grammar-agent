@@ -17,6 +17,13 @@ public class MyBatisQuestionRepository implements QuestionRepository {
     private final QuestionMapper questionMapper;
 
     @Override
+    public Optional<Question> findEnabledByCode(String questionCode) {
+        return Optional.ofNullable(questionMapper.selectOne(Wrappers.<Question>lambdaQuery()
+                .eq(Question::getQuestionCode, questionCode)
+                .eq(Question::getEnabled, true)));
+    }
+
+    @Override
     public Optional<Question> findEnabledById(Long questionId) {
         return Optional.ofNullable(questionMapper.selectOne(Wrappers.<Question>lambdaQuery()
                 .eq(Question::getId, questionId)

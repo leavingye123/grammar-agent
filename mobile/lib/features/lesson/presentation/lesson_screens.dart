@@ -9,6 +9,7 @@ import '../../../core/widgets/learning_widgets.dart';
 import '../../course/domain/grammar_tree.dart';
 import '../../course/presentation/course_providers.dart';
 import '../../home/presentation/home_providers.dart';
+import '../../tutor/presentation/tutor_sheet.dart';
 import '../domain/lesson_models.dart';
 import 'lesson_session.dart';
 import 'question_widgets.dart';
@@ -96,6 +97,11 @@ class QuestionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(lessonSessionProvider(lessonId));
+    final tutorGrammarPointId = ref
+        .watch(lessonProvider(lessonId))
+        .asData
+        ?.value
+        .grammarPointId;
     final controller = ref.read(lessonSessionProvider(lessonId).notifier);
     if (state.loading) {
       return Scaffold(
@@ -166,6 +172,12 @@ class QuestionScreen extends ConsumerWidget {
                 correctAnswer: state.feedback!.correctAnswer,
                 explanation: state.feedback!.explanation,
               ),
+              if (tutorGrammarPointId != null && question.questionCode != null)
+                GrammarTutorButton(
+                  grammarPointId: tutorGrammarPointId,
+                  questionCode: question.questionCode,
+                  wrongAnswer: !state.feedback!.correct,
+                ),
             ],
             const SizedBox(height: AppSpacing.xl),
             if (state.feedback == null)
@@ -327,6 +339,21 @@ class LessonResultScreen extends ConsumerWidget {
               onPressed: () => context.go('/review/wrong'),
               child: const Text('复习错题'),
             ),
+            if (completion.lessonAttemptId != null) ...[
+              const SizedBox(height: AppSpacing.md),
+              GrammarCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('🐱 Grammar Cat'),
+                    Text(completion.correctCount == completion.totalCount
+                        ? '这次全部答对了。可以让 Grammar Cat 帮你总结规则或提醒容易混淆的地方。'
+                        : '想看看这次哪里需要注意吗？'),
+                    GrammarTutorButton(lessonAttemptId: completion.lessonAttemptId),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

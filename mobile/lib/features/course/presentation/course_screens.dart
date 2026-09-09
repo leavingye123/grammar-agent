@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/design_tokens.dart';
+import '../../tutor/presentation/tutor_sheet.dart';
 import '../../../core/widgets/async_views.dart';
 import '../../../core/widgets/grammar_tree_widgets.dart';
 import '../../../core/widgets/grammar_cat.dart';
@@ -325,6 +326,7 @@ class GrammarPointScreen extends ConsumerWidget {
           children: [
             Text(point.title, style: Theme.of(context).textTheme.headlineLarge),
             Text('难度 ${point.difficulty} · 理解一个规则，多一种表达'),
+            GrammarTutorButton(grammarPointId: id),
             if (summary != null)
               ProgressCard(
                 title: '当前 Mastery',
@@ -567,6 +569,7 @@ class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
   ) => PageBody(
     children: [
       const Center(child: GrammarCat(size: 88)),
+      GrammarTutorButton(grammarPointId: widget.grammarPointId),
       Text(
         grammarPointTitle,
         textAlign: TextAlign.center,
@@ -632,6 +635,7 @@ class _MicroLessonScreenState extends ConsumerState<MicroLessonScreen> {
           ),
         ],
       ),
+      GrammarTutorButton(grammarPointId: widget.grammarPointId),
       if (micro.commonMistakes.isNotEmpty)
         _MicroSection(
           icon: Icons.warning_amber_rounded,

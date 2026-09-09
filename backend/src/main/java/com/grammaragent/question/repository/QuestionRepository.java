@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public interface QuestionRepository {
 
+    default Optional<Question> findEnabledByCode(String questionCode) {
+        return Optional.empty();
+    }
+
     Optional<Question> findEnabledById(Long questionId);
 
     List<Question> findEnabledByIds(Collection<Long> questionIds);

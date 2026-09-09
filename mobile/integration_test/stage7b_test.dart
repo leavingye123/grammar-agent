@@ -19,6 +19,7 @@ import 'package:grammar_agent/features/lesson/presentation/lesson_session.dart';
 import 'package:grammar_agent/features/lesson/presentation/question_widgets.dart';
 import 'package:grammar_agent/features/profile/presentation/profile_screen.dart';
 import 'package:grammar_agent/features/review/presentation/review_screens.dart';
+import 'package:grammar_agent/features/tutor/presentation/tutor_sheet.dart';
 
 // Uses a disposable account against the real local backend. Only token storage
 // is isolated so the emulator owner's existing login is left intact.
@@ -58,6 +59,7 @@ void main() {
     await _wait(tester, find.byType(MicroLessonScreen));
     expect(find.byType(QuestionScreen), findsNothing);
     await _wait(tester, find.byKey(const ValueKey('teaching-page-1-continue')));
+    await _askTutor(tester);
     await binding.takeScreenshot('02-teaching-understand');
     await _tap(tester, find.byKey(const ValueKey('teaching-page-1-continue')));
     await _wait(tester, find.text('常见错误'));
@@ -117,7 +119,10 @@ void main() {
         tester.widget<FeedbackPanel>(find.byType(FeedbackPanel)).explanation,
         isNotEmpty,
       );
-      if (i == 0) await binding.takeScreenshot('06-answer-feedback');
+      if (i == 0) {
+        await _askTutor(tester);
+        await binding.takeScreenshot('06-answer-feedback');
+      }
       await _scroll(
         tester,
         find.text(i == questions.length - 1 ? '完成 Lesson' : '继续'),
@@ -142,6 +147,7 @@ void main() {
       50,
     );
     await binding.takeScreenshot('07-result');
+    await _askTutor(tester, automaticMessage: true);
     await _scroll(tester, find.text('返回语法树'));
     await _tap(tester, find.text('返回语法树'));
     await _wait(tester, find.byType(LearningPathScreen));
@@ -173,6 +179,7 @@ void main() {
     await _scroll(tester, find.text('提交答案'));
     await _tap(tester, find.text('提交答案'));
     await _wait(tester, find.byType(FeedbackPanel));
+    await _askTutor(tester);
     await _scroll(tester, find.text('完成复习'));
     await _tap(tester, find.text('完成复习'));
     await _wait(tester, find.byType(WrongQuestionsScreen));
@@ -185,6 +192,31 @@ void main() {
     expect(tester.takeException(), isNull);
     await auth.logout();
   }, timeout: const Timeout(Duration(minutes: 8)));
+}
+
+Future<void> _askTutor(
+  WidgetTester tester, {
+  bool automaticMessage = false,
+}) async {
+  await _scroll(tester, find.byType(GrammarTutorButton));
+  await _tap(tester, find.byType(GrammarTutorButton));
+  await _wait(tester, find.byType(GrammarTutorSheet));
+  if (!automaticMessage) {
+    await _wait(tester, find.byType(TextField));
+    await tester.enterText(find.byType(TextField), '请简单解释一下。');
+    await _tap(tester, find.text('发送'));
+  }
+  await _wait(tester, find.textContaining('Grammar Cat：本地验收回答'));
+  expect(
+    find.descendant(
+      of: find.byType(GrammarTutorSheet),
+      matching: find.byType(TextButton),
+    ),
+    findsNWidgets(4),
+  );
+  await _tap(tester, find.byTooltip('关闭'));
+  await tester.pumpAndSettle();
+  expect(find.byType(GrammarTutorSheet), findsNothing);
 }
 
 Future<void> _wait(WidgetTester tester, Finder finder) async {

@@ -18,8 +18,35 @@ import 'package:grammar_agent/features/lesson/data/lesson_repository.dart';
 import 'package:grammar_agent/features/lesson/domain/lesson_models.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_screens.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_session.dart';
+import 'package:grammar_agent/features/tutor/presentation/tutor_sheet.dart';
 
 void main() {
+  testWidgets('Tutor entry appears only after formal feedback with server question code', (tester) async {
+    for (final correct in [false, true]) {
+      final repo = _CountingLessonRepository()..correctResult = correct;
+      final container = _container(status: 'IN_PROGRESS', repo: repo);
+      addTearDown(container.dispose);
+      await tester.pumpWidget(UncontrolledProviderScope(
+        container: container,
+        child: const MaterialApp(home: QuestionScreen(lessonId: 90)),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.byType(GrammarTutorButton), findsNothing);
+      final controller = container.read(lessonSessionProvider(90).notifier);
+      controller.setAnswer('B');
+      await controller.submit();
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.byType(GrammarTutorButton), 150,
+          scrollable: find.byType(Scrollable).first);
+      final entry = tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton));
+      expect(entry.grammarPointId, 9);
+      expect(entry.questionCode, 'A1-009-Q001');
+      expect(entry.wrongAnswer, !correct);
+      expect(repo.submitCalls, 1);
+      await tester.pumpWidget(const SizedBox());
+    }
+  });
+
   test('Home and Grammar Tree share first-learning routing policy', () {
     expect(
       grammarLearningRoute(
@@ -85,6 +112,8 @@ void main() {
       );
 
       expect(find.byType(MicroLessonScreen), findsOneWidget);
+      expect(find.byType(GrammarTutorButton), findsOneWidget);
+      expect(tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton)).grammarPointId, 9);
       expect(find.text('根据主语选择正确的 be 动词。'), findsOneWidget);
       expect(find.text('核心规则'), findsOneWidget);
       expect(find.byType(QuestionScreen), findsNothing);
@@ -92,6 +121,7 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('teaching-page-1-continue')));
       await tester.pumpAndSettle();
       expect(find.text('常见错误'), findsOneWidget);
+      expect(find.byType(GrammarTutorButton), findsOneWidget);
       expect(find.textContaining('Grammar Cat 提示'), findsOneWidget);
 
       await tester.tap(find.byKey(const ValueKey('teaching-page-2-continue')));
@@ -358,6 +388,7 @@ class _CountingLessonRepository extends LessonRepository {
   _CountingLessonRepository() : super(ApiClient(Dio()));
 
   int submitCalls = 0;
+  bool correctResult = true;
 
   @override
   Future<List<Question>> questions(int id) async => [
@@ -383,9 +414,9 @@ class _CountingLessonRepository extends LessonRepository {
     int durationMs,
   ) async {
     submitCalls++;
-    return const SubmitAnswerResult(
+    return SubmitAnswerResult(
       questionId: 900,
-      correct: true,
+      correct: correctResult,
       correctAnswer: {'optionId': 'A'},
       explanation: '单数主语使用 is。',
       xpEarned: 0,

@@ -75,7 +75,8 @@ public class LessonCompletionService {
                 totalCount,
                 correctCount,
                 score,
-                xpEarned);
+                xpEarned,
+                attempt.getId());
     }
 
     private int calculateXp(int lessonXpReward, int correctCount, int totalCount) {

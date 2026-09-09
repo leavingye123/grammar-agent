@@ -29,8 +29,10 @@ class ReviewQuestion {
     required this.wrongCount,
     required this.lastWrongAt,
     this.nextReviewAt,
+    this.grammarPointId,
   });
   final int wrongQuestionId;
+  final int? grammarPointId;
   final Question question;
   final int wrongCount;
   final DateTime lastWrongAt;

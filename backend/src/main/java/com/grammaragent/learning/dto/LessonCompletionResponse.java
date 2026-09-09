@@ -8,6 +8,7 @@ public record LessonCompletionResponse(
         int totalCount,
         int correctCount,
         int score,
-        int xpEarned
+        int xpEarned,
+        Long lessonAttemptId
 ) {
 }

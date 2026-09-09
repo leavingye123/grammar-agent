@@ -7,6 +7,7 @@ import '../../../core/theme/design_tokens.dart';
 import '../../home/presentation/home_providers.dart';
 import '../../course/presentation/course_providers.dart';
 import '../../lesson/presentation/question_widgets.dart';
+import '../../tutor/presentation/tutor_sheet.dart';
 import '../domain/review_models.dart';
 import 'review_providers.dart';
 
@@ -242,7 +243,8 @@ class _ReviewPracticeScreenState extends ConsumerState<ReviewPracticeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final q = widget.items[index].question;
+    final item = widget.items[index];
+    final q = item.question;
     return Scaffold(
       appBar: AppBar(title: Text('复习 ${index + 1}/${widget.items.length}')),
       body: SafeArea(
@@ -279,6 +281,13 @@ class _ReviewPracticeScreenState extends ConsumerState<ReviewPracticeScreen> {
                     ? '已掌握 ✓'
                     : '仍需复习 · 下次 ${formatLocalTime(result!.nextReviewAt)}',
               ),
+              if (item.grammarPointId != null && q.questionCode != null)
+                GrammarTutorButton(
+                  grammarPointId: item.grammarPointId!,
+                  questionCode: q.questionCode,
+                  wrongAnswer: !result!.correct,
+                  reviewFeedback: true,
+                ),
             ],
             const SizedBox(height: 24),
             result == null

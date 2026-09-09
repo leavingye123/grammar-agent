@@ -40,3 +40,11 @@ app:
     daily-goal-xp: ${DAILY_GOAL_XP:30}
   content:
     import-enabled: ${CONTENT_IMPORT_ENABLED:true}
+  ai-tutor:
+    enabled: ${AI_TUTOR_ENABLED:false}
+    base-url: ${AI_BASE_URL:}
+    api-key: ${AI_API_KEY:}
+    model: ${AI_MODEL:}
+    timeout-seconds: ${AI_TIMEOUT_SECONDS:30}
+    temperature: ${AI_TEMPERATURE:0.3}
+    max-tokens: ${AI_MAX_TOKENS:600}

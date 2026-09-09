@@ -16,6 +16,14 @@ public class MyBatisLessonAttemptRepository implements LessonAttemptRepository {
     private final LessonAttemptMapper mapper;
 
     @Override
+    public Optional<LessonAttempt> findByUserAndId(Long userId, Long attemptId) {
+        return Optional.ofNullable(mapper.selectOne(
+                com.baomidou.mybatisplus.core.toolkit.Wrappers.<LessonAttempt>lambdaQuery()
+                        .eq(LessonAttempt::getUserId, userId)
+                        .eq(LessonAttempt::getId, attemptId)));
+    }
+
+    @Override
     public LessonAttempt findOrCreateActive(Long userId, Long lessonId, OffsetDateTime now) {
         mapper.insertActiveIfAbsent(userId, lessonId, now);
         LessonAttempt attempt = mapper.selectActive(userId, lessonId);

@@ -15,7 +15,8 @@ public interface UserAnswerMapper extends BaseMapper<UserAnswer> {
     @Select("""
             <script>
             SELECT DISTINCT ON (question_id)
-                   id, user_id, question_id, is_correct, answered_at, created_at, updated_at
+                   id, user_id, question_id, lesson_attempt_id, answer,
+                   is_correct, answered_at, created_at, updated_at
             FROM user_answers
             WHERE user_id = #{userId}
               AND lesson_attempt_id = #{attemptId}
@@ -26,6 +27,10 @@ public interface UserAnswerMapper extends BaseMapper<UserAnswer> {
             ORDER BY question_id, answered_at DESC, id DESC
             </script>
             """)
+    @org.apache.ibatis.annotations.Results({
+            @org.apache.ibatis.annotations.Result(column = "answer", property = "answer",
+                    typeHandler = com.grammaragent.common.persistence.JsonNodeTypeHandler.class)
+    })
     List<UserAnswer> selectLatestByQuestionIdsInAttempt(
             @Param("userId") Long userId,
             @Param("questionIds") Collection<Long> questionIds,

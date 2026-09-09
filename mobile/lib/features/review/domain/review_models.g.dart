@@ -27,6 +27,7 @@ Map<String, dynamic> _$ReviewSummaryToJson(ReviewSummary instance) =>
 ReviewQuestion _$ReviewQuestionFromJson(Map<String, dynamic> json) =>
     ReviewQuestion(
       wrongQuestionId: (json['wrongQuestionId'] as num).toInt(),
+      grammarPointId: (json['grammarPointId'] as num?)?.toInt(),
       question: Question.fromJson(json['question'] as Map<String, dynamic>),
       wrongCount: (json['wrongCount'] as num).toInt(),
       lastWrongAt: DateTime.parse(json['lastWrongAt'] as String),
@@ -38,6 +39,7 @@ ReviewQuestion _$ReviewQuestionFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReviewQuestionToJson(ReviewQuestion instance) =>
     <String, dynamic>{
       'wrongQuestionId': instance.wrongQuestionId,
+      'grammarPointId': instance.grammarPointId,
       'question': instance.question.toJson(),
       'wrongCount': instance.wrongCount,
       'lastWrongAt': instance.lastWrongAt.toIso8601String(),

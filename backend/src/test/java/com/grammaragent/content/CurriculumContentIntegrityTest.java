@@ -30,7 +30,7 @@ class CurriculumContentIntegrityTest {
         assertEquals(45, stats.grammarPoints());
         assertEquals(135, stats.lessons());
         assertEquals(128, stats.questions());
-        assertEquals(56, stats.prerequisites());
+        assertEquals(57, stats.prerequisites());
         assertEquals(QuestionType.values().length, stats.questionTypes().size());
 
         var points = content.chapters().stream()

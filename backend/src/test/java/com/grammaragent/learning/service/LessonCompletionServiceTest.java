@@ -38,6 +38,7 @@ class LessonCompletionServiceTest {
         var result = fixtures.service.complete(7L, 10L);
 
         assertEquals(LessonProgressStatus.COMPLETED, result.status());
+        assertEquals(fixtures.attempts.completed.getId(), result.lessonAttemptId());
         assertEquals(5, result.totalCount());
         assertEquals(4, result.correctCount());
         assertEquals(80, result.score());

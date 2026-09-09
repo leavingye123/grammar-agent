@@ -103,8 +103,10 @@ class LessonCompletion {
     required this.correctCount,
     required this.score,
     required this.xpEarned,
+    this.lessonAttemptId,
   });
   final int lessonId;
+  final int? lessonAttemptId;
   final String status;
   final int totalCount;
   final int correctCount;

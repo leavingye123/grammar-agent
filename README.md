@@ -2,7 +2,7 @@
 
 GrammarAgent 是一款专注于外语语法学习与练习的智能学习产品。产品将通过关卡、进度、XP、连续学习天数和即时反馈，帮助学习者沿着由易到难的路径掌握语法。
 
-当前已进入阶段 8C.1：后端基础设施、用户认证、Lesson 答题与 Review 闭环、Flutter Android MVP、绿色品牌语法树，以及 English A1 的 45 个知识点和 135 节课程骨架已经落地。阶段 8B 的内容质量基础、Micro Lesson 和审核流程保持冻结；当前只为五个指定 GrammarPoint 制作 Gold Standard 内容样板。AI Tutor、订阅等业务尚未实现。
+当前进入 Stage 9A：Grammar Cat Tutor MVP 已加入后端与 Flutter，默认关闭，等待 Mac Runtime Validation。后端基础设施、用户认证、Lesson 答题与 Review 闭环、Flutter Android MVP、绿色品牌语法树，以及 English A1 的 45 个知识点和 135 节课程骨架保持原有实现。课程内容与 Gold Standard 本轮不变；订阅尚未实现。Tutor 配置、接口和验收步骤见 [Stage 9A 文档](docs/stage-9a-tutor.md)。
 
 ## 当前技术栈
 

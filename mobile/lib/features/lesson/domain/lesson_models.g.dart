@@ -48,6 +48,7 @@ Map<String, dynamic> _$SubmitAnswerResultToJson(SubmitAnswerResult instance) =>
 
 LessonCompletion _$LessonCompletionFromJson(Map<String, dynamic> json) =>
     LessonCompletion(
+      lessonAttemptId: (json['lessonAttemptId'] as num?)?.toInt(),
       lessonId: (json['lessonId'] as num).toInt(),
       status: json['status'] as String,
       totalCount: (json['totalCount'] as num).toInt(),
@@ -58,6 +59,7 @@ LessonCompletion _$LessonCompletionFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$LessonCompletionToJson(LessonCompletion instance) =>
     <String, dynamic>{
+      'lessonAttemptId': instance.lessonAttemptId,
       'lessonId': instance.lessonId,
       'status': instance.status,
       'totalCount': instance.totalCount,

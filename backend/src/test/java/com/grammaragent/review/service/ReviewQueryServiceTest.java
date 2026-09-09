@@ -43,6 +43,7 @@ class ReviewQueryServiceTest {
         List<ReviewQuestionResponse> result = service.getDue(USER_A, 20);
 
         assertThat(result).extracting(item -> item.question().id()).containsExactly(1L);
+        assertThat(result).extracting(ReviewQuestionResponse::grammarPointId).containsExactly(100L);
         assertThat(questionRepository.batchCalls).isEqualTo(1);
         String json = objectMapper.writeValueAsString(result);
         assertThat(json).doesNotContain("correctAnswer", "explanation", "secret");

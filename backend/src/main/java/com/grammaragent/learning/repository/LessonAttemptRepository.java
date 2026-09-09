@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public interface LessonAttemptRepository {
 
+    default Optional<LessonAttempt> findByUserAndId(Long userId, Long attemptId) {
+        return Optional.empty();
+    }
+
     LessonAttempt findOrCreateActive(Long userId, Long lessonId, OffsetDateTime now);
 
     Optional<LessonAttempt> findActiveForUpdate(Long userId, Long lessonId);

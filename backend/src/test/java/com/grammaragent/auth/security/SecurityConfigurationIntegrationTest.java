@@ -89,6 +89,18 @@ class SecurityConfigurationIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
+    void tutorEndpointsRequireAuthentication() throws Exception {
+        mockMvc.perform(get("/api/v1/ai/tutor/status"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+        mockMvc.perform(post("/api/v1/ai/tutor/chat")
+                        .contentType("application/json")
+                        .content("{\"grammarPointId\":16,\"message\":\"why\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(40100));
+    }
+
+    @Test
     void publicAuthEndpointsShouldReachControllerAndProtectedEndpointShouldRequireToken() throws Exception {
         mockMvc.perform(post("/api/v1/auth/login")
                         .contentType("application/json")

@@ -9,6 +9,7 @@ public record ReviewQuestionResponse(
         QuestionResponse question,
         int wrongCount,
         OffsetDateTime lastWrongAt,
-        OffsetDateTime nextReviewAt
+        OffsetDateTime nextReviewAt,
+        Long grammarPointId
 ) {
 }

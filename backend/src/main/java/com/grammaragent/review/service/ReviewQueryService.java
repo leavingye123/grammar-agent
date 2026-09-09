@@ -73,7 +73,8 @@ public class ReviewQueryService {
                 safeQuestion,
                 item.getWrongCount(),
                 item.getLastWrongAt(),
-                item.getNextReviewAt());
+                item.getNextReviewAt(),
+                question.getGrammarPointId());
     }
 
     private OffsetDateTime utcNow() {
