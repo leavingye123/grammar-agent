@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -91,7 +92,7 @@ void main() {
         expect(adapter.requests.first.queryParameters['lessonAttemptId'], 99);
         expect(adapter.requests.first.queryParameters['scene'], 'result');
         final chats = adapter.requests
-            .where((r) => r.path.endsWith('/chat'))
+            .where((r) => r.path.endsWith('/chat/stream'))
             .toList();
         if (scenario.available) {
           expect(chats, hasLength(1));
@@ -102,7 +103,7 @@ void main() {
           );
           expect(data['lessonAttemptId'], 99);
           expect(data['message'], '帮我总结这次练习');
-          expect(find.textContaining('Grammar Cat：本次总结'), findsOneWidget);
+          expect(find.byWidgetPredicate((w) => w is MarkdownBody && w.data == '本次总结'), findsOneWidget);
           expect(
             find.text('我这次主要错在哪里？'),
             scenario.perfect ? findsNothing : findsOneWidget,
@@ -136,6 +137,12 @@ class _ResultAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requests.add(options);
+    if (options.path.endsWith('/stream')) {
+      return ResponseBody.fromString(
+        'event: delta\ndata: {"content":"本次总结"}\n\nevent: done\ndata: {}\n\n',
+        200, headers: {Headers.contentTypeHeader: ['text/event-stream; charset=utf-8']},
+      );
+    }
     return ResponseBody.fromString(
       jsonEncode({
         'code': 0,

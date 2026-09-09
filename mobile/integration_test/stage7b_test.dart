@@ -206,14 +206,16 @@ Future<void> _askTutor(
     await tester.enterText(find.byType(TextField), '请简单解释一下。');
     await _tap(tester, find.text('发送'));
   }
-  await _wait(tester, find.textContaining('Grammar Cat：本地验收回答'));
+  await _wait(tester, find.textContaining('本地验收回答', findRichText: true));
   expect(
     find.descendant(
       of: find.byType(GrammarTutorSheet),
-      matching: find.byType(TextButton),
+      matching: find.byType(ActionChip),
     ),
     findsNWidgets(4),
   );
+  await _wait(tester, find.byWidgetPredicate((widget) => widget is TutorChatBubble &&
+      widget.message.role == 'assistant' && widget.message.status == TutorMessageStatus.complete));
   await _tap(tester, find.byTooltip('关闭'));
   await tester.pumpAndSettle();
   expect(find.byType(GrammarTutorSheet), findsNothing);

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grammar_agent/core/network/api_client.dart';
@@ -85,7 +86,7 @@ void main() {
           await tester.tap(find.text('发送'));
           await tester.pumpAndSettle();
           final request = adapter.requests.last;
-          expect(request.path, '/api/v1/ai/tutor/chat');
+          expect(request.path, '/api/v1/ai/tutor/chat/stream');
           expect(
             (request.data as Map).keys,
             unorderedEquals([
@@ -98,7 +99,7 @@ void main() {
           expect((request.data as Map)['grammarPointId'], 16);
           expect((request.data as Map)['questionCode'], 'A1-016-Q001');
           expect((request.data as Map)['history'], isEmpty);
-          expect(find.textContaining('Grammar Cat：简单解释'), findsOneWidget);
+          expect(find.byWidgetPredicate((w) => w is MarkdownBody && w.data == '简单解释'), findsOneWidget);
         } else {
           expect(find.text('Grammar Cat AI 暂未开启，你可以继续学习。'), findsOneWidget);
           expect(
@@ -106,7 +107,7 @@ void main() {
             isFalse,
           );
           expect(
-            adapter.requests.where((r) => r.path.endsWith('/chat')),
+            adapter.requests.where((r) => r.path.contains('/chat')),
             isEmpty,
           );
         }
@@ -160,6 +161,12 @@ class _ReviewAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requests.add(options);
+    if (options.path.endsWith('/stream')) {
+      return ResponseBody.fromString(
+        'event: delta\ndata: {"content":"简单解释"}\n\nevent: done\ndata: {}\n\n',
+        200, headers: {Headers.contentTypeHeader: ['text/event-stream; charset=utf-8']},
+      );
+    }
     final Map<String, dynamic> data;
     if (options.path.endsWith('/answer')) {
       data = {
