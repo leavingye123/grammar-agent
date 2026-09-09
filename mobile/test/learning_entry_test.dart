@@ -36,12 +36,17 @@ void main() {
       controller.setAnswer('B');
       await controller.submit();
       await tester.pumpAndSettle();
-      await tester.scrollUntilVisible(find.byType(GrammarTutorButton), 150,
-          scrollable: find.byType(Scrollable).first);
-      final entry = tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton));
-      expect(entry.grammarPointId, 9);
-      expect(entry.questionCode, 'A1-009-Q001');
-      expect(entry.wrongAnswer, !correct);
+      if (correct) {
+        // Correct answers keep the practice rhythm; Grammar Cat moves to the result page.
+        expect(find.byType(GrammarTutorButton), findsNothing);
+      } else {
+        await tester.scrollUntilVisible(find.byType(GrammarTutorButton), 150,
+            scrollable: find.byType(Scrollable).first);
+        final entry = tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton));
+        expect(entry.grammarPointId, 9);
+        expect(entry.questionCode, 'A1-009-Q001');
+        expect(entry.wrongAnswer, isTrue);
+      }
       expect(repo.submitCalls, 1);
       await tester.pumpWidget(const SizedBox());
     }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/network_providers.dart';
 import '../../../core/network/learning_refresh.dart';
+import '../../tutor/tutor_session.dart';
 import '../data/auth_repository.dart';
 import '../domain/auth_models.dart';
 
@@ -71,6 +72,8 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(loading: true, clearError: true);
     try {
       final user = await action();
+      // Another account must never see the previous account's tutor chat.
+      ref.read(tutorSessionProvider.notifier).clear();
       refreshLearningData(ref);
       state = AuthState(AuthStatus.authenticated, user: user);
       return true;
@@ -82,6 +85,7 @@ class AuthController extends Notifier<AuthState> {
 
   Future<void> logout() async {
     if (state.loading) return;
+    ref.read(tutorSessionProvider.notifier).clear();
     state = state.copyWith(loading: true, clearError: true);
     try {
       await _repository.logout();
@@ -92,8 +96,12 @@ class AuthController extends Notifier<AuthState> {
     refreshLearningData(ref);
   }
 
-  void expireSession() => state = const AuthState(
-    AuthStatus.unauthenticated,
-    error: '登录已过期，请重新登录。',
-  );
+  void expireSession() {
+    ref.read(tutorSessionProvider.notifier).clear();
+    state = const AuthState(
+      AuthStatus.unauthenticated,
+      error: '登录已过期，请重新登录。',
+    );
+  }
+
 }

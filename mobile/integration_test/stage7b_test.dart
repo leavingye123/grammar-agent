@@ -13,13 +13,14 @@ import 'package:grammar_agent/features/course/presentation/course_providers.dart
 import 'package:grammar_agent/features/course/presentation/course_screens.dart';
 import 'package:grammar_agent/features/course/domain/grammar_tree.dart';
 import 'package:grammar_agent/features/home/presentation/home_screen.dart';
-import 'package:grammar_agent/features/lesson/domain/lesson_models.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_screens.dart';
 import 'package:grammar_agent/features/lesson/presentation/lesson_session.dart';
+import 'package:grammar_agent/features/lesson/presentation/practice_activities.dart';
 import 'package:grammar_agent/features/lesson/presentation/question_widgets.dart';
 import 'package:grammar_agent/features/profile/presentation/profile_screen.dart';
 import 'package:grammar_agent/features/review/presentation/review_screens.dart';
 import 'package:grammar_agent/features/tutor/presentation/tutor_sheet.dart';
+import 'package:grammar_agent/features/tutor/tutor_session.dart';
 
 // Uses a disposable account against the real local backend. Only token storage
 // is isolated so the emulator owner's existing login is left intact.
@@ -79,62 +80,125 @@ void main() {
     await _scroll(tester, find.text('开始学习'));
     await binding.takeScreenshot('05-lesson');
     await _tap(tester, find.text('开始学习'));
-    await _wait(tester, find.byType(QuestionInput));
+    await _wait(tester, find.byType(QuestionScreen));
     final questions = c.read(lessonSessionProvider(lesson.id)).questions;
     for (var i = 0; i < questions.length; i++) {
       final q = questions[i];
-      switch (q.questionType) {
-        case QuestionType.singleChoice:
-          // Deliberately wrong once, to verify orange feedback and review.
+      final style = resolveInteractionStyle(q);
+      await _wait(tester, find.byKey(ValueKey('activity-${q.id}')));
+      switch (style) {
+        // Tap-first activities submit themselves; the first activity is
+        // answered deliberately wrong to verify orange feedback and review.
+        case PracticeInteractionStyle.quickChoice ||
+            PracticeInteractionStyle.dialogue ||
+            PracticeInteractionStyle.ruleMatch ||
+            PracticeInteractionStyle.tokenTap:
           await _tap(
             tester,
-            find.text(q.optionItems.firstWhere((o) => o.id == 'A').text),
+            find.text(
+              q.optionItems
+                  .firstWhere(
+                    (o) =>
+                        o.id == (q.questionCode == 'A1-001-Q014' ? 'B' : 'A'),
+                  )
+                  .text,
+            ),
           );
-        case QuestionType.multipleChoice:
+        case PracticeInteractionStyle.wordSlot ||
+            PracticeInteractionStyle.fixIt:
+          await _tap(tester, find.text(q.optionItems.first.text));
+        case PracticeInteractionStyle.trueFalse:
+          await _tap(tester, find.text('✓ 正确'));
+        case PracticeInteractionStyle.tapToBuild:
+          for (final option in q.optionItems) {
+            await _scroll(tester, find.text(option.text));
+            await _tap(tester, find.text(option.text));
+          }
+        case PracticeInteractionStyle.pairMatch ||
+            PracticeInteractionStyle.categorySort:
+          final lefts = q.optionItems
+              .map((option) => option.text.split(' → ').first)
+              .toSet()
+              .toList();
+          final rights = q.optionItems
+              .map((option) => option.text.split(' → ').last)
+              .toSet()
+              .toList();
+          for (var j = 0; j < lefts.length; j++) {
+            await _tap(tester, find.text(lefts[j]));
+            await _tap(tester, find.text(rights[j % rights.length]));
+          }
+        case PracticeInteractionStyle.multipleSelect:
           for (final option in q.optionItems) {
             await _tap(tester, find.text(option.text));
           }
-        case QuestionType.fillBlank:
-          await tester.enterText(find.byType(TextField).first, 'is');
-        case QuestionType.sentenceOrder:
-          for (final word in ['They', 'are', 'friends', '.']) {
-            await _scroll(tester, find.widgetWithText(ActionChip, word));
-            await _tap(tester, find.widgetWithText(ActionChip, word));
-          }
-        case QuestionType.trueFalse:
-          await _tap(tester, find.text('正确'));
-        case QuestionType.correction:
+        case PracticeInteractionStyle.legacyText:
           await tester.enterText(
             find.byType(TextField).first,
             'She is my teacher.',
           );
+        case PracticeInteractionStyle.sentenceSpotlight:
+          await _tap(tester, find.byKey(const ValueKey('token-t2')));
+        case PracticeInteractionStyle.grammarPaint:
+          for (final pair in [
+            ('subject', 't1'),
+            ('verb', 't2'),
+            ('object', 't3'),
+          ]) {
+            await _tap(tester, find.byKey(ValueKey('labels-${pair.$1}')));
+            await _tap(tester, find.byKey(ValueKey('token-${pair.$2}')));
+          }
+        case PracticeInteractionStyle.slotPuzzle:
+          for (final pair in [
+            ('t1', 'subject'),
+            ('t2', 'verb'),
+            ('t3', 'object'),
+          ]) {
+            await _tap(tester, find.byKey(ValueKey('token-${pair.$1}')));
+            await _tap(tester, find.byKey(ValueKey('slots-${pair.$2}')));
+          }
+        case PracticeInteractionStyle.sentenceSurgery:
+          await _tap(tester, find.byKey(const ValueKey('token-t1')));
+          await _tap(
+            tester,
+            find.byKey(const ValueKey('replacement-after-verb')),
+          );
+        case PracticeInteractionStyle.sentenceTransform:
+          await _tap(tester, find.byKey(const ValueKey('token-t3')));
+          await _tap(tester, find.byKey(const ValueKey('replacement-r1')));
+        case PracticeInteractionStyle.sentenceKnockout:
+          await _tap(tester, find.byKey(const ValueKey('card-c4')));
+        case PracticeInteractionStyle.patternComplete:
+          await _tap(tester, find.byKey(const ValueKey('token-t1')));
+        case PracticeInteractionStyle.contextApplication:
+          for (final id in ['t1', 't2', 't3', 't4']) {
+            await _tap(tester, find.byKey(ValueKey('token-$id')));
+          }
       }
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
-      await _scroll(tester, find.text('提交答案'));
-      await _tap(tester, find.text('提交答案'));
-      await _wait(tester, find.byType(FeedbackPanel));
-      await _scroll(tester, find.byType(FeedbackPanel));
-      expect(
-        tester.widget<FeedbackPanel>(find.byType(FeedbackPanel)).explanation,
-        isNotEmpty,
-      );
+      if (!autoSubmits(style)) {
+        await _scroll(tester, find.text('提交答案'));
+        await _tap(tester, find.text('提交答案'));
+      }
+      await tester.pump(const Duration(milliseconds: 900));
+      await tester.pumpAndSettle();
       if (i == 0) {
+        await _wait(tester, find.byType(FeedbackPanel));
         await _askTutor(tester);
         await binding.takeScreenshot('06-answer-feedback');
       }
-      await _scroll(
-        tester,
-        find.text(i == questions.length - 1 ? '完成 Lesson' : '继续'),
-      );
-      await _tap(
-        tester,
-        find.text(i == questions.length - 1 ? '完成 Lesson' : '继续'),
-      );
+      // Correct answers auto-advanced; wrong or last answers keep a button.
+      final next = find.text(i == questions.length - 1 ? '完成 Lesson' : '继续');
+      if (next.evaluate().isNotEmpty) {
+        await _scroll(tester, next);
+        await _tap(tester, next);
+      }
       if (i < questions.length - 1) {
-        await _wait(tester, find.byKey(ValueKey(questions[i + 1].id)));
-        await tester.drag(find.byType(Scrollable).first, const Offset(0, 900));
-        await tester.pumpAndSettle();
+        await _wait(
+          tester,
+          find.byKey(ValueKey('activity-${questions[i + 1].id}')),
+        );
       }
     }
     await _wait(tester, find.byType(LessonResultScreen));
@@ -144,7 +208,8 @@ void main() {
           .widget<LessonResultScreen>(find.byType(LessonResultScreen))
           .completion
           .score,
-      50,
+      // The journey deliberately misses only the first native spotlight.
+      90,
     );
     await binding.takeScreenshot('07-result');
     await _askTutor(tester, automaticMessage: true);
@@ -171,11 +236,7 @@ void main() {
     await _wait(tester, find.byType(ListTile));
     await _tap(tester, find.byType(ListTile).first);
     await _wait(tester, find.byType(ReviewPracticeScreen));
-    final first = questions.first;
-    await _tap(
-      tester,
-      find.text(first.optionItems.firstWhere((o) => o.id == 'B').text),
-    );
+    await _tap(tester, find.byKey(const ValueKey('token-t1')));
     await _scroll(tester, find.text('提交答案'));
     await _tap(tester, find.text('提交答案'));
     await _wait(tester, find.byType(FeedbackPanel));
@@ -206,7 +267,17 @@ Future<void> _askTutor(
     await tester.enterText(find.byType(TextField), '请简单解释一下。');
     await _tap(tester, find.text('发送'));
   }
-  await _wait(tester, find.textContaining('本地验收回答', findRichText: true));
+  // The real LLM reply content is not deterministic; wait for the streamed
+  // answer to finish rather than for any specific wording.
+  await _wait(
+    tester,
+    find.byWidgetPredicate(
+      (widget) =>
+          widget is TutorChatBubble &&
+          widget.message.role == 'assistant' &&
+          widget.message.status == TutorMessageStatus.complete,
+    ),
+  );
   expect(
     find.descendant(
       of: find.byType(GrammarTutorSheet),
@@ -214,8 +285,6 @@ Future<void> _askTutor(
     ),
     findsNWidgets(4),
   );
-  await _wait(tester, find.byWidgetPredicate((widget) => widget is TutorChatBubble &&
-      widget.message.role == 'assistant' && widget.message.status == TutorMessageStatus.complete));
   await _tap(tester, find.byTooltip('关闭'));
   await tester.pumpAndSettle();
   expect(find.byType(GrammarTutorSheet), findsNothing);

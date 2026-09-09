@@ -144,9 +144,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    // Quick-choice cards submit on tap; there is no separate 提交 button anymore.
     await tester.tap(find.text('is'));
-    await tester.pump();
-    await tester.tap(find.text('提交答案'));
     await tester.pumpAndSettle();
     expect(find.text('✓ 正确'), findsOneWidget);
     expect(find.text('完成 Lesson'), findsOneWidget);

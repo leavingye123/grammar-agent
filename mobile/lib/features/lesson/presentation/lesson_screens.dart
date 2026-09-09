@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +14,7 @@ import '../../home/presentation/home_providers.dart';
 import '../../tutor/presentation/tutor_sheet.dart';
 import '../domain/lesson_models.dart';
 import 'lesson_session.dart';
+import 'practice_activities.dart';
 import 'question_widgets.dart';
 
 class LessonScreen extends ConsumerStatefulWidget {
@@ -66,7 +69,7 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
             const SectionHeader('你会如何学习'),
             const GrammarCard(
               child: Text(
-                '阅读题目 → 提交答案 → 查看解析 → 再试着理解\n\n答题会更新语法掌握度；完成本课后，根据本次成绩结算 XP。',
+                '点一点完成一个个小活动 → 自动判分 → 立即反馈\n\n答对会自动进入下一步；答错时看一眼原因再继续。答题会更新语法掌握度，完成本课后结算 XP。',
               ),
             ),
             const CatMessage('这节很重要，我们慢慢来。遇到容易混的地方，我陪你一起看解析。'),
@@ -91,18 +94,65 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
   }
 }
 
-class QuestionScreen extends ConsumerWidget {
+class QuestionScreen extends ConsumerStatefulWidget {
   const QuestionScreen({super.key, required this.lessonId});
   final int lessonId;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(lessonSessionProvider(lessonId));
+  ConsumerState<QuestionScreen> createState() => _QuestionScreenState();
+}
+
+class _QuestionScreenState extends ConsumerState<QuestionScreen> {
+  Timer? _advanceTimer;
+
+  @override
+  void dispose() {
+    _advanceTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _continueNext() async {
+    final controller = ref.read(lessonSessionProvider(widget.lessonId).notifier);
+    try {
+      final completion = await controller.continueNext();
+      if (completion != null && mounted) {
+        context.go(
+          '/lesson/${widget.lessonId}/result',
+          extra: LessonResultData(
+            completion,
+            controller.sessionWatch.elapsedMilliseconds,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(lessonSessionProvider(widget.lessonId));
+    final controller = ref.read(lessonSessionProvider(widget.lessonId).notifier);
     final tutorGrammarPointId = ref
-        .watch(lessonProvider(lessonId))
+        .watch(lessonProvider(widget.lessonId))
         .asData
         ?.value
         .grammarPointId;
-    final controller = ref.read(lessonSessionProvider(lessonId).notifier);
+    // Correct answers keep the rhythm: show feedback briefly, then move on.
+    ref.listen(
+      lessonSessionProvider(widget.lessonId).select((s) => s.feedback),
+      (previous, next) {
+        _advanceTimer?.cancel();
+        if (next?.correct != true) return;
+        final session = ref.read(lessonSessionProvider(widget.lessonId));
+        if (session.currentIndex < session.questions.length - 1) {
+          _advanceTimer = Timer(const Duration(milliseconds: 750), () {
+            if (mounted) _continueNext();
+          });
+        }
+      },
+    );
     if (state.loading) {
       return Scaffold(
         appBar: AppBar(),
@@ -122,101 +172,110 @@ class QuestionScreen extends ConsumerWidget {
         body: const EmptyView(message: '本 Lesson 暂无题目'),
       );
     }
+    final style = resolveInteractionStyle(question);
+    final prompt = activityPrompt(question, style);
+    final isLast = state.currentIndex == state.questions.length - 1;
+    final feedback = state.feedback;
     return Scaffold(
       appBar: AppBar(
         title: Text('${state.currentIndex + 1} / ${state.questions.length}'),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(8),
-          child: LinearProgressIndicator(
-            value:
-                (state.currentIndex + (state.feedback == null ? 0 : 1)) /
-                state.questions.length,
+          preferredSize: const Size.fromHeight(26),
+          child: _PracticeProgressDots(
+            current: state.currentIndex,
+            total: state.questions.length,
+            results: state.results,
           ),
         ),
       ),
       body: SafeArea(
-        child: PageBody(
+        child: Column(
           children: [
-            Text(
-              _questionLabel(question.questionType),
-              style: const TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                children: [
+                  Text(
+                    interactionLabel(style),
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  if (prompt.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      prompt,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ],
+                  const SizedBox(height: AppSpacing.xl),
+                  PracticeActivityInput(
+                    key: ValueKey('activity-${question.id}'),
+                    question: question,
+                    style: style,
+                    enabled: feedback == null && !state.submitting,
+                    onChanged: controller.setAnswer,
+                    onAutoSubmit: controller.submit,
+                  ),
+                  if (state.error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        state.error!,
+                        style: const TextStyle(color: AppColors.orange),
+                      ),
+                    ),
+                  if (feedback != null) ...[
+                    const SizedBox(height: AppSpacing.xl),
+                    if (feedback.correct)
+                      _CorrectBanner(explanation: feedback.explanation)
+                    else ...[
+                      FeedbackPanel(
+                        question: question,
+                        correct: false,
+                        correctAnswer: feedback.correctAnswer,
+                        explanation: feedback.explanation,
+                      ),
+                      if (tutorGrammarPointId != null && question.questionCode != null)
+                        GrammarTutorButton(
+                          grammarPointId: tutorGrammarPointId,
+                          questionCode: question.questionCode,
+                          wrongAnswer: true,
+                        ),
+                    ],
+                  ],
+                ],
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              question.questionContent,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            QuestionInput(
-              key: ValueKey(question.id),
-              question: question,
-              enabled: state.feedback == null && !state.submitting,
-              onChanged: controller.setAnswer,
-            ),
-            if (state.error != null)
+            if (feedback == null && !autoSubmits(style))
               Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Text(
-                  state.error!,
-                  style: const TextStyle(color: AppColors.orange),
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: state.answer == null || state.submitting
+                        ? null
+                        : controller.submit,
+                    child: Text(state.submitting ? '正在检查…' : '提交答案'),
+                  ),
                 ),
-              ),
-            if (state.feedback != null) ...[
-              const SizedBox(height: AppSpacing.xl),
-              FeedbackPanel(
-                question: question,
-                correct: state.feedback!.correct,
-                correctAnswer: state.feedback!.correctAnswer,
-                explanation: state.feedback!.explanation,
-              ),
-              if (tutorGrammarPointId != null && question.questionCode != null)
-                GrammarTutorButton(
-                  grammarPointId: tutorGrammarPointId,
-                  questionCode: question.questionCode,
-                  wrongAnswer: !state.feedback!.correct,
-                ),
-            ],
-            const SizedBox(height: AppSpacing.xl),
-            if (state.feedback == null)
-              FilledButton(
-                onPressed: state.answer == null || state.submitting
-                    ? null
-                    : controller.submit,
-                child: Text(state.submitting ? '正在检查…' : '提交答案'),
               )
-            else
-              FilledButton(
-                onPressed: state.submitting
-                    ? null
-                    : () async {
-                        try {
-                          final completion = await controller.continueNext();
-                          if (completion != null && context.mounted) {
-                            context.go(
-                              '/lesson/$lessonId/result',
-                              extra: LessonResultData(
-                                completion,
-                                controller.sessionWatch.elapsedMilliseconds,
-                              ),
-                            );
-                          }
-                        } catch (e) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.toString())),
-                            );
-                          }
-                        }
-                      },
-                child: Text(
-                  state.submitting
-                      ? '正在结算…'
-                      : state.currentIndex == state.questions.length - 1
-                      ? '完成 Lesson'
-                      : '继续',
+            else if (feedback != null && (!feedback.correct || isLast))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: state.submitting ? null : _continueNext,
+                    child: Text(
+                      state.submitting
+                          ? '正在结算…'
+                          : isLast
+                          ? '完成 Lesson'
+                          : '继续',
+                    ),
+                  ),
                 ),
               ),
           ],
@@ -226,14 +285,80 @@ class QuestionScreen extends ConsumerWidget {
   }
 }
 
-String _questionLabel(QuestionType type) => switch (type) {
-  QuestionType.singleChoice => '选择最合适的答案',
-  QuestionType.multipleChoice => '选择所有正确答案',
-  QuestionType.fillBlank => '补全句子',
-  QuestionType.sentenceOrder => '把词块组成一句话',
-  QuestionType.trueFalse => '判断句子是否正确',
-  QuestionType.correction => '修改句子中的错误',
-};
+class _PracticeProgressDots extends StatelessWidget {
+  const _PracticeProgressDots({
+    required this.current,
+    required this.total,
+    required this.results,
+  });
+  final int current;
+  final int total;
+  final List<SubmitAnswerResult> results;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Row(
+        children: [
+          for (var i = 0; i < total; i++) ...[
+            Container(
+              key: ValueKey('practice-dot-$i'),
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: i < results.length
+                    ? (results[i].correct ? AppColors.primary : AppColors.orange)
+                    : Colors.transparent,
+                border: i >= results.length
+                    ? Border.all(
+                        color: i == current ? AppColors.primary : AppColors.border,
+                        width: 2,
+                      )
+                    : null,
+              ),
+            ),
+            if (i != total - 1) const SizedBox(width: 8),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CorrectBanner extends StatelessWidget {
+  const _CorrectBanner({required this.explanation});
+  final String? explanation;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(AppSpacing.lg),
+    decoration: BoxDecoration(
+      color: AppColors.mint,
+      borderRadius: AppRadius.card,
+      border: Border.all(color: AppColors.primary),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '✓ 正确',
+          style: TextStyle(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+          ),
+        ),
+        if (explanation?.isNotEmpty == true) ...[
+          const SizedBox(height: AppSpacing.xs),
+          Text(explanation!, style: const TextStyle(color: AppColors.secondaryText)),
+        ],
+      ],
+    ),
+  );
+}
 
 class LessonResultData {
   const LessonResultData(this.completion, this.durationMs);

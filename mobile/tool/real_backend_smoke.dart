@@ -100,26 +100,41 @@ Future<void> _run() async {
   final detail = await course.lesson(firstLesson.id);
   final questions = await lessonRepo.questions(detail.id);
   _expect(
-    questions.length == 2,
-    'expected two authored questions in the first lesson',
+    questions.length == 10,
+    'expected ten native pilot activities in the first lesson',
   );
   stdout.writeln('SMOKE answer questions');
   for (final q in questions) {
     final answer = switch (q.questionType) {
-      QuestionType.singleChoice => 'A', // Deliberately wrong once.
+      QuestionType.singleChoice => q.questionCode == 'A1-001-Q011' ? 'c4' : 'B',
       QuestionType.multipleChoice => q.optionItems.map((e) => e.id).toList(),
       QuestionType.fillBlank => 'is',
-      QuestionType.sentenceOrder => ['They', 'are', 'friends', '.'],
+      QuestionType.sentenceOrder => ['t1', 't2', 't3', 't4'],
       QuestionType.trueFalse => true,
       QuestionType.correction => 'She is my teacher.',
+      QuestionType.tokenSelect => {
+        'tokenIds': [q.questionCode == 'A1-001-Q001' ? 't2' : 't2'],
+      },
+      QuestionType.tokenLabel => {
+        'assignments': {'subject': 't1', 'verb': 't2', 'object': 't3'},
+      },
+      QuestionType.slotAssignment => {
+        'assignments': q.questionCode == 'A1-001-Q012'
+            ? {'object-3': 't1'}
+            : {'subject': 't1', 'verb': 't2', 'object': 't3'},
+      },
+      QuestionType.transform =>
+        q.questionCode == 'A1-001-Q009'
+            ? {'targetTokenId': 't1', 'replacementTokenId': 'after-verb'}
+            : {'targetTokenId': 't3', 'replacementTokenId': 'r1'},
     };
     await lessonRepo.submit(q.id, q.questionType, answer, 1000);
   }
   final completion = await lessonRepo.complete(detail.id);
   _expect(
-    completion.totalCount == 2 &&
-        completion.correctCount == 1 &&
-        completion.score == 50,
+    completion.totalCount == 10 &&
+        completion.correctCount == 9 &&
+        completion.score == 90,
     'lesson completion mismatch',
   );
   final updatedPersonalPath = await course.myLearningPath();
@@ -144,12 +159,14 @@ Future<void> _run() async {
   final wrong = await review.wrong();
   _expect(wrong.isNotEmpty, 'deliberate wrong answer was not added to review');
   final target = wrong.firstWhere(
-    (e) => e.question.questionType == QuestionType.singleChoice,
+    (e) => e.question.questionCode == 'A1-001-Q001',
   );
   final reviewResult = await review.submit(
     target.question.id,
     target.question.questionType,
-    'B',
+    {
+      'tokenIds': ['t1'],
+    },
     1000,
   );
   _expect(

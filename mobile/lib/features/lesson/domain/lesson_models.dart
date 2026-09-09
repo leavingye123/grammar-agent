@@ -9,6 +9,10 @@ enum QuestionType {
   sentenceOrder,
   trueFalse,
   correction,
+  tokenSelect,
+  tokenLabel,
+  slotAssignment,
+  transform,
 }
 
 QuestionType questionTypeFromWire(String value) => switch (value) {
@@ -18,6 +22,10 @@ QuestionType questionTypeFromWire(String value) => switch (value) {
   'SENTENCE_ORDER' => QuestionType.sentenceOrder,
   'TRUE_FALSE' => QuestionType.trueFalse,
   'CORRECTION' => QuestionType.correction,
+  'TOKEN_SELECT' => QuestionType.tokenSelect,
+  'TOKEN_LABEL' => QuestionType.tokenLabel,
+  'SLOT_ASSIGNMENT' => QuestionType.slotAssignment,
+  'TRANSFORM' => QuestionType.transform,
   _ => throw FormatException('Unsupported question type: $value'),
 };
 String questionTypeToWire(QuestionType value) => switch (value) {
@@ -27,6 +35,52 @@ String questionTypeToWire(QuestionType value) => switch (value) {
   QuestionType.sentenceOrder => 'SENTENCE_ORDER',
   QuestionType.trueFalse => 'TRUE_FALSE',
   QuestionType.correction => 'CORRECTION',
+  QuestionType.tokenSelect => 'TOKEN_SELECT',
+  QuestionType.tokenLabel => 'TOKEN_LABEL',
+  QuestionType.slotAssignment => 'SLOT_ASSIGNMENT',
+  QuestionType.transform => 'TRANSFORM',
+};
+
+enum InteractionStyle {
+  quickChoice,
+  sentenceSpotlight,
+  grammarPaint,
+  sentenceSurgery,
+  sentenceTransform,
+  slotPuzzle,
+  sentenceKnockout,
+  patternComplete,
+  contextApplication,
+  tapToBuild,
+}
+
+InteractionStyle? interactionStyleFromWire(String? value) => switch (value) {
+  null => null,
+  'QUICK_CHOICE' => InteractionStyle.quickChoice,
+  'SENTENCE_SPOTLIGHT' => InteractionStyle.sentenceSpotlight,
+  'GRAMMAR_PAINT' => InteractionStyle.grammarPaint,
+  'SENTENCE_SURGERY' => InteractionStyle.sentenceSurgery,
+  'SENTENCE_TRANSFORM' => InteractionStyle.sentenceTransform,
+  'SLOT_PUZZLE' => InteractionStyle.slotPuzzle,
+  'SENTENCE_KNOCKOUT' => InteractionStyle.sentenceKnockout,
+  'PATTERN_COMPLETE' => InteractionStyle.patternComplete,
+  'CONTEXT_APPLICATION' => InteractionStyle.contextApplication,
+  'TAP_TO_BUILD' => InteractionStyle.tapToBuild,
+  _ => throw FormatException('Unsupported interaction style: $value'),
+};
+
+String? interactionStyleToWire(InteractionStyle? value) => switch (value) {
+  null => null,
+  InteractionStyle.quickChoice => 'QUICK_CHOICE',
+  InteractionStyle.sentenceSpotlight => 'SENTENCE_SPOTLIGHT',
+  InteractionStyle.grammarPaint => 'GRAMMAR_PAINT',
+  InteractionStyle.sentenceSurgery => 'SENTENCE_SURGERY',
+  InteractionStyle.sentenceTransform => 'SENTENCE_TRANSFORM',
+  InteractionStyle.slotPuzzle => 'SLOT_PUZZLE',
+  InteractionStyle.sentenceKnockout => 'SENTENCE_KNOCKOUT',
+  InteractionStyle.patternComplete => 'PATTERN_COMPLETE',
+  InteractionStyle.contextApplication => 'CONTEXT_APPLICATION',
+  InteractionStyle.tapToBuild => 'TAP_TO_BUILD',
 };
 
 @JsonSerializable()
@@ -35,6 +89,7 @@ class Question {
     required this.id,
     this.questionCode,
     required this.questionType,
+    this.interactionStyle,
     required this.questionContent,
     this.options,
     required this.difficulty,
@@ -44,6 +99,8 @@ class Question {
   final String? questionCode;
   @JsonKey(fromJson: questionTypeFromWire, toJson: questionTypeToWire)
   final QuestionType questionType;
+  @JsonKey(fromJson: interactionStyleFromWire, toJson: interactionStyleToWire)
+  final InteractionStyle? interactionStyle;
   final String questionContent;
   final Object? options;
   final int difficulty;
@@ -63,6 +120,26 @@ class Question {
         );
       }
       return QuestionOption(id: '$value', text: '$value');
+    }).toList();
+  }
+
+  Map<String, dynamic> get structuredOptions {
+    final raw = options;
+    return raw is Map ? Map<String, dynamic>.from(raw) : const {};
+  }
+
+  List<QuestionOption> items(String field) {
+    final raw = structuredOptions[field];
+    if (raw is! List) return const [];
+    return raw.asMap().entries.map((entry) {
+      final value = entry.value;
+      if (value is Map) {
+        return QuestionOption(
+          id: '${value['id'] ?? entry.key}',
+          text: '${value['text'] ?? value['label'] ?? ''}',
+        );
+      }
+      return QuestionOption(id: '${entry.key}', text: '$value');
     }).toList();
   }
 }
@@ -126,6 +203,10 @@ Map<String, dynamic> answerRequest(
     QuestionType.singleChoice => {'optionId': answer},
     QuestionType.multipleChoice => {'optionIds': answer},
     QuestionType.sentenceOrder => {'tokens': answer},
+    QuestionType.tokenSelect ||
+    QuestionType.tokenLabel ||
+    QuestionType.slotAssignment ||
+    QuestionType.transform => answer,
     _ => answer,
   };
   return {'answer': normalized, 'durationMs': durationMs};

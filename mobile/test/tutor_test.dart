@@ -12,6 +12,7 @@ import 'package:grammar_agent/core/network/api_client.dart';
 import 'package:grammar_agent/features/tutor/data/tutor_repository.dart';
 import 'package:grammar_agent/features/tutor/data/tutor_stream.dart';
 import 'package:grammar_agent/features/tutor/presentation/tutor_sheet.dart';
+import 'package:grammar_agent/features/tutor/tutor_session.dart';
 
 const suggestions = ['为什么要这样用？', '能再简单解释一下吗？', '能再给我两个例子吗？', '这个知识点最容易错在哪里？'];
 final send = find.byKey(const ValueKey('tutor-send'));
@@ -152,17 +153,43 @@ void main() {
     expect(find.text('重新生成'), findsNothing);
   });
 
-  testWidgets('closing during streaming cancels subscription and request', (tester) async {
+  testWidgets('closing during streaming keeps the session; reopening restores it', (tester) async {
     final repository = _FakeTutor();
-    await _pump(tester, repository);
+    addTearDown(repository.dispose);
+    await tester.pumpWidget(ProviderScope(
+      overrides: [tutorRepositoryProvider.overrideWithValue(repository)],
+      child: const MaterialApp(home: Scaffold(body: GrammarTutorButton(grammarPointId: 16))),
+    ));
+    await tester.tap(find.byType(GrammarTutorButton));
+    await tester.pumpAndSettle();
     await tester.tap(find.text(suggestions.first));
     await tester.pump();
-    await tester.pumpWidget(const MaterialApp(home: SizedBox()));
-    expect(repository.token!.isCancelled, isTrue);
-    expect(repository.cancelled, isTrue);
-    repository.current.add(const TutorStreamEvent.delta('late token'));
+    expect(_messages(tester), hasLength(2));
+    repository.current.add(const TutorStreamEvent.delta('部分'));
     await tester.pump();
+
+    // Close the sheet mid-stream: the controller keeps receiving tokens.
+    await tester.tap(find.byTooltip('关闭'));
+    await tester.pumpAndSettle();
+    expect(find.byType(GrammarTutorSheet), findsNothing);
+    expect(repository.token!.isCancelled, isFalse);
+    repository.current.add(const TutorStreamEvent.delta('内容'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 60));
+    repository.current.add(const TutorStreamEvent.done(suggestions));
+    unawaited(repository.current.close());
+    await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+    expect(repository.calls, hasLength(1)); // No duplicate request.
+
+    // Reopen the same learning context: the full user + assistant turn is back.
+    await tester.tap(find.byType(GrammarTutorButton));
+    await tester.pumpAndSettle();
+    expect(_messages(tester), hasLength(2));
+    expect(_messages(tester).first.content, suggestions.first);
+    expect(_messages(tester).last.content, '部分内容');
+    expect(_messages(tester).last.status, TutorMessageStatus.complete);
+    await tester.pumpWidget(const SizedBox());
   });
 
   testWidgets('stream follows the bottom but respects manual scrolling through a long answer', (tester) async {
@@ -208,7 +235,8 @@ void main() {
     ));
     await tester.tap(find.byType(GrammarTutorButton));
     await tester.pumpAndSettle();
-    tester.view.viewInsets = const FakeViewPadding(bottom: 200);
+    // viewInsets is in physical pixels; convert the 200 logical px keyboard.
+    tester.view.viewInsets = FakeViewPadding(bottom: 200 * tester.view.devicePixelRatio);
     await tester.pumpAndSettle();
     expect(tester.getRect(send).bottom, lessThanOrEqualTo(400));
     expect(tester.takeException(), isNull);
@@ -248,7 +276,7 @@ Future<void> _pump(WidgetTester tester, _FakeTutor repository) async {
   await tester.pumpWidget(ProviderScope(
     overrides: [tutorRepositoryProvider.overrideWithValue(repository)],
     child: const MaterialApp(home: Scaffold(body: GrammarTutorSheet(
-      grammarPointId: 16, questionCode: 'A1-016-Q001', scene: 'wrong',
+      grammarPointId: 16, questionCode: 'A1-016-Q001', wrongAnswer: true,
     ))),
   ));
   await tester.pumpAndSettle();

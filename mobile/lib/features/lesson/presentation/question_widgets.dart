@@ -7,6 +7,7 @@ import '../../../core/widgets/option_card.dart';
 import '../../../core/widgets/learning_widgets.dart';
 
 import '../domain/lesson_models.dart';
+import 'activities/native_practice_activity.dart';
 
 class QuestionInput extends StatefulWidget {
   const QuestionInput({
@@ -30,6 +31,14 @@ class _QuestionInputState extends State<QuestionInput> {
   @override
   Widget build(BuildContext context) {
     final q = widget.question;
+    if (q.interactionStyle != null &&
+        q.interactionStyle != InteractionStyle.quickChoice) {
+      return NativePracticeActivity(
+        question: q,
+        enabled: widget.enabled,
+        onComplete: widget.onChanged,
+      );
+    }
     final options = q.optionItems;
     return switch (q.questionType) {
       QuestionType.singleChoice => Column(
@@ -152,6 +161,10 @@ class _QuestionInputState extends State<QuestionInput> {
               ),
         ],
       ),
+      QuestionType.tokenSelect ||
+      QuestionType.tokenLabel ||
+      QuestionType.slotAssignment ||
+      QuestionType.transform => const Text('此题需要使用结构化交互完成'),
     };
   }
 }
