@@ -21,36 +21,50 @@ import 'package:grammar_agent/features/lesson/presentation/lesson_session.dart';
 import 'package:grammar_agent/features/tutor/presentation/tutor_sheet.dart';
 
 void main() {
-  testWidgets('Tutor entry appears only after formal feedback with server question code', (tester) async {
-    for (final correct in [false, true]) {
-      final repo = _CountingLessonRepository()..correctResult = correct;
-      final container = _container(status: 'IN_PROGRESS', repo: repo);
-      addTearDown(container.dispose);
-      await tester.pumpWidget(UncontrolledProviderScope(
-        container: container,
-        child: const MaterialApp(home: QuestionScreen(lessonId: 90)),
-      ));
-      await tester.pumpAndSettle();
-      expect(find.byType(GrammarTutorButton), findsNothing);
-      final controller = container.read(lessonSessionProvider(90).notifier);
-      controller.setAnswer('B');
-      await controller.submit();
-      await tester.pumpAndSettle();
-      if (correct) {
-        // Correct answers keep the practice rhythm; Grammar Cat moves to the result page.
+  testWidgets(
+    'Tutor entry appears only after formal feedback with server question code',
+    (tester) async {
+      for (final correct in [false, true]) {
+        final repo = _CountingLessonRepository()..correctResult = correct;
+        final container = _container(status: 'IN_PROGRESS', repo: repo);
+        addTearDown(container.dispose);
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: const MaterialApp(home: QuestionScreen(lessonId: 90)),
+          ),
+        );
+        await tester.pumpAndSettle();
         expect(find.byType(GrammarTutorButton), findsNothing);
-      } else {
-        await tester.scrollUntilVisible(find.byType(GrammarTutorButton), 150,
-            scrollable: find.byType(Scrollable).first);
-        final entry = tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton));
-        expect(entry.grammarPointId, 9);
-        expect(entry.questionCode, 'A1-009-Q001');
-        expect(entry.wrongAnswer, isTrue);
+        final controller = container.read(lessonSessionProvider(90).notifier);
+        controller.setAnswer('B');
+        await controller.submit();
+        await tester.pumpAndSettle();
+        if (correct) {
+          final entry = tester.widget<GrammarTutorButton>(
+            find.byType(GrammarTutorButton),
+          );
+          expect(entry.grammarPointId, 9);
+          expect(entry.questionCode, 'A1-009-Q001');
+          expect(entry.wrongAnswer, isFalse);
+        } else {
+          await tester.scrollUntilVisible(
+            find.byType(GrammarTutorButton),
+            150,
+            scrollable: find.byType(Scrollable).first,
+          );
+          final entry = tester.widget<GrammarTutorButton>(
+            find.byType(GrammarTutorButton),
+          );
+          expect(entry.grammarPointId, 9);
+          expect(entry.questionCode, 'A1-009-Q001');
+          expect(entry.wrongAnswer, isTrue);
+        }
+        expect(repo.submitCalls, 1);
+        await tester.pumpWidget(const SizedBox());
       }
-      expect(repo.submitCalls, 1);
-      await tester.pumpWidget(const SizedBox());
-    }
-  });
+    },
+  );
 
   test('Home and Grammar Tree share first-learning routing policy', () {
     expect(
@@ -118,7 +132,12 @@ void main() {
 
       expect(find.byType(MicroLessonScreen), findsOneWidget);
       expect(find.byType(GrammarTutorButton), findsOneWidget);
-      expect(tester.widget<GrammarTutorButton>(find.byType(GrammarTutorButton)).grammarPointId, 9);
+      expect(
+        tester
+            .widget<GrammarTutorButton>(find.byType(GrammarTutorButton))
+            .grammarPointId,
+        9,
+      );
       expect(find.text('根据主语选择正确的 be 动词。'), findsOneWidget);
       expect(find.text('核心规则'), findsOneWidget);
       expect(find.byType(QuestionScreen), findsNothing);

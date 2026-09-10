@@ -160,6 +160,11 @@ void main() {
       await tester.pump();
       expect(repo.submits.single.answer, 'A');
       await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('✓ 正确'),
+        120,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('✓ 正确'), findsOneWidget);
     },
   );
@@ -266,11 +271,18 @@ void main() {
     (tester) async {
       final repo = _PilotRepo();
       await _pump(tester, repo);
-      // Correct answers auto-advance after a short feedback beat.
+      // Every answer keeps feedback until the learner explicitly continues.
+      Future<void> continueAfterFeedback() async {
+        await tester.pumpAndSettle();
+        expect(find.text('继续'), findsOneWidget);
+        await tester.tap(find.text('继续'));
+        await tester.pumpAndSettle();
+      }
+
       Future<void> correct(Finder finder) async {
         await tester.tap(finder);
         await tester.pump();
-        await tester.pump(const Duration(milliseconds: 800));
+        await continueAfterFeedback();
       }
 
       await correct(find.text('Lina reads books.')); // 1 quick choice
@@ -285,14 +297,14 @@ void main() {
         await tester.tap(find.text(word)); // 8 tap-to-build
         await tester.pump();
       }
-      await tester.pump(const Duration(milliseconds: 800));
+      await continueAfterFeedback();
       for (final pair in [('Tom', '主语'), ('plays', '动词'), ('football', '宾语')]) {
         await tester.tap(find.text(pair.$1)); // 9 pair match
         await tester.pump();
         await tester.tap(find.text(pair.$2));
         await tester.pump();
       }
-      await tester.pump(const Duration(milliseconds: 800));
+      await continueAfterFeedback();
       for (final pair in [
         ('sing', '动词'),
         ('book', '名词'),

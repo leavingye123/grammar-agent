@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/widgets/async_views.dart';
 import '../../../core/widgets/grammar_cat.dart';
@@ -71,6 +72,13 @@ class ProfileScreen extends ConsumerWidget {
             ],
           ),
         ),
+        GrammarCard(child: ListTile(
+          leading: const Icon(Icons.menu_book_rounded, color: AppColors.primary),
+          title: const Text('语法书'),
+          subtitle: const Text('查看章节，选择你的语法书'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => context.push('/grammar-books'),
+        )),
         const SectionHeader('成就预览'),
         const FutureFeature(
           title: 'Grammar Explorer',

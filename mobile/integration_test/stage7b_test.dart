@@ -188,12 +188,12 @@ void main() {
         await _askTutor(tester);
         await binding.takeScreenshot('06-answer-feedback');
       }
-      // Correct answers auto-advanced; wrong or last answers keep a button.
+      // Both correct and incorrect feedback stay on this question until Continue.
+      expect(find.byKey(ValueKey('activity-${questions[i].id}')), findsOneWidget);
       final next = find.text(i == questions.length - 1 ? '完成 Lesson' : '继续');
-      if (next.evaluate().isNotEmpty) {
-        await _scroll(tester, next);
-        await _tap(tester, next);
-      }
+      await _wait(tester, next);
+      await _scroll(tester, next);
+      await _tap(tester, next);
       if (i < questions.length - 1) {
         await _wait(
           tester,

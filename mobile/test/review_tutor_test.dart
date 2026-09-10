@@ -62,7 +62,7 @@ void main() {
         expect(button.wrongAnswer, !scenario.correct);
         expect(button.reviewFeedback, isTrue);
         final label = scenario.correct
-            ? '还有疑问？问 Grammar Cat'
+            ? '🐱 还有疑问？问 Grammar Cat'
             : '🐱 还是没弄懂？\n问 Grammar Cat';
         expect(
           find.descendant(

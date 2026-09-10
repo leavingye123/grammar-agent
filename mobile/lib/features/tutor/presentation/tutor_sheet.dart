@@ -13,6 +13,7 @@ class GrammarTutorButton extends ConsumerWidget {
     this.questionCode,
     this.wrongAnswer = false,
     this.reviewFeedback = false,
+    this.onBeforeOpen,
   }) : assert((grammarPointId == null) != (lessonAttemptId == null));
 
   final int? grammarPointId;
@@ -20,10 +21,14 @@ class GrammarTutorButton extends ConsumerWidget {
   final String? questionCode;
   final bool wrongAnswer;
   final bool reviewFeedback;
+  /// Runs synchronously before changing scope or opening the sheet, so a
+  /// learning screen can reject a tap on a stale or unsubmitted question.
+  final bool Function()? onBeforeOpen;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void openTutor() {
+      if (onBeforeOpen?.call() == false) return;
       final scope = TutorScope(
         key: tutorScopeKey(
           grammarPointId: grammarPointId,
@@ -77,7 +82,7 @@ class GrammarTutorButton extends ConsumerWidget {
             ? '🐱 问 Grammar Cat'
             : wrongAnswer
             ? '🐱 不明白为什么？问 Grammar Cat'
-            : '还有疑问？问 Grammar Cat',
+            : '🐱 还有疑问？问 Grammar Cat',
       ),
     );
   }

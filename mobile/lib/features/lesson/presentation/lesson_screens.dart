@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +10,7 @@ import '../../course/domain/grammar_tree.dart';
 import '../../course/presentation/course_providers.dart';
 import '../../home/presentation/home_providers.dart';
 import '../../tutor/presentation/tutor_sheet.dart';
+import '../../tutor/tutor_session.dart';
 import '../domain/lesson_models.dart';
 import 'lesson_session.dart';
 import 'practice_activities.dart';
@@ -69,7 +68,7 @@ class _LessonScreenState extends ConsumerState<LessonScreen> {
             const SectionHeader('你会如何学习'),
             const GrammarCard(
               child: Text(
-                '点一点完成一个个小活动 → 自动判分 → 立即反馈\n\n答对会自动进入下一步；答错时看一眼原因再继续。答题会更新语法掌握度，完成本课后结算 XP。',
+                '点一点完成一个个小活动 → 自动判分 → 立即反馈\n\n查看解析，有疑问可以问语法小猫，准备好后点击“继续”。答题会更新语法掌握度，完成本课后结算 XP。',
               ),
             ),
             const CatMessage('这节很重要，我们慢慢来。遇到容易混的地方，我陪你一起看解析。'),
@@ -102,18 +101,31 @@ class QuestionScreen extends ConsumerStatefulWidget {
 }
 
 class _QuestionScreenState extends ConsumerState<QuestionScreen> {
-  Timer? _advanceTimer;
+  bool _canOpenTutor(int questionId) {
+    final state = ref.read(lessonSessionProvider(widget.lessonId));
+    if (state.current?.id != questionId || state.feedback == null || state.submitting) {
+      return false;
+    }
+    return true;
+  }
 
-  @override
-  void dispose() {
-    _advanceTimer?.cancel();
-    super.dispose();
+  void _clearQuestionTutor(String? questionCode) {
+    if (questionCode != null &&
+        ref.read(tutorSessionProvider).scopeKey == 'question:$questionCode') {
+      ref.read(tutorSessionProvider.notifier).clear();
+    }
   }
 
   Future<void> _continueNext() async {
     final controller = ref.read(lessonSessionProvider(widget.lessonId).notifier);
+    final question = ref.read(lessonSessionProvider(widget.lessonId)).current;
     try {
       final completion = await controller.continueNext();
+      if (!mounted) return;
+      if (completion != null ||
+          ref.read(lessonSessionProvider(widget.lessonId)).current?.id != question?.id) {
+        _clearQuestionTutor(question?.questionCode);
+      }
       if (completion != null && mounted) {
         context.go(
           '/lesson/${widget.lessonId}/result',
@@ -139,20 +151,6 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
         .asData
         ?.value
         .grammarPointId;
-    // Correct answers keep the rhythm: show feedback briefly, then move on.
-    ref.listen(
-      lessonSessionProvider(widget.lessonId).select((s) => s.feedback),
-      (previous, next) {
-        _advanceTimer?.cancel();
-        if (next?.correct != true) return;
-        final session = ref.read(lessonSessionProvider(widget.lessonId));
-        if (session.currentIndex < session.questions.length - 1) {
-          _advanceTimer = Timer(const Duration(milliseconds: 750), () {
-            if (mounted) _continueNext();
-          });
-        }
-      },
-    );
     if (state.loading) {
       return Scaffold(
         appBar: AppBar(),
@@ -237,17 +235,20 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
                         correctAnswer: feedback.correctAnswer,
                         explanation: feedback.explanation,
                       ),
-                      if (tutorGrammarPointId != null && question.questionCode != null)
-                        GrammarTutorButton(
-                          grammarPointId: tutorGrammarPointId,
-                          questionCode: question.questionCode,
-                          wrongAnswer: true,
-                        ),
                     ],
                   ],
                 ],
               ),
             ),
+            // Shared by every activity renderer and visible without scrolling,
+            // so the learner can ask about even a long activity's feedback.
+            if (feedback != null && tutorGrammarPointId != null && question.questionCode != null)
+              GrammarTutorButton(
+                grammarPointId: tutorGrammarPointId,
+                questionCode: question.questionCode,
+                wrongAnswer: !feedback.correct,
+                onBeforeOpen: () => _canOpenTutor(question.id),
+              ),
             if (feedback == null && !autoSubmits(style))
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
@@ -261,7 +262,7 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
                   ),
                 ),
               )
-            else if (feedback != null && (!feedback.correct || isLast))
+            else if (feedback != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
                 child: SizedBox(

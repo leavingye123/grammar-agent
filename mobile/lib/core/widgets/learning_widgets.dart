@@ -85,7 +85,10 @@ class GrammarCard extends StatelessWidget {
       border: Border.all(color: AppColors.border),
       boxShadow: AppShadows.soft,
     ),
-    child: child,
+    // ListTile paints its background and ink effects on the nearest Material.
+    // Keep that Material above this decorated card so newer Flutter versions do
+    // not hide those effects behind the Container's background.
+    child: Material(type: MaterialType.transparency, child: child),
   );
 }
 

@@ -36,6 +36,12 @@ class ApiClient {
     Options? options,
   }) => _send(() => dio.post<dynamic>(path, data: data, options: options), decode);
 
+  Future<T> put<T>(
+    String path,
+    T Function(Object? json) decode, {
+    Object? data,
+  }) => _send(() => dio.put<dynamic>(path, data: data), decode);
+
   Future<T> _send<T>(
     Future<Response<dynamic>> Function() request,
     T Function(Object? json) decode,

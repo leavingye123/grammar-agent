@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/auth_controller.dart';
+import '../../features/books/book_screens.dart';
 import '../../features/auth/presentation/auth_screens.dart';
 import '../../features/course/presentation/course_screens.dart';
 import '../../features/home/presentation/home_screen.dart';
@@ -31,6 +32,9 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(path: '/splash', builder: (_, _) => const SplashScreen()),
+      GoRoute(path: '/grammar-books', builder: (_, _) => const GrammarBooksScreen()),
+      GoRoute(path: '/grammar-books/:id', builder: (_, state) =>
+          GrammarBookDetailScreen(id: int.parse(state.pathParameters['id']!))),
       GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
       GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
       ShellRoute(
